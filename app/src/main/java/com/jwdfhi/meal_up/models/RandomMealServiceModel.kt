@@ -4,6 +4,11 @@ data class RandomMealServiceModel(
     val meals: List<Meal>
 ) {
     data class Meal(
+        var isLiked: Boolean = false,
+        var isMarked: Boolean = false,
+        var markColor: String?,
+        var markName: String?,
+
         val dateModified: Any,
         val idMeal: String,
         val strArea: String,
