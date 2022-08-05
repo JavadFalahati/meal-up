@@ -1,0 +1,7 @@
+package com.jwdfhi.meal_up.utils
+
+object Constant {
+
+    const val MEAL_SERVICE_BASE_ENDPOINT: String = "https://www.themealdb.com/api/json/v1/1/";
+
+}
