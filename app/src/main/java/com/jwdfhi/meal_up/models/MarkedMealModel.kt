@@ -20,7 +20,7 @@ data class MarkedMealModel(
     val markColor: String,
 
     @ColumnInfo
-    val dateModified: Any,
+    val dateModified: String?,
 
     @ColumnInfo
     val strArea: String,
@@ -29,13 +29,13 @@ data class MarkedMealModel(
     val strCategory: String,
 
     @ColumnInfo
-    val strCreativeCommonsConfirmed: Any,
+    val strCreativeCommonsConfirmed: String?,
 
     @ColumnInfo
-    val strDrinkAlternate: Any,
+    val strDrinkAlternate: String?,
 
     @ColumnInfo
-    val strImageSource: Any,
+    val strImageSource: String?,
 
     @ColumnInfo
     val strIngredient1: String,
