@@ -28,7 +28,7 @@ fun CustomError(
             painter = painterResource(id = R.drawable.error_1),
             contentDescription = "Error",
             modifier = Modifier
-                .width(6.dw)
+                .width(5.dw)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
