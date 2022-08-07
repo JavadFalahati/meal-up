@@ -108,4 +108,7 @@ dependencies {
 
     // Percentage Composable
     implementation "com.github.slaviboy:JetpackComposePercentageUnits:1.0.0"
+
+    // SwipeRefresh
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.24.11-rc"
 }
