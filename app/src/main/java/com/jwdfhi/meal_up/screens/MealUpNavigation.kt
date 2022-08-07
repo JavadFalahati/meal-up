@@ -30,8 +30,8 @@ fun MealUpNavigation() {
                 val homeViewModel = hiltViewModel<HomeViewModel>()
 
                 HomeScreen(
-                    navController = navController,
-                    viewModel = homeViewModel
+                     navController = navController,
+                     viewModel = homeViewModel
                 )
             }
 
