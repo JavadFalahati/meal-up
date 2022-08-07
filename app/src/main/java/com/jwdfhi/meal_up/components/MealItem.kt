@@ -56,11 +56,10 @@ fun MealItem(
                 .align(Center)
         ) {
             Spacer(modifier = Modifier.weight(0.1f))
-            Image( // TODO: fix this bug: image no not showing
+            Image(
                 painter = rememberAsyncImagePainter(imageUrl),
                 contentDescription = "Meal",
                 modifier = Modifier
-//                .padding(8.dp)
                     .clip(shape = RoundedCornerShape(borderRadius))
                     .weight(2.5f, true)
                     .align(CenterVertically)
