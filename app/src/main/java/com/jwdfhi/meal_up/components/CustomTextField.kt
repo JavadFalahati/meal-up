@@ -48,7 +48,7 @@ fun CustomTextField(
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
         ),
-        label = {
+        placeholder = {
             Text(
                 text = hint,
                 color = PrimaryColor
