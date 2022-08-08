@@ -111,4 +111,7 @@ dependencies {
 
     // SwipeRefresh
     implementation "com.google.accompanist:accompanist-swiperefresh:0.24.11-rc"
+
+    // SystemUiController(StatusBar)
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
 }
