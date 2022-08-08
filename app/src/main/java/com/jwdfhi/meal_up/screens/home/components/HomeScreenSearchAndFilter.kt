@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
@@ -16,11 +17,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.components.CustomTextField
@@ -31,8 +37,16 @@ import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
 
+@ExperimentalComposeUiApi
 @Composable
-fun HomeScreenSearchAndFilter(searchState: MutableState<String>) {
+fun HomeScreenSearchAndFilter(
+    searchState: MutableState<String>,
+    onSearch: (value: String) -> Unit
+) {
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -63,10 +77,30 @@ fun HomeScreenSearchAndFilter(searchState: MutableState<String>) {
                                 .align(CenterHorizontally)
                                 .padding(4.dp)
                                 .clip(shape = RoundedCornerShape(50.dp))
-                                .clickable { }
+                                .clickable {
+                                    keyboardController?.hide()
+                                    focusManager.clearFocus()
+                                    onSearch(searchState.value)
+                                }
                         )
                         Spacer(modifier = Modifier.weight(0.2f))
                     }
+                },
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Search,
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                        onSearch(searchState.value)
+                    }
+                ),
+                isError = searchState.value.trim().isEmpty(),
+                errorText = { valueState ->
+                    if (valueState.value.trim().isEmpty()) {
+                        return@CustomTextField "Search input can't be empty"
+                    }
+                    else return@CustomTextField ""
                 }
             )
         }
