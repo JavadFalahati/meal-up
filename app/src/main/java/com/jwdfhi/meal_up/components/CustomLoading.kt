@@ -42,7 +42,7 @@ fun CustomLoading(
             Text(
                 text = title,
                 style = TextStyle(
-                    fontSize = 0.025.sh
+                    fontSize = 0.020.sh
                 ),
             )
         }
