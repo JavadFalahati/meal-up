@@ -37,6 +37,7 @@ fun CustomTextField(
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions(),
     leadingIcon: @Composable () -> Unit = {},
+    trailingIcon: @Composable () -> Unit = {},
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -57,8 +58,8 @@ fun CustomTextField(
                 textColor = Color.Black,
                 backgroundColor = backgroundColor,
                 disabledTextColor = Color.Transparent,
-                focusedIndicatorColor = if (isError) { Color.Red } else { Color.Transparent },
-                unfocusedIndicatorColor = if (isError) { Color.Red } else { Color.Transparent },
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
                 cursorColor = PrimaryColor
             ),
@@ -68,22 +69,23 @@ fun CustomTextField(
                     color = PrimaryColor
                 )
             },
-            leadingIcon = leadingIcon,
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
                 imeAction = imeAction,
             ),
-            keyboardActions = keyboardActions
+            keyboardActions = keyboardActions,
+            leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon
         )
-        if (isError) {
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = errorText(valueState),
-                style = TextStyle(
-                    color = Color.Red
-                )
-            )
-        }
+        // if (isError) {
+        //     Spacer(modifier = Modifier.height(4.dp))
+        //     Text(
+        //         text = errorText(valueState),
+        //         style = TextStyle(
+        //             color = Color.Red
+        //         )
+        //     )
+        // }
     }
 
 }
