@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jwdfhi.meal_up.R
+import com.jwdfhi.meal_up.components.CustomBackPressHandler
 import com.jwdfhi.meal_up.models.DrawerItemModel
 import com.jwdfhi.meal_up.screens.Screens
 import com.jwdfhi.meal_up.ui.theme.*
@@ -33,6 +34,9 @@ fun HomeScreenDrawer(
     navController: NavController,
     onCloseDrawer: () -> Unit
 ) {
+
+    CustomBackPressHandler(onBackPressed = { onCloseDrawer() })
+
     Surface(
         modifier = Modifier
             .background(color = White100Color)
