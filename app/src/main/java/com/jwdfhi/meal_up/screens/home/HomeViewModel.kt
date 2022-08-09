@@ -1,6 +1,8 @@
 package com.jwdfhi.meal_up.screens.home
 
 import android.content.Context
+import android.os.CountDownTimer
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jwdfhi.meal_up.models.*
@@ -15,16 +17,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val context: Context,
+    public val context: Context,
     private val mealServiceRepository: MealServiceRepository,
     private val mealDatabaseRepository: MealDatabaseRepository
 ) : ViewModel() {
 
-    private var _randomMealsDataOrException:
+    private val onBackPressedTimer = object: CountDownTimer(3000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {}
+        override fun onFinish() { onBackPressedTimerIsFinished = true }
+    }
+    var onBackPressedTimerIsFinished: Boolean = true
+    fun startOnBackPressedTimer() {
+        onBackPressedTimerIsFinished = false
+        onBackPressedTimer.start()
+    }
+
+
+    private var _mealsDataOrException:
             MutableStateFlow<DataOrException<MutableList<RandomMealServiceModel.Meal>, Exception, DataOrExceptionStatus>> = MutableStateFlow(
                 DataOrException(status = DataOrExceptionStatus.Loading)
             )
-    val randomMealsDataOrException = _randomMealsDataOrException.asStateFlow()
+    val mealsDataOrException = _mealsDataOrException.asStateFlow()
 
     private val _likedMealList = MutableStateFlow<List<LikedMealModel>>(emptyList())
     val likedMealList = _likedMealList.asStateFlow()
@@ -47,10 +60,10 @@ class HomeViewModel @Inject constructor(
     }
 
     suspend fun getRandomMeals(): Unit {
-        _randomMealsDataOrException.value = DataOrException(status = DataOrExceptionStatus.Loading)
+        _mealsDataOrException.value = DataOrException(status = DataOrExceptionStatus.Loading)
 
 //        if (!deviceHaveConnection(context)) {
-//            _randomMealsDataOrException.value = DataOrException(
+//            _mealsDataOrException.value = DataOrException(
 //                exception = Exception(/*message = "Can't Connect to the Server!"*/),
 //                status = DataOrExceptionStatus.Failure
 //            )
@@ -81,20 +94,19 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-        _randomMealsDataOrException.value = DataOrException(
+        _mealsDataOrException.value = DataOrException(
             data = mealList,
             status = DataOrExceptionStatus.Success
         )
     }
 
     private suspend fun getSingleRandomMeal(): DataOrException<RandomMealServiceModel, Exception, DataOrExceptionStatus> {
-        var dataOrException = DataOrException<RandomMealServiceModel, Exception, DataOrExceptionStatus>()
-        dataOrException = mealServiceRepository.getRandomMeal()
+        val dataOrException = mealServiceRepository.getRandomMeal()
 
         val exception: Exception? = dataOrException.exception
 
         if (exception != null) {
-            _randomMealsDataOrException.value = DataOrException(
+            _mealsDataOrException.value = DataOrException(
                 exception = exception,
                 status = DataOrExceptionStatus.Failure
             )
@@ -118,6 +130,26 @@ class HomeViewModel @Inject constructor(
 
         dataOrException.status = DataOrExceptionStatus.Success
         return dataOrException
+    }
+
+    suspend fun getMealByName(name: String): Unit {
+        _mealsDataOrException.value = DataOrException(status = DataOrExceptionStatus.Loading)
+        _mealsDataOrException.value.data?.clear()
+
+        val dataOrException = mealServiceRepository.getMealByName(name = name.trim())
+        if (dataOrException.exception != null) {
+            _mealsDataOrException.value = DataOrException(
+                exception = dataOrException.exception,
+                status = DataOrExceptionStatus.Failure
+            )
+            return
+        }
+
+        if (dataOrException.data?.meals == null) { dataOrException.data?.meals = emptyList() }
+        _mealsDataOrException.value = DataOrException(
+            data = (dataOrException.data?.meals)?.toMutableList(),
+            status = DataOrExceptionStatus.Success
+        )
     }
 
 }
