@@ -13,8 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.ui.theme.PrimaryColor
@@ -37,9 +39,15 @@ fun CustomError(
             modifier = Modifier
                 .width(5.dw)
         ) {
+            val painter = painterResource(id = R.drawable.error_1)
             Image(
-                painter = painterResource(id = R.drawable.error_1),
+                modifier = Modifier
+                    .aspectRatio(ratio = painter.intrinsicSize.height / painter.intrinsicSize.width)
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                painter = painter,
                 contentDescription = "Error",
+                contentScale = ContentScale.Fit
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -51,8 +59,11 @@ fun CustomError(
             Text(
                 text = title ?: "Un expected error accrued",
                 style = TextStyle(
-                    fontSize = 0.020.sh
+                    fontSize = 0.020.sh,
+                    textAlign = TextAlign.Center,
                 ),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.align(Alignment.Center)
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
