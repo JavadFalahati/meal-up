@@ -11,25 +11,28 @@ import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.components.CustomTextField
+import com.jwdfhi.meal_up.components.keyboardAsState
+import com.jwdfhi.meal_up.models.KeyboardStatusType
+import com.jwdfhi.meal_up.ui.theme.Black60Color
 import com.jwdfhi.meal_up.ui.theme.LightPrimaryColor
 import com.jwdfhi.meal_up.ui.theme.PrimaryColor
 import com.jwdfhi.meal_up.ui.theme.White100Color
@@ -40,12 +43,12 @@ import com.slaviboy.composeunits.sh
 @ExperimentalComposeUiApi
 @Composable
 fun HomeScreenSearchAndFilter(
+    keyboardState: KeyboardStatusType,
+    keyboardController: SoftwareKeyboardController?,
+    focusManager: FocusManager,
     searchState: MutableState<String>,
     onSearch: (value: String) -> Unit
 ) {
-
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusManager = LocalFocusManager.current
 
     Row(
         modifier = Modifier
@@ -61,6 +64,23 @@ fun HomeScreenSearchAndFilter(
                 hint = "Searching for a plate?",
                 backgroundColor = LightPrimaryColor,
                 borderRadius = 8.dp,
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Search,
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                        onSearch(searchState.value)
+                    }
+                ),
+                maxLength = 30,
+                // isError = searchState.value.trim().isEmpty(),
+                errorText = { valueState ->
+                    if (valueState.value.trim().isEmpty()) {
+                        return@CustomTextField "Search input can't be empty"
+                    }
+                    else return@CustomTextField ""
+                },
                 leadingIcon = {
                     Column(
                         modifier = Modifier.align(Center),
@@ -86,22 +106,35 @@ fun HomeScreenSearchAndFilter(
                         Spacer(modifier = Modifier.weight(0.2f))
                     }
                 },
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Search,
-                keyboardActions = KeyboardActions(
-                    onSearch = {
-                        keyboardController?.hide()
-                        focusManager.clearFocus()
-                        onSearch(searchState.value)
+                trailingIcon = {
+                    if (searchState.value.trim().isNotEmpty() || keyboardState == KeyboardStatusType.Opened) {
+                        Column(
+                            modifier = Modifier.align(Center),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Spacer(modifier = Modifier.weight(0.2f))
+                            Image(
+                                painter = painterResource(id = R.drawable.close_icon_2),
+                                contentDescription = "Close",
+                                colorFilter = ColorFilter.tint(color = Black60Color),
+                                modifier = Modifier
+                                    .weight(0.3f)
+                                    .align(CenterHorizontally)
+                                    .padding(4.dp)
+                                    .clip(shape = RoundedCornerShape(50.dp))
+                                    .clickable {
+                                        if (searchState.value.trim().isNotEmpty()) {
+                                            searchState.value = ""
+                                            return@clickable
+                                        }
+                                        keyboardController?.hide()
+                                    }
+                            )
+                            Spacer(modifier = Modifier.weight(0.2f))
+                        }
                     }
-                ),
-                isError = searchState.value.trim().isEmpty(),
-                errorText = { valueState ->
-                    if (valueState.value.trim().isEmpty()) {
-                        return@CustomTextField "Search input can't be empty"
-                    }
-                    else return@CustomTextField ""
-                }
+                },
             )
         }
         Spacer(modifier = Modifier.weight(0.2f))
