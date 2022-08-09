@@ -12,6 +12,12 @@ interface MealService {
     @GET("random.php")
     suspend fun getRandomMeal(): RandomMealServiceModel
 
+    //  www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata
+    @GET("search.php")
+    suspend fun getMealByName(
+        @Query("s") name: String
+    ): RandomMealServiceModel
+
     //  www.themealdb.com/api/json/v1/1/lookup.php?i=52772
     @GET("lookup.php")
     suspend fun getMealDetail(
