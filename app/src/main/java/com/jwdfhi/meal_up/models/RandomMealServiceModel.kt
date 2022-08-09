@@ -1,7 +1,7 @@
 package com.jwdfhi.meal_up.models
 
 data class RandomMealServiceModel(
-    val meals: List<Meal>
+    var meals: List<Meal>
 ) {
     data class Meal(
         var isLiked: Boolean = false,
