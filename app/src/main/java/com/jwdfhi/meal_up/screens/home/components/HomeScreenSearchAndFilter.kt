@@ -1,5 +1,6 @@
 package com.jwdfhi.meal_up.screens.home.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,6 +33,7 @@ import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.components.CustomTextField
 import com.jwdfhi.meal_up.components.keyboardAsState
 import com.jwdfhi.meal_up.models.KeyboardStatusType
+import com.jwdfhi.meal_up.screens.home.HomeViewModel
 import com.jwdfhi.meal_up.ui.theme.Black60Color
 import com.jwdfhi.meal_up.ui.theme.LightPrimaryColor
 import com.jwdfhi.meal_up.ui.theme.PrimaryColor
@@ -43,12 +45,15 @@ import com.slaviboy.composeunits.sh
 @ExperimentalComposeUiApi
 @Composable
 fun HomeScreenSearchAndFilter(
+    viewModel: HomeViewModel,
     keyboardState: KeyboardStatusType,
     keyboardController: SoftwareKeyboardController?,
     focusManager: FocusManager,
     searchState: MutableState<String>,
     onSearch: (value: String) -> Unit
 ) {
+
+    val meals = viewModel.mealsDataOrException.collectAsState().value.data
 
     Row(
         modifier = Modifier
@@ -126,9 +131,12 @@ fun HomeScreenSearchAndFilter(
                                     .clickable {
                                         if (searchState.value.trim().isNotEmpty()) {
                                             searchState.value = ""
+                                            if (meals == null || meals.isEmpty()) { onSearch("") }
                                             return@clickable
                                         }
+                                        if (meals == null || meals.isEmpty()) { onSearch("") }
                                         keyboardController?.hide()
+                                        focusManager.clearFocus()
                                     }
                             )
                             Spacer(modifier = Modifier.weight(0.2f))
