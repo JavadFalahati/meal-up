@@ -114,6 +114,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
             Spacer(modifier = Modifier.weight(0.3f))
             Box(modifier = Modifier.weight(1.0f)) {
                 HomeScreenSearchAndFilter(
+                    viewModel = viewModel,
                     keyboardController = keyboardController,
                     keyboardState = keyboardState,
                     focusManager = focusManager,
