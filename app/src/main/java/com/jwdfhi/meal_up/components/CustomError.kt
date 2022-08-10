@@ -71,7 +71,7 @@ fun CustomError(
             modifier = Modifier
                 .width(width = 0.7.dw)
                 .align(Alignment.CenterHorizontally)
-                .clip(shape = RoundedCornerShape(4.dp)),
+                .clip(shape = RoundedCornerShape(6.dp)),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = color
             ),
