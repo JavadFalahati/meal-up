@@ -4,6 +4,7 @@ data class MealAreaListServiceModel(
     val meals: List<Meal>
 ) {
     data class Meal(
+        var isSelected: Boolean = false,
         val strArea: String
     )
 }
