@@ -35,8 +35,10 @@ import com.jwdfhi.meal_up.components.*
 import com.jwdfhi.meal_up.models.DataOrExceptionStatus
 import com.jwdfhi.meal_up.models.KeyboardStatusType
 import com.jwdfhi.meal_up.models.LoadingType
+import com.jwdfhi.meal_up.screens.Screens
 import com.jwdfhi.meal_up.screens.home.components.HomeScreenDrawer
 import com.jwdfhi.meal_up.screens.home.components.HomeScreenSearchAndFilter
+import com.jwdfhi.meal_up.ui.theme.GreyBackgroundScreen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -68,7 +70,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFECECEC)),
+            .background(GreyBackgroundScreen),
         scaffoldState = scaffoldState,
         drawerContent = {
             HomeScreenDrawer(
@@ -119,7 +121,8 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
                     keyboardState = keyboardState,
                     focusManager = focusManager,
                     searchState = searchState,
-                    onSearch = { search(viewModel = viewModel, searchState = searchState) }
+                    searchOnTap = { search(viewModel = viewModel, searchState = searchState) },
+                    filterOnTap = { navController.navigate(Screens.FilterScreen.name) }
                 )
             }
             Spacer(modifier = Modifier.weight(0.1f))
@@ -157,7 +160,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
                                         ) {
                                             items(viewModel.mealsDataOrException.value.data!!) {
                                                 MealItem(
-                                                    onTap = { /*TODO*/ },
+                                                    onTap = { /*TODO: go to meal screen*/ },
                                                     title = it.strMeal,
                                                     imageUrl = it.strMealThumb,
                                                     ingredientList = listOf<String>(it.strIngredient1, it.strIngredient2),
