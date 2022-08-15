@@ -27,6 +27,7 @@ import com.jwdfhi.meal_up.ui.theme.Black60Color
 import com.jwdfhi.meal_up.ui.theme.Black80Color
 import com.jwdfhi.meal_up.ui.theme.Black90Color
 import com.slaviboy.composeunits.dh
+import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
 
 @Composable
@@ -43,7 +44,7 @@ fun FilterAppbar(
             .padding(margin)
     ) {
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
@@ -65,48 +66,16 @@ fun FilterAppbar(
                         .padding(8.dp)
                 )
             }
-            Box(
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(6.dp))
-                    .clickable { onClear() }
-                    .padding(
-                        horizontal = 8.dp,
-                        vertical = 4.dp,
-                    ),
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .height(height = 0.024.dh)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.close_icon_2),
-                        contentDescription = "Clear",
-                        colorFilter = ColorFilter.tint(color = Black80Color)
-                    )
-                    Spacer(modifier = Modifier.width(7.dp))
-                    Text(
-                        text = "Clear",
-                        style = TextStyle(
-                            color = Black80Color,
-                            textAlign = TextAlign.Start,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 0.018.sh
-                        )
-                    )
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(0.03.dh))
-        Text(
-            text = "Filters",
-            style = TextStyle(
-                color = Black90Color,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.W600,
-                fontSize = 0.034.sh
+            Spacer(modifier = Modifier.width(0.05.dw))
+            Text(
+                text = "Filters",
+                style = TextStyle(
+                    color = Black90Color,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.W600,
+                    fontSize = 0.034.sh
+                )
             )
-        )
+        }
     }
 }
