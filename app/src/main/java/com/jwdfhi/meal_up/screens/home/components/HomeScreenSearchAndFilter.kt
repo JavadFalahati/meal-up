@@ -50,7 +50,8 @@ fun HomeScreenSearchAndFilter(
     keyboardController: SoftwareKeyboardController?,
     focusManager: FocusManager,
     searchState: MutableState<String>,
-    onSearch: (value: String) -> Unit
+    searchOnTap: (value: String) -> Unit,
+    filterOnTap: () -> Unit
 ) {
 
     val meals = viewModel.mealsDataOrException.collectAsState().value.data
@@ -75,7 +76,7 @@ fun HomeScreenSearchAndFilter(
                     onSearch = {
                         keyboardController?.hide()
                         focusManager.clearFocus()
-                        onSearch(searchState.value)
+                        searchOnTap(searchState.value)
                     }
                 ),
                 maxLength = 30,
@@ -105,7 +106,7 @@ fun HomeScreenSearchAndFilter(
                                 .clickable {
                                     keyboardController?.hide()
                                     focusManager.clearFocus()
-                                    onSearch(searchState.value)
+                                    searchOnTap(searchState.value)
                                 }
                         )
                         Spacer(modifier = Modifier.weight(0.2f))
@@ -131,10 +132,10 @@ fun HomeScreenSearchAndFilter(
                                     .clickable {
                                         if (searchState.value.trim().isNotEmpty()) {
                                             searchState.value = ""
-                                            if (meals == null || meals.isEmpty()) { onSearch("") }
+                                            if (meals == null || meals.isEmpty()) { searchOnTap("") }
                                             return@clickable
                                         }
-                                        if (meals == null || meals.isEmpty()) { onSearch("") }
+                                        if (meals == null || meals.isEmpty()) { searchOnTap("") }
                                         keyboardController?.hide()
                                         focusManager.clearFocus()
                                     }
@@ -152,7 +153,7 @@ fun HomeScreenSearchAndFilter(
                 .clip(shape = RoundedCornerShape(8.dp))
                 .background(PrimaryColor)
                 .fillMaxHeight()
-                .clickable { }
+                .clickable { filterOnTap() }
                 .padding(2.dp)
         ) {
             Column(
