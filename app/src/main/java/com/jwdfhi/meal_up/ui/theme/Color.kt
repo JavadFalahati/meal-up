@@ -17,6 +17,7 @@ val TransparentColor = Color.Transparent
 val Black90Color = Color(0xD31D1D1D)
 val Black80Color = Color(0xD3303030)
 val Black60Color = Color(0xD3666666)
+val Black50Color = Color(0xD3868686)
 
 val White100Color = Color(0xD3FFFFFF)
 val White80Color = Color(0xD3E0E0E0)
