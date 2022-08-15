@@ -12,6 +12,8 @@ val Primary80Color = Color(0xD3FA8F41)
 val Primary60Color = Color(0xD3FFA463)
 val LightPrimaryColor = Color(0xD3FFCCA7)
 
+val GreyBackgroundScreen = Color(0xFFECECEC)
+
 val TransparentColor = Color.Transparent
 
 val Black90Color = Color(0xD31D1D1D)
