@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jwdfhi.meal_up.R
+import com.jwdfhi.meal_up.ui.theme.Black60Color
 import com.jwdfhi.meal_up.ui.theme.Black80Color
 import com.jwdfhi.meal_up.ui.theme.Black90Color
 import com.slaviboy.composeunits.dh
@@ -37,22 +38,33 @@ fun FilterAppbar(
     Column(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top,
-        modifier = Modifier.padding(margin)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(margin)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "Back",
+            Box(
                 modifier = Modifier
-                    .weight(0.45f)
+                    .clip(shape = RoundedCornerShape(6.dp))
                     .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
+                        // interactionSource = remember { MutableInteractionSource() },
+                        // indication = null
                     ) { navController.popBackStack() }
-            )
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.back_left_icon_2),
+                    contentDescription = "Back",
+                    colorFilter = ColorFilter.tint(color = Black90Color),
+                    modifier = Modifier
+                        .height(height = 0.055.dh)
+                        .padding(8.dp)
+                )
+            }
             Box(
                 modifier = Modifier
                     .clip(shape = RoundedCornerShape(6.dp))
@@ -65,13 +77,15 @@ fun FilterAppbar(
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .height(height = 0.024.dh)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.close_icon_2),
                         contentDescription = "Clear",
                         colorFilter = ColorFilter.tint(color = Black80Color)
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(7.dp))
                     Text(
                         text = "Clear",
                         style = TextStyle(
@@ -84,14 +98,14 @@ fun FilterAppbar(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(3.dh))
+        Spacer(modifier = Modifier.height(0.03.dh))
         Text(
             text = "Filters",
             style = TextStyle(
                 color = Black90Color,
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.W600,
-                fontSize = 0.03.sh
+                fontSize = 0.034.sh
             )
         )
     }
