@@ -45,7 +45,7 @@ fun FilterScreen(
     viewModel: FilterViewModel
 ) {
 
-    CustomBackPressHandler(onBackPressed = {})
+    CustomBackPressHandler(onBackPressed = { navController.popBackStack() })
 
     Scaffold(
         modifier = Modifier
