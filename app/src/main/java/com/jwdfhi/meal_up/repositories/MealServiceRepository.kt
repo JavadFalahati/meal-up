@@ -8,61 +8,79 @@ class MealServiceRepository @Inject constructor(private val mealService: MealSer
 
     // todo => write exception handler
 
-    suspend fun getRandomMeal(): DataOrException<RandomMealServiceModel, Exception, DataOrExceptionStatus> {
+    suspend fun getRandomMeal(): DataOrException<RandomMealServiceModel> {
         val response = try {
             mealService.getRandomMeal()
         } catch(exception: Exception) {
-            return DataOrException(exception = exception)
+            return DataOrException(
+                exception = exception,
+                status = DataOrExceptionStatus.Failure
+            )
         }
 
         return DataOrException(data = response)
     }
 
-    suspend fun getMealByName(name: String): DataOrException<RandomMealServiceModel, Exception, DataOrExceptionStatus> {
+    suspend fun getMealByName(name: String): DataOrException<RandomMealServiceModel> {
         val response = try {
             mealService.getMealByName(name = name)
         } catch(exception: Exception) {
-            return DataOrException(exception = exception)
+            return DataOrException(
+                exception = exception,
+                status = DataOrExceptionStatus.Failure
+            )
         }
 
         return DataOrException(data = response)
     }
 
-    suspend fun getMealDetail(id: String): DataOrException<MealDetailServiceModel, Exception, DataOrExceptionStatus> {
+    suspend fun getMealDetail(id: String): DataOrException<MealDetailServiceModel> {
         val response = try {
             mealService.getMealDetail(id = id)
         } catch(exception: Exception) {
-            return DataOrException(exception = exception)
+            return DataOrException(
+                exception = exception,
+                status = DataOrExceptionStatus.Failure
+            )
         }
 
         return DataOrException(data = response)
     }
 
-    suspend fun getMealCategoryList(): DataOrException<MealCategoryListServiceModel, Exception, DataOrExceptionStatus> {
+    suspend fun getMealCategoryList(): DataOrException<MealCategoryListServiceModel> {
         val response = try {
             mealService.getMealCategoryList()
         } catch(exception: Exception) {
-            return DataOrException(exception = exception)
+            return DataOrException(
+                exception = exception,
+                status = DataOrExceptionStatus.Failure
+            )
         }
 
         return DataOrException(data = response)
     }
 
-    suspend fun getMealAreaList(): DataOrException<MealAreaListServiceModel, Exception, DataOrExceptionStatus> {
+    suspend fun getMealAreaList(): DataOrException<MealAreaListServiceModel> {
         val response = try {
             mealService.getMealAreaList()
         } catch(exception: Exception) {
-            return DataOrException(exception = exception)
+            return DataOrException(
+                exception = exception,
+                status = DataOrExceptionStatus.Failure
+            )
         }
 
         return DataOrException(data = response)
     }
 
-    suspend fun getMealIngredientList(): DataOrException<MealIngredientListServiceModel, Exception, DataOrExceptionStatus> {
+    suspend fun getMealIngredientList(): DataOrException<MealIngredientListServiceModel> {
         val response = try {
             mealService.getMealIngredientList()
         } catch(exception: Exception) {
-            return DataOrException(exception = exception)
+            return DataOrException(
+                exception = exception,
+                status = DataOrExceptionStatus.Failure
+            )
         }
 
         return DataOrException(data = response)
@@ -70,11 +88,14 @@ class MealServiceRepository @Inject constructor(private val mealService: MealSer
 
     suspend fun getFilteredMealListByIngredient(
         ingredient: String
-    ): DataOrException<MealListByIngredientServiceModel, Exception, DataOrExceptionStatus> {
+    ): DataOrException<MealListByIngredientServiceModel> {
         val response = try {
             mealService.getFilteredMealListByIngredient(ingredient = ingredient)
         } catch(exception: Exception) {
-            return DataOrException(exception = exception)
+            return DataOrException(
+              exception = exception,
+              status = DataOrExceptionStatus.Failure
+            )
         }
 
         return DataOrException(data = response)
@@ -82,11 +103,14 @@ class MealServiceRepository @Inject constructor(private val mealService: MealSer
 
     suspend fun getFilteredMealListByArea(
         area: String
-    ): DataOrException<MealListByAreaServiceModel, Exception, DataOrExceptionStatus> {
+    ): DataOrException<MealListByAreaServiceModel> {
         val response = try {
             mealService.getFilteredMealListByArea(area = area)
         } catch(exception: Exception) {
-            return DataOrException(exception = exception)
+            return DataOrException(
+              exception = exception,
+              status = DataOrExceptionStatus.Failure
+            )
         }
 
         return DataOrException(data = response)
@@ -94,11 +118,14 @@ class MealServiceRepository @Inject constructor(private val mealService: MealSer
 
     suspend fun getFilteredMealListByCategory(
         category: String
-    ): DataOrException<MealListByCategoryServiceModel, Exception, DataOrExceptionStatus> {
+    ): DataOrException<MealListByCategoryServiceModel> {
         val response = try {
             mealService.getFilteredMealListByCategory(category = category)
         } catch(exception: Exception) {
-            return DataOrException(exception = exception)
+            return DataOrException(
+                exception = exception,
+                status = DataOrExceptionStatus.Failure
+            )
         }
 
         return DataOrException(data = response)
