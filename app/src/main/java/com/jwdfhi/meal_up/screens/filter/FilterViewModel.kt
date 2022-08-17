@@ -1,18 +1,25 @@
 package com.jwdfhi.meal_up.screens.filter
 
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.jwdfhi.meal_up.models.*
 import com.jwdfhi.meal_up.repositories.MealServiceRepository
+import com.jwdfhi.meal_up.utils.Constant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,19 +28,24 @@ class FilterViewModel @Inject constructor(
     private val mealServiceRepository: MealServiceRepository
 ) : ViewModel() {
 
-    init { initState() }
-
     private val _initStateDataOrException =
-        MutableStateFlow<DataOrException<FilterListItemModel, Exception, DataOrExceptionStatus>>(
+        MutableStateFlow<DataOrException<FilterListItemModel>>(
             DataOrException(status = DataOrExceptionStatus.Loading)
         )
     val initStateDataOrException = _initStateDataOrException.asStateFlow()
-    fun initState(/*TODO: get the default object from ui if its exits*/): Unit {
+    fun initState(filterListSelectedItemTextModel: FilterListSelectedItemTextModel): Unit {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d("getAllFilteredMeals in filter", filterListSelectedItemTextModel.toString())
+
             getCategories()
             if (_categoriesDataOrException.value.status == DataOrExceptionStatus.Failure) {
                 _initStateDataOrException.value.status = DataOrExceptionStatus.Failure
                 return@launch
+            }
+            if (filterListSelectedItemTextModel.category.isNotEmpty()) {
+                _categoriesDataOrException.value.data?.forEach {
+                    if (filterListSelectedItemTextModel.category == it.strCategory) { it.isSelected = true }
+                }
             }
 
             getIngredients()
@@ -41,11 +53,25 @@ class FilterViewModel @Inject constructor(
                 _initStateDataOrException.value.status = DataOrExceptionStatus.Failure
                 return@launch
             }
+            if (filterListSelectedItemTextModel.ingredients.isNotEmpty()) {
+                _ingredientsDataOrException.value.data?.forEach { ingredient ->
+                    filterListSelectedItemTextModel.ingredients.forEach { selectedIngredient ->
+                        if (ingredient.strIngredient == selectedIngredient) {
+                            ingredient.isSelected = true
+                        }
+                    }
+                }
+            }
 
             getAreas()
             if (_areasDataOrException.value.status == DataOrExceptionStatus.Failure) {
                 _initStateDataOrException.value.status = DataOrExceptionStatus.Failure
                 return@launch
+            }
+            if (filterListSelectedItemTextModel.area.isNotEmpty()) {
+                _areasDataOrException.value.data?.forEach {
+                    if (filterListSelectedItemTextModel.area == it.strArea) { it.isSelected = true }
+                }
             }
 
             setInitStateValue()
@@ -53,7 +79,7 @@ class FilterViewModel @Inject constructor(
     }
 
     private val _categoriesDataOrException =
-        MutableStateFlow<DataOrException<MutableList<MealCategoryListServiceModel.Category>, Exception, DataOrExceptionStatus>>(
+        MutableStateFlow<DataOrException<MutableList<MealCategoryListServiceModel.Category>>>(
             DataOrException(status = DataOrExceptionStatus.Loading)
         )
     private suspend fun getCategories(): Unit {
@@ -82,7 +108,7 @@ class FilterViewModel @Inject constructor(
     }
 
     private val _ingredientsDataOrException =
-        MutableStateFlow<DataOrException<MutableList<MealIngredientListServiceModel.Meal>, Exception, DataOrExceptionStatus>>(
+        MutableStateFlow<DataOrException<MutableList<MealIngredientListServiceModel.Meal>>>(
             DataOrException(status = DataOrExceptionStatus.Loading)
         )
     private suspend fun getIngredients(): Unit {
@@ -111,7 +137,7 @@ class FilterViewModel @Inject constructor(
     }
 
     private val _areasDataOrException =
-        MutableStateFlow<DataOrException<MutableList<MealAreaListServiceModel.Meal>, Exception, DataOrExceptionStatus>>(
+        MutableStateFlow<DataOrException<MutableList<MealAreaListServiceModel.Meal>>>(
             DataOrException(status = DataOrExceptionStatus.Loading)
         )
     private suspend fun getAreas() {
@@ -183,10 +209,28 @@ class FilterViewModel @Inject constructor(
 
                 _categoriesDataOrException.value.data?.find { it == state }?.let { it.isSelected = true }
             }
-            is MealIngredientListServiceModel.Meal ->
+            is MealIngredientListServiceModel.Meal -> {
+                var ingredientCount: Int = 0
+                _ingredientsDataOrException.value.data?.forEach {
+                    if (it.isSelected) { ingredientCount++ }
+                }
+
+                if (ingredientCount > 2) {
+                    Toast.makeText(this.context, "Can't select more than 3 ingredient!", Toast.LENGTH_LONG).show()
+                    return
+                }
                 _ingredientsDataOrException.value.data?.find { it == state }?.let { it.isSelected = true }
-            is MealAreaListServiceModel.Meal ->
+            }
+            is MealAreaListServiceModel.Meal -> {
+                _areasDataOrException.value.data?.forEach {
+                    if (it.isSelected) {
+                        it.isSelected = false
+                        return@forEach
+                    }
+                }
+
                 _areasDataOrException.value.data?.find { it == state }?.let { it.isSelected = true }
+            }
             else -> throw Exception()
         }
 
@@ -204,6 +248,44 @@ class FilterViewModel @Inject constructor(
         )
     }
 
-    public fun submitFilter() {/*TODO: Submit filter*/}
+    public fun submitFilter(navController: NavController) {
+        val filterListSelectedItemTextModel: FilterListSelectedItemTextModel = getSelectedItemsFromFilters()
+
+        navController.previousBackStackEntry
+            ?.savedStateHandle
+            ?.set(Constant.FILTERS_ARGUMENT_KEY, Json.encodeToString(filterListSelectedItemTextModel))
+
+        navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.set(Constant.FILTERS_ARGUMENT_KEY, Json.encodeToString(filterListSelectedItemTextModel))
+
+        navController.popBackStack()
+    }
+
+    private fun getSelectedItemsFromFilters(): FilterListSelectedItemTextModel {
+        val filterListSelectedItemTextModel: FilterListSelectedItemTextModel = FilterListSelectedItemTextModel()
+
+        _categoriesDataOrException.value.data?.forEach {
+            if (it.isSelected) {
+                filterListSelectedItemTextModel.category = it.strCategory
+                return@forEach
+            }
+        }
+
+        _ingredientsDataOrException.value.data?.forEach {
+            if (it.isSelected) {
+                filterListSelectedItemTextModel.ingredients.add(it.strIngredient)
+            }
+        }
+
+        _areasDataOrException.value.data?.forEach {
+            if (it.isSelected) {
+                filterListSelectedItemTextModel.area = it.strArea
+                return@forEach
+            }
+        }
+
+        return filterListSelectedItemTextModel
+    }
 
 }
