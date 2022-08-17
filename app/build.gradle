@@ -5,6 +5,8 @@ plugins {
     // hilt
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+
+    id 'kotlinx-serialization'
 }
 
 android {
@@ -114,4 +116,7 @@ dependencies {
 
     // SystemUiController(StatusBar)
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+
+    // Serialization
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2'
 }
