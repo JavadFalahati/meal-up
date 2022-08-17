@@ -42,8 +42,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun FilterScreen(
     navController: NavController,
-    viewModel: FilterViewModel
+    viewModel: FilterViewModel,
+    filterListSelectedItemTextModel: FilterListSelectedItemTextModel
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.initState(filterListSelectedItemTextModel = filterListSelectedItemTextModel)
+    }
 
     CustomBackPressHandler(onBackPressed = { navController.popBackStack() })
 
@@ -66,7 +70,7 @@ fun FilterScreen(
                 DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.Linear, title = "")
                 DataOrExceptionStatus.Failure -> CustomError(
                     title = viewModel.initStateDataOrException.collectAsState().value.exception!!.message!!,
-                    tryAgainOnTap = { viewModel.initState() }
+                    tryAgainOnTap = { viewModel.initState(filterListSelectedItemTextModel = filterListSelectedItemTextModel) }
                 )
                 DataOrExceptionStatus.Success -> {
                     Column(
@@ -156,7 +160,7 @@ fun FilterScreen(
                                 colors = ButtonDefaults.buttonColors(
                                     backgroundColor = Color(0xFF45BE4C)
                                 ),
-                                onClick = { viewModel.submitFilter() },
+                                onClick = { viewModel.submitFilter(navController = navController) },
                             ) {
                                 Text(
                                     text = "Save",
