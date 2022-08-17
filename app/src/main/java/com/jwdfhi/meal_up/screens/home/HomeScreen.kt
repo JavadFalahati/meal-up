@@ -33,20 +33,28 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jwdfhi.meal_up.components.*
 import com.jwdfhi.meal_up.models.DataOrExceptionStatus
+import com.jwdfhi.meal_up.models.FilterListSelectedItemTextModel
 import com.jwdfhi.meal_up.models.KeyboardStatusType
 import com.jwdfhi.meal_up.models.LoadingType
 import com.jwdfhi.meal_up.screens.Screens
 import com.jwdfhi.meal_up.screens.home.components.HomeScreenDrawer
 import com.jwdfhi.meal_up.screens.home.components.HomeScreenSearchAndFilter
 import com.jwdfhi.meal_up.ui.theme.GreyBackgroundScreen
+import com.jwdfhi.meal_up.utils.Constant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 // @Preview(showBackground = true)
 @ExperimentalFoundationApi
 @ExperimentalComposeUiApi
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel,
+    filterListSelectedItemTextModel: FilterListSelectedItemTextModel
+) {
 
     val scope = rememberCoroutineScope()
 
@@ -57,8 +65,11 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
     val focusManager = LocalFocusManager.current
     val keyboardState by keyboardAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.initState(filterListSelectedItemTextModel = filterListSelectedItemTextModel)
+    }
+
     CustomBackPressHandler(onBackPressed = {
-        Log.d("onBackPressed", "onBackPressed: 1")
         onBackPressed(
             context = viewModel.context,
             viewModel = viewModel,
@@ -122,7 +133,9 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
                     focusManager = focusManager,
                     searchState = searchState,
                     searchOnTap = { search(viewModel = viewModel, searchState = searchState) },
-                    filterOnTap = { navController.navigate(Screens.FilterScreen.name) }
+                    filterOnTap = {
+                        navController.navigate(Screens.FilterScreen.name + "/" + Json.encodeToString(filterListSelectedItemTextModel))
+                    }
                 )
             }
             Spacer(modifier = Modifier.weight(0.1f))
@@ -163,7 +176,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
                                                     onTap = { /*TODO: go to meal screen*/ },
                                                     title = it.strMeal,
                                                     imageUrl = it.strMealThumb,
-                                                    ingredientList = listOf<String>(it.strIngredient1, it.strIngredient2),
+                                                    ingredientList = listOf<String>("it.strIngredient1", "it.strIngredient2"),
                                                     margin = 8.dp,
                                                     padding = 8.dp
                                                 )
