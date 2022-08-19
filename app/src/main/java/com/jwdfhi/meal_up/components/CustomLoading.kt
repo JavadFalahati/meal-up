@@ -23,7 +23,9 @@ fun CustomLoading(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxHeight()
     ) {
         when (loadingType) {
             LoadingType.Circle -> {
