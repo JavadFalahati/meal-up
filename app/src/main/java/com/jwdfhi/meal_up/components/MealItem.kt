@@ -15,13 +15,17 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.jwdfhi.meal_up.ui.theme.Black80Color
-import com.jwdfhi.meal_up.ui.theme.Black90Color
+import com.jwdfhi.meal_up.R
+import com.jwdfhi.meal_up.models.FilteredMealModel
+import com.jwdfhi.meal_up.ui.theme.*
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
@@ -30,80 +34,87 @@ import com.slaviboy.composeunits.sh
 fun MealItem(
     expanded: Boolean = false,
     onTap: () -> Unit,
-    title: String,
-    imageUrl: String,
-    ingredientList: List<String>,
-    isMarked: Boolean = false,
-    markColor: Int = android.graphics.Color.TRANSPARENT,
-    isLiked: Boolean = false,
-    height: Dp = 0.15.dh,
+    item: FilteredMealModel,
+    height: Dp = 0.165.dh,
     margin: Dp = 8.dp,
     padding: Dp = 8.dp,
     backgroundColor: androidx.compose.ui.graphics.Color = Color.White,
     borderRadius: Dp = 6.dp
 ) { // TODO: check the expanded
+    // TODO: Implement the  like and mark icon and text.
     Box(
         modifier = Modifier
-            .padding(margin)
+            .padding(vertical = margin)
             .clip(shape = RoundedCornerShape(borderRadius))
             .background(backgroundColor)
             .height(height = height)
+            .fillMaxWidth()
             .clickable { onTap() }
     ) {
         Row(
             modifier = Modifier
                 .padding(padding)
-                .align(Center)
+                /*.align(Center)*/,
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Spacer(modifier = Modifier.weight(0.1f))
             Image(
-                painter = rememberAsyncImagePainter(imageUrl),
+                painter = rememberAsyncImagePainter(item.strMealThumb),
                 contentDescription = "Meal",
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
+                    .width(0.35.dw)
                     .clip(shape = RoundedCornerShape(borderRadius))
-                    .weight(2.5f, true)
                     .align(CenterVertically)
             )
-            Spacer(modifier = Modifier.weight(0.7f))
+            Spacer(modifier = Modifier.width(0.05.dw))
             Column(
                 modifier = Modifier
-                    .weight(6f)
+                    .align(Alignment.Top)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = title,
+                    text = item.strMeal,
                     style = TextStyle(
                         color = Black90Color,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 0.028.sh
+                        fontSize = if (item.strMeal.length < 35) 0.027.sh else 0.020.sh
                     ),
                 )
-                Spacer(modifier = Modifier.height(2.dp))
-                Row() {
-                    ingredientList.forEach { ingredient ->
-                        Box(
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .clip(shape = RoundedCornerShape(3.dp))
-                                .background(Color(0xFFADADAD))
-                        ) {
-                            Text(
-                                text = "#" + ingredient,
-                                style = TextStyle(
-                                    color = Black80Color,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 0.014.sh,
+                if (item.isMarked) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .clip(shape = RoundedCornerShape(6.dp))
+                            .background(Black20Color)
+                            .padding(vertical = 4.dp, horizontal = 7.dp)
+                    ) {
+                        Row() {
+                            Image(
+                                painter = painterResource(id = R.drawable.fill_mark_icon_2),
+                                contentDescription = "Mark",
+                                colorFilter = ColorFilter.tint(
+                                    color = if (item.markColor.isNotEmpty()) Color(item.markColor.toInt()) else Black80Color
                                 ),
                                 modifier = Modifier
-                                    .padding(
-                                        horizontal = 5.dp,
-                                        vertical = 2.dp
-                                    )
+                                    .height(0.023.dh)
+                                    .align(CenterVertically)
+                            )
+                            Spacer(modifier = Modifier.width(width = 3.dp))
+                            Text(
+                                text = item.markName,
+                                style = TextStyle(
+                                    color = Black90Color,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 0.016.sh
+                                ),
                             )
                         }
                     }
                 }
             }
-            Spacer(modifier = Modifier.weight(0.1f))
         }
     }
 }
