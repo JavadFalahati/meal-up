@@ -215,12 +215,16 @@ fun HomeScreen(
                                             modifier = Modifier
                                                 .fillMaxSize(),
                                         ) {
-                                            items(viewModel.mealsDataOrException.value.data!!) {
+                                            items(viewModel.mealsDataOrException.value.data!!) { item ->
                                                 MealItem(
-                                                    onTap = { /*TODO: go to meal screen*/ },
-                                                    title = it.strMeal,
-                                                    imageUrl = it.strMealThumb,
-                                                    ingredientList = listOf<String>("it.strIngredient1", "it.strIngredient2"),
+                                                    onTap = {
+                                                        navController.navigate(
+                                                            route = Screens.FilterScreen.name
+                                                                    + "/" +
+                                                                    item.idMeal
+                                                        )
+                                                    },
+                                                    item = item,
                                                     margin = 8.dp,
                                                     padding = 8.dp
                                                 )
