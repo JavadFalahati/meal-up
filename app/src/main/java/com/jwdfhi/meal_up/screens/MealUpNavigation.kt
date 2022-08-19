@@ -19,6 +19,8 @@ import com.jwdfhi.meal_up.screens.introduction.IntroductionScreen
 import com.jwdfhi.meal_up.screens.like.LikeScreen
 import com.jwdfhi.meal_up.screens.management.ManagementScreen
 import com.jwdfhi.meal_up.screens.mark.MarkScreen
+import com.jwdfhi.meal_up.screens.meal.MealScreen
+import com.jwdfhi.meal_up.screens.meal.MealViewModel
 import com.jwdfhi.meal_up.screens.splash.SplashScreen
 import com.jwdfhi.meal_up.ui.theme.*
 import com.jwdfhi.meal_up.utils.Constant
@@ -42,7 +44,7 @@ fun MealUpNavigation() {
                 route = Screens.HomeScreen.name
             ) {
                 systemUiController.setStatusBarColor(
-                    color = Primary80Color
+                    color = GreyBackgroundScreen
                 )
 
                 val homeViewModel = hiltViewModel<HomeViewModel>()
@@ -77,7 +79,7 @@ fun MealUpNavigation() {
                 )
             ) { navBackStackEntry ->
                 systemUiController.setStatusBarColor(
-                    color = White80Color
+                    color = GreyBackgroundScreen
                 )
 
                 val filterViewModel = hiltViewModel<FilterViewModel>()
@@ -94,6 +96,35 @@ fun MealUpNavigation() {
                         viewModel = filterViewModel,
                         filterListSelectedItemModel = filterListSelectedItemModel
                     )
+                }
+
+            }
+
+            composable(
+                route = Screens.MealScreen.name + "/{${Constant.MEAL_ID_ARGUMENT_KEY}}",
+                arguments = listOf(
+                    navArgument(
+                        name = Constant.MEAL_ID_ARGUMENT_KEY,
+                        builder = {
+                            type = NavType.StringType
+                        }
+                    )
+                )
+            ) { navBackStackEntry ->
+                systemUiController.setStatusBarColor(
+                    color = White80Color
+                )
+
+                val mealViewModel = hiltViewModel<MealViewModel>()
+
+                navBackStackEntry.arguments?.getString(Constant.MEAL_ID_ARGUMENT_KEY).let {
+
+                    MealScreen(
+                        navController = navController,
+                        viewModel = mealViewModel,
+                        id = it!!
+                    )
+
                 }
 
             }

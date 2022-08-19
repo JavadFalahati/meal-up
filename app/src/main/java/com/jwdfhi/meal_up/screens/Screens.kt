@@ -7,5 +7,6 @@ enum class Screens {
     LikeScreen,
     ManagementScreen,
     MarkScreen,
-    SplashScreen
+    SplashScreen,
+    MealScreen
 }
