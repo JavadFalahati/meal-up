@@ -4,7 +4,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class FilterListSelectedItemTextModel(
+data class FilterListSelectedItemModel(
     var category: String = "",
     var ingredients: MutableList<String> = mutableListOf(),
     var area: String = "",
