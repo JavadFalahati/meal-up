@@ -3,13 +3,12 @@ package com.jwdfhi.meal_up.screens.home
 import android.content.Context
 import android.os.CountDownTimer
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jwdfhi.meal_up.models.*
 import com.jwdfhi.meal_up.repositories.MealDatabaseRepository
 import com.jwdfhi.meal_up.repositories.MealServiceRepository
+import com.jwdfhi.meal_up.utils.FilterListSelectedItemHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,7 +58,7 @@ class HomeViewModel @Inject constructor(
 
             Log.d("getAllFilteredMeals", filterListSelectedItemTextModel.toString())
 
-            if (filteredListSelectedItemTextModelIsEmpty(filterListSelectedItemTextModel)) {
+            if (FilterListSelectedItemHelper.isNotEmpty(filterListSelectedItemTextModel)) {
                 getAllFilteredMeals(filterListSelectedItemTextModel)
             }
             else { getRandomMeals() }
@@ -183,42 +182,31 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getAllFilteredMeals(filterListSelectedItemTextModel: FilterListSelectedItemTextModel): Unit {
-        val filteredMealModel: MutableList<FilteredMealModel> = mutableListOf()
-
-        // TODO: Check for multiple filter.
+        var filteredMealModel: MutableList<FilteredMealModel> = mutableListOf()
 
         val mealsByCategory = getSingleFilteredMeals<MutableList<MealListByCategoryServiceModel.Meal>>(
             filterType = FilterType.Category,
+            filteredMealModelList = filteredMealModel,
             filterListSelectedItemTextModel = filterListSelectedItemTextModel
         )
         if (mealsByCategory.status == DataOrExceptionStatus.Failure) { return }
-        mealsByCategory.data?.forEach { filteredMealModel.add(FilteredMealModel(
-            idMeal = it.idMeal,
-            strMeal = it.strMeal,
-            strMealThumb = it.strMealThumb
-        )) }
+        filteredMealModel = mealsByCategory.data!!
 
         val mealsByIngredients = getSingleFilteredMeals<MutableList<MealListByIngredientServiceModel.Meal>>(
+            filteredMealModelList = filteredMealModel,
             filterType = FilterType.Ingredient,
             filterListSelectedItemTextModel = filterListSelectedItemTextModel
         )
         if (mealsByIngredients.status == DataOrExceptionStatus.Failure) { return }
-        mealsByIngredients.data?.forEach { filteredMealModel.add(FilteredMealModel(
-            idMeal = it.idMeal,
-            strMeal = it.strMeal,
-            strMealThumb = it.strMealThumb
-        )) }
+        filteredMealModel = mealsByIngredients.data!!
 
         val mealsByArea = getSingleFilteredMeals<MutableList<MealListByAreaServiceModel.Meal>>(
+            filteredMealModelList = filteredMealModel,
             filterType = FilterType.Area,
             filterListSelectedItemTextModel = filterListSelectedItemTextModel
         )
         if (mealsByArea.status == DataOrExceptionStatus.Failure) { return }
-        mealsByArea.data?.forEach { filteredMealModel.add(FilteredMealModel(
-            idMeal = it.idMeal,
-            strMeal = it.strMeal,
-            strMealThumb = it.strMealThumb
-        )) }
+        filteredMealModel = mealsByArea.data!!
 
         _mealsDataOrException.value = DataOrException(
             data = filteredMealModel,
@@ -228,8 +216,14 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun <T> getSingleFilteredMeals(
         filterType: FilterType,
+        filteredMealModelList: MutableList<FilteredMealModel>,
         filterListSelectedItemTextModel: FilterListSelectedItemTextModel
-    ): DataOrException<T> {
+    ): DataOrException<MutableList<FilteredMealModel>> {
+        val notCheckingPreviousFilteredList = FilterListSelectedItemHelper.notCheckingPreviousFilteredList(
+            filterType = filterType,
+            filterListSelectedItemTextModel = filterListSelectedItemTextModel
+        )
+
         when (filterType) {
             FilterType.Category -> {
                 if (filterListSelectedItemTextModel.category.isNotEmpty()) {
@@ -247,12 +241,21 @@ class HomeViewModel @Inject constructor(
                         )
                     }
 
-                    return DataOrException(data = dataOrException.data!!.meals as T)
+                    val jointMealList = getJointFilteredMealList(
+                        filterType = filterType,
+                        notCheckingPreviousFilteredList = notCheckingPreviousFilteredList,
+                        mealList = dataOrException.data!!.meals,
+                        filteredMealModelList = filteredMealModelList
+                    )
+
+                    return DataOrException(data = jointMealList)
                 }
-                else { return DataOrException(data = emptyList<MealListByCategoryServiceModel.Meal>() as T) }
+                else { return DataOrException(data = filteredMealModelList) }
             }
             FilterType.Ingredient -> {
                 if (filterListSelectedItemTextModel.ingredients.isNotEmpty()) {
+                    var jointMealList = filteredMealModelList
+
                     filterListSelectedItemTextModel.ingredients.forEach {
                         val dataOrException =
                             mealServiceRepository.getFilteredMealListByIngredient(it)
@@ -268,10 +271,18 @@ class HomeViewModel @Inject constructor(
                             )
                         }
 
-                        return DataOrException(data = dataOrException.data!!.meals as T)
+                        jointMealList = getJointFilteredMealList(
+                            filterType = filterType,
+                            notCheckingPreviousFilteredList = notCheckingPreviousFilteredList,
+                            mealList = dataOrException.data!!.meals,
+                            filteredMealModelList = jointMealList
+                        )
+
                     }
+
+                    return DataOrException(data = jointMealList)
                 }
-                else { return DataOrException(data = emptyList<MealListByIngredientServiceModel.Meal>() as T) }
+                else { return DataOrException(data = filteredMealModelList) }
             }
             FilterType.Area -> {
                 if (filterListSelectedItemTextModel.area.isNotEmpty()) {
@@ -289,19 +300,89 @@ class HomeViewModel @Inject constructor(
                         )
                     }
 
-                    return DataOrException(data = dataOrException.data!!.meals as T)
+                    val jointMealList = getJointFilteredMealList(
+                        filterType = filterType,
+                        notCheckingPreviousFilteredList = notCheckingPreviousFilteredList,
+                        mealList = dataOrException.data!!.meals,
+                        filteredMealModelList = filteredMealModelList
+                    )
+
+                    return DataOrException(data = jointMealList)
                 }
-                else { return DataOrException(data = emptyList<MealListByAreaServiceModel.Meal>() as T) }
+                else { return DataOrException(data = filteredMealModelList) }
             }
         }
-
-        return DataOrException(status = DataOrExceptionStatus.Failure)
     }
 
-    private fun filteredListSelectedItemTextModelIsEmpty(filterListSelectedItemTextModel: FilterListSelectedItemTextModel): Boolean {
-        return  filterListSelectedItemTextModel.category.isNotEmpty()
-                || filterListSelectedItemTextModel.ingredients.isNotEmpty()
-                || filterListSelectedItemTextModel.area.isNotEmpty()
+    private fun <T> getJointFilteredMealList(
+        filterType: FilterType,
+        notCheckingPreviousFilteredList: Boolean,
+        filteredMealModelList: MutableList<FilteredMealModel>,
+        mealList: List<T>,
+    ): MutableList<FilteredMealModel> {
+        when (filterType) {
+            FilterType.Category -> {
+                val jointMealList = mutableListOf<FilteredMealModel>()
+
+                (mealList as List<MealListByCategoryServiceModel.Meal>).forEach { meal ->
+                    if (notCheckingPreviousFilteredList) {
+                        jointMealList.add(FilteredMealModel(
+                            idMeal = meal.idMeal,
+                            strMeal = meal.strMeal,
+                            strMealThumb = meal.strMealThumb,
+                        ))
+                    }
+                    else {
+                        filteredMealModelList.forEach { filteredMeal ->
+                            if (meal.idMeal == filteredMeal.idMeal) { jointMealList.add(filteredMeal) }
+                        }
+                    }
+
+                }
+
+                return jointMealList
+            }
+            FilterType.Ingredient -> {
+                val jointMealList = mutableListOf<FilteredMealModel>()
+
+                (mealList as List<MealListByIngredientServiceModel.Meal>).forEach { meal ->
+                    if (notCheckingPreviousFilteredList) {
+                        jointMealList.add(FilteredMealModel(
+                            idMeal = meal.idMeal,
+                            strMeal = meal.strMeal,
+                            strMealThumb = meal.strMealThumb,
+                        ))
+                    }
+                    else {
+                        filteredMealModelList.forEach { filteredMeal ->
+                            if (meal.idMeal == filteredMeal.idMeal) { jointMealList.add(filteredMeal) }
+                        }
+                    }
+                }
+
+                return jointMealList
+            }
+            FilterType.Area -> {
+                val jointMealList = mutableListOf<FilteredMealModel>()
+
+                (mealList as List<MealListByAreaServiceModel.Meal>).forEach { meal ->
+                    if (notCheckingPreviousFilteredList) {
+                        jointMealList.add(FilteredMealModel(
+                            idMeal = meal.idMeal,
+                            strMeal = meal.strMeal,
+                            strMealThumb = meal.strMealThumb,
+                        ))
+                    }
+                    else {
+                        filteredMealModelList.forEach { filteredMeal ->
+                            if (meal.idMeal == filteredMeal.idMeal) { jointMealList.add(filteredMeal) }
+                        }
+                    }
+                }
+
+                return jointMealList
+            }
+        }
     }
 
 }
