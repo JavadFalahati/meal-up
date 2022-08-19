@@ -31,13 +31,14 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.jwdfhi.meal_up.components.*
 import com.jwdfhi.meal_up.models.DataOrExceptionStatus
-import com.jwdfhi.meal_up.models.FilterListSelectedItemTextModel
+import com.jwdfhi.meal_up.models.FilterListSelectedItemModel
 import com.jwdfhi.meal_up.models.KeyboardStatusType
 import com.jwdfhi.meal_up.models.LoadingType
 import com.jwdfhi.meal_up.screens.Screens
 import com.jwdfhi.meal_up.screens.home.components.HomeScreenDrawer
 import com.jwdfhi.meal_up.screens.home.components.HomeScreenSearchAndFilter
 import com.jwdfhi.meal_up.ui.theme.GreyBackgroundScreen
+import com.jwdfhi.meal_up.utils.Constant
 import com.jwdfhi.meal_up.utils.FilterListSelectedItemHelper
 import com.slaviboy.composeunits.dh
 import kotlinx.coroutines.Dispatchers
@@ -45,15 +46,24 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-// @Preview(showBackground = true)
 @ExperimentalFoundationApi
 @ExperimentalComposeUiApi
 @Composable
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel,
-    filterListSelectedItemTextModel: FilterListSelectedItemTextModel
+    filterListSelectedItemModelShouldNotUse: FilterListSelectedItemModel
 ) {
+
+    val filterIsNotEmptyState = remember {
+        mutableStateOf(FilterListSelectedItemHelper.isNotEmpty(viewModel.filterListSelectedItemModel))
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.initState(filterListSelectedItemModel = filterListSelectedItemModelShouldNotUse)
+
+        filterIsNotEmptyState.value = FilterListSelectedItemHelper.isNotEmpty(viewModel.filterListSelectedItemModel)
+    }
 
     val scope = rememberCoroutineScope()
 
@@ -63,10 +73,6 @@ fun HomeScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val keyboardState by keyboardAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.initState(filterListSelectedItemTextModel = filterListSelectedItemTextModel)
-    }
 
     CustomBackPressHandler(onBackPressed = {
         onBackPressed(
@@ -125,19 +131,57 @@ fun HomeScreen(
             )
             Spacer(modifier = Modifier.height(height = 0.03.dh))
             Box(modifier = Modifier.height(height = 0.085.dh)) {
+                val meals = viewModel.mealsDataOrException.collectAsState().value.data
+                val mealsLoading: Boolean = (viewModel.mealsDataOrException.collectAsState().value.status == DataOrExceptionStatus.Loading)
+
                 HomeScreenSearchAndFilter(
                     viewModel = viewModel,
                     height = 0.085.dh,
                     keyboardController = keyboardController,
                     keyboardState = keyboardState,
                     focusManager = focusManager,
-                    filterIsEnable = FilterListSelectedItemHelper.isNotEmpty(filterListSelectedItemTextModel),
+                    filterIsEnable = filterIsNotEmptyState.value,
                     searchState = searchState,
-                    searchOnTap = { search(viewModel = viewModel, searchState = searchState) },
-                    filterOnTap = {
-                        navController.navigate(Screens.FilterScreen.name + "/" + Json.encodeToString(filterListSelectedItemTextModel))
+                    searchOnTap = {
+                        search(
+                            viewModel = viewModel,
+                            searchState = searchState,
+                        )
                     },
-                    disableFilterOnTap = {}
+                    clearSearchOnTap = {
+
+                        if (searchState.value.trim().isNotEmpty()) {
+                            searchState.value = ""
+                            if ((meals == null || meals.isEmpty()) || (filterIsNotEmptyState.value)) {
+                                search(viewModel, searchState)
+                            }
+                            return@HomeScreenSearchAndFilter
+                        }
+
+                        if (meals == null || meals.isEmpty()) {
+                            search(viewModel, searchState)
+                        }
+
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                    },
+                    filterOnTap = {
+                        if (mealsLoading) { return@HomeScreenSearchAndFilter }
+
+                        navController.navigate(
+                            route = Screens.FilterScreen.name + "/" + Json.encodeToString(viewModel.filterListSelectedItemModel)
+                        )
+                    },
+                    clearFilterOnTap = {
+                        if (mealsLoading) { return@HomeScreenSearchAndFilter }
+
+                        filterIsNotEmptyState.value = false
+                        viewModel.filterListSelectedItemModel = FilterListSelectedItemModel()
+                        navController.currentBackStackEntry!!.savedStateHandle
+                            .set<String>(Constant.FILTERS_ARGUMENT_KEY, Json.encodeToString(FilterListSelectedItemModel()))
+
+                        search(viewModel, searchState)
+                    }
                 )
             }
             Spacer(modifier = Modifier.height(height = 0.02.dh))
@@ -150,7 +194,7 @@ fun HomeScreen(
                         DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.Linear, title = "")
                         DataOrExceptionStatus.Failure -> CustomError(
                             title = viewModel.mealsDataOrException.collectAsState().value.exception!!.message!!,
-                            tryAgainOnTap = { search(viewModel = viewModel, searchState = searchState) }
+                            tryAgainOnTap = { search(viewModel, searchState) }
                         )
                         DataOrExceptionStatus.Success -> {
                             SwipeRefresh(
@@ -158,7 +202,7 @@ fun HomeScreen(
                                     isRefreshing = viewModel.mealsDataOrException.collectAsState().value.status
                                             == DataOrExceptionStatus.Loading
                                 ),
-                                onRefresh = { search(viewModel = viewModel, searchState = searchState) }
+                                onRefresh = { search(viewModel, searchState) }
                             ) {
                                 CompositionLocalProvider(
                                     LocalOverscrollConfiguration provides null
@@ -169,7 +213,6 @@ fun HomeScreen(
                                     else {
                                         LazyColumn(
                                             modifier = Modifier
-                                                // .weight(9f)
                                                 .fillMaxSize(),
                                         ) {
                                             items(viewModel.mealsDataOrException.value.data!!) {
@@ -196,15 +239,13 @@ fun HomeScreen(
 
 private fun search(
     viewModel: HomeViewModel,
-    searchState: MutableState<String>
+    searchState: MutableState<String>,
 ) {
     viewModel.viewModelScope.launch(Dispatchers.IO) {
-        if (searchState.value.isEmpty()) {
-            viewModel.getRandomMeals()
-        }
-        else if (searchState.value.isNotEmpty()) {
-            viewModel.getMealByName(searchState.value)
-        }
+        viewModel.getMealByName(
+            filterListSelectedItemModel = viewModel.filterListSelectedItemModel,
+            name = searchState.value
+        )
     }
 }
 
