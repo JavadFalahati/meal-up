@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.jwdfhi.meal_up.models.FilterListSelectedItemTextModel
+import com.jwdfhi.meal_up.models.FilterListSelectedItemModel
 import com.jwdfhi.meal_up.screens.filter.FilterScreen
 import com.jwdfhi.meal_up.screens.filter.FilterViewModel
 import com.jwdfhi.meal_up.screens.home.HomeScreen
@@ -22,7 +22,6 @@ import com.jwdfhi.meal_up.screens.mark.MarkScreen
 import com.jwdfhi.meal_up.screens.splash.SplashScreen
 import com.jwdfhi.meal_up.ui.theme.*
 import com.jwdfhi.meal_up.utils.Constant
-import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -48,21 +47,21 @@ fun MealUpNavigation() {
 
                 val homeViewModel = hiltViewModel<HomeViewModel>()
 
-                var filterListSelectedItemTextModel: FilterListSelectedItemTextModel = FilterListSelectedItemTextModel()
+                var filterListSelectedItemModel: FilterListSelectedItemModel = FilterListSelectedItemModel()
                 if (navController.currentBackStackEntry!!.savedStateHandle.contains(Constant.FILTERS_ARGUMENT_KEY)) {
                     val filterListSelectedItemTextModelNullable = navController.currentBackStackEntry!!.savedStateHandle
                         .get<String>(Constant.FILTERS_ARGUMENT_KEY)
 
                     if (filterListSelectedItemTextModelNullable != null) {
-                        filterListSelectedItemTextModel =
-                            Json.decodeFromString<FilterListSelectedItemTextModel>(filterListSelectedItemTextModelNullable)
+                        filterListSelectedItemModel =
+                            Json.decodeFromString<FilterListSelectedItemModel>(filterListSelectedItemTextModelNullable)
                     }
                 }
 
                 HomeScreen(
                      navController = navController,
                      viewModel = homeViewModel,
-                     filterListSelectedItemTextModel = filterListSelectedItemTextModel
+                     filterListSelectedItemModelShouldNotUse = filterListSelectedItemModel
                 )
             }
 
@@ -83,17 +82,17 @@ fun MealUpNavigation() {
 
                 val filterViewModel = hiltViewModel<FilterViewModel>()
 
-                var filterListSelectedItemTextModel = FilterListSelectedItemTextModel()
+                var filterListSelectedItemModel = FilterListSelectedItemModel()
 
                 navBackStackEntry.arguments?.getString(Constant.FILTERS_ARGUMENT_KEY).let {
                     if (it != null) {
-                        filterListSelectedItemTextModel = Json.decodeFromString<FilterListSelectedItemTextModel>(it)
+                        filterListSelectedItemModel = Json.decodeFromString<FilterListSelectedItemModel>(it)
                     }
 
                     FilterScreen(
                         navController = navController,
                         viewModel = filterViewModel,
-                        filterListSelectedItemTextModel = filterListSelectedItemTextModel
+                        filterListSelectedItemModel = filterListSelectedItemModel
                     )
                 }
 
