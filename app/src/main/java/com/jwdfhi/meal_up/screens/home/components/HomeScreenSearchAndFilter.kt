@@ -192,9 +192,9 @@ fun HomeScreenSearchAndFilter(
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(width = 0.045.dh, height = 0.045.dh)
+                                .size(width = 0.042.dh, height = 0.042.dh)
                                 .clip(shape = CircleShape)
-                                .background(Red80Color, shape = CircleShape)
+                                .background(Red100Color, shape = CircleShape)
                                 .clickable { clearFilterOnTap() }
                                 .fillMaxHeight()
                                 .padding(10.dp)
