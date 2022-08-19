@@ -38,6 +38,7 @@ import com.slaviboy.composeunits.sh
 @Composable
 fun <T> FilterItem(
     item: FilterItemModel<T>,
+    haveSelectedItem: Boolean,
     height: Dp? = null,
     verticalMargin: Dp,
     horizontalMargin: Dp,
@@ -88,7 +89,7 @@ fun <T> FilterItem(
                 Text(
                     text = "Clear",
                     style = TextStyle(
-                        color = Black50Color,
+                        color = if (haveSelectedItem) Red80Color else Black50Color,
                         textAlign = TextAlign.End,
                         fontWeight = FontWeight.Normal,
                         fontSize = 0.015.sh
