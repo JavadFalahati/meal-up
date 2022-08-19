@@ -2,12 +2,13 @@ package com.jwdfhi.meal_up.screens.home
 
 import android.content.Context
 import android.os.CountDownTimer
-import android.util.Log
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jwdfhi.meal_up.models.*
 import com.jwdfhi.meal_up.repositories.MealDatabaseRepository
 import com.jwdfhi.meal_up.repositories.MealServiceRepository
+import com.jwdfhi.meal_up.ui.theme.TransparentColor
 import com.jwdfhi.meal_up.utils.FilterListSelectedItemHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +46,10 @@ class HomeViewModel @Inject constructor(
     private val _markedMealList = MutableStateFlow<List<MarkedMealModel>>(emptyList())
     val markedMealList = _markedMealList.asStateFlow()
 
-    fun initState(filterListSelectedItemTextModel: FilterListSelectedItemTextModel): Unit {
+    var filterListSelectedItemModel = FilterListSelectedItemModel()
+
+    fun initState(filterListSelectedItemModel: FilterListSelectedItemModel): Unit {
+        this.filterListSelectedItemModel = filterListSelectedItemModel
 
         viewModelScope.launch(Dispatchers.IO) {
             // mealDatabaseRepository.getLikedMeals().distinctUntilChanged().collect() {
@@ -56,10 +60,8 @@ class HomeViewModel @Inject constructor(
             //     _markedMealList.value = it
             // }
 
-            Log.d("getAllFilteredMeals", filterListSelectedItemTextModel.toString())
-
-            if (FilterListSelectedItemHelper.isNotEmpty(filterListSelectedItemTextModel)) {
-                getAllFilteredMeals(filterListSelectedItemTextModel)
+            if (FilterListSelectedItemHelper.isNotEmpty(filterListSelectedItemModel)) {
+                getAllFilteredMeals(filterListSelectedItemModel)
             }
             else { getRandomMeals() }
 
@@ -67,7 +69,7 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    suspend fun getRandomMeals(): Unit {
+    private suspend fun getRandomMeals(): Unit {
         _mealsDataOrException.value = DataOrException(status = DataOrExceptionStatus.Loading)
 
         // if (!deviceHaveConnection(context)) {
@@ -79,7 +81,7 @@ class HomeViewModel @Inject constructor(
         //     return
         // }
 
-        val mealList = mutableListOf<FilteredMealModel>()
+        var mealList = mutableListOf<FilteredMealModel>()
 
         var repeatCount: Int = 10
         while (repeatCount > 0) {
@@ -101,6 +103,9 @@ class HomeViewModel @Inject constructor(
                 mealList.add(dataOrException.data!![0])
             }
         }
+
+        mealList = checkDataMealsWithMarkedMeals(mealList)
+        mealList = checkDataMealsWithLikedMeals(mealList)
 
         _mealsDataOrException.value = DataOrException(
             data = mealList,
@@ -124,20 +129,6 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        _likedMealList.value.forEach {
-            if (dataOrException.data!!.meals[0].idMeal == it.idMeal) {
-                dataOrException.data!!.meals[0].isLiked = true
-            }
-        }
-
-        _markedMealList.value.forEach {
-            if (dataOrException.data!!.meals[0].idMeal == it.idMeal) {
-                dataOrException.data!!.meals[0].isMarked = true
-                dataOrException.data!!.meals[0].markName = it.markName
-                dataOrException.data!!.meals[0].markColor = it.markColor
-            }
-        }
-
         val filteredMealModel = mutableListOf<FilteredMealModel>()
         dataOrException.data?.meals?.forEach {
             filteredMealModel.add(FilteredMealModel(
@@ -153,41 +144,66 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    suspend fun getMealByName(name: String): Unit {
-        _mealsDataOrException.value = DataOrException(status = DataOrExceptionStatus.Loading)
-        _mealsDataOrException.value.data?.clear()
-
-        val dataOrException = mealServiceRepository.getMealByName(name = name.trim())
-        if (dataOrException.exception != null) {
-            _mealsDataOrException.value = DataOrException(
-                exception = dataOrException.exception,
-                status = DataOrExceptionStatus.Failure
-            )
+    suspend fun getMealByName(
+        filterListSelectedItemModel: FilterListSelectedItemModel,
+        name: String
+    ): Unit {
+        if (name.trim().isEmpty() && !FilterListSelectedItemHelper.isNotEmpty(filterListSelectedItemModel = filterListSelectedItemModel)) {
+            getRandomMeals()
+            return
+        }
+        if (name.trim().isEmpty() && FilterListSelectedItemHelper.isNotEmpty(filterListSelectedItemModel = filterListSelectedItemModel)) {
+            getAllFilteredMeals(filterListSelectedItemModel)
             return
         }
 
-        val filteredMealModel = mutableListOf<FilteredMealModel>()
-        dataOrException.data?.meals?.forEach {
-            filteredMealModel.add(FilteredMealModel(
-                idMeal = it.idMeal,
-                strMeal = it.strMeal,
-                strMealThumb = it.strMealThumb
-            ))
+        val existedFilteredMealList = _mealsDataOrException.value.data
+
+        _mealsDataOrException.value = DataOrException(status = DataOrExceptionStatus.Loading)
+
+        val filteredMealModelList = mutableListOf<FilteredMealModel>()
+
+        if (name.trim().isNotEmpty() && FilterListSelectedItemHelper.isNotEmpty(filterListSelectedItemModel = filterListSelectedItemModel)) {
+            existedFilteredMealList?.forEach { existedFilteredMeal ->
+                if (existedFilteredMeal.strMeal.contains(name.trim())) {
+                    filteredMealModelList.add(existedFilteredMeal)
+                }
+            }
+        }
+        else {
+            val dataOrException = mealServiceRepository.getMealByName(name = name.trim())
+            if (dataOrException.exception != null) {
+                _mealsDataOrException.value = DataOrException(
+                    exception = dataOrException.exception,
+                    status = DataOrExceptionStatus.Failure
+                )
+                return
+            }
+
+            dataOrException.data?.meals?.forEach {
+                filteredMealModelList.add(FilteredMealModel(
+                    idMeal = it.idMeal,
+                    strMeal = it.strMeal,
+                    strMealThumb = it.strMealThumb
+                ))
+            }
         }
 
         _mealsDataOrException.value = DataOrException(
-            data = (filteredMealModel).toMutableList(),
+            data = (filteredMealModelList).toMutableList(),
             status = DataOrExceptionStatus.Success
         )
     }
 
-    private suspend fun getAllFilteredMeals(filterListSelectedItemTextModel: FilterListSelectedItemTextModel): Unit {
+    private suspend fun getAllFilteredMeals(filterListSelectedItemModel: FilterListSelectedItemModel): Unit {
+        _mealsDataOrException.value = DataOrException(status = DataOrExceptionStatus.Loading)
+
         var filteredMealModel: MutableList<FilteredMealModel> = mutableListOf()
 
         val mealsByCategory = getSingleFilteredMeals<MutableList<MealListByCategoryServiceModel.Meal>>(
             filterType = FilterType.Category,
             filteredMealModelList = filteredMealModel,
-            filterListSelectedItemTextModel = filterListSelectedItemTextModel
+            filterListSelectedItemModel = filterListSelectedItemModel
         )
         if (mealsByCategory.status == DataOrExceptionStatus.Failure) { return }
         filteredMealModel = mealsByCategory.data!!
@@ -195,7 +211,7 @@ class HomeViewModel @Inject constructor(
         val mealsByIngredients = getSingleFilteredMeals<MutableList<MealListByIngredientServiceModel.Meal>>(
             filteredMealModelList = filteredMealModel,
             filterType = FilterType.Ingredient,
-            filterListSelectedItemTextModel = filterListSelectedItemTextModel
+            filterListSelectedItemModel = filterListSelectedItemModel
         )
         if (mealsByIngredients.status == DataOrExceptionStatus.Failure) { return }
         filteredMealModel = mealsByIngredients.data!!
@@ -203,10 +219,14 @@ class HomeViewModel @Inject constructor(
         val mealsByArea = getSingleFilteredMeals<MutableList<MealListByAreaServiceModel.Meal>>(
             filteredMealModelList = filteredMealModel,
             filterType = FilterType.Area,
-            filterListSelectedItemTextModel = filterListSelectedItemTextModel
+            filterListSelectedItemModel = filterListSelectedItemModel
         )
         if (mealsByArea.status == DataOrExceptionStatus.Failure) { return }
         filteredMealModel = mealsByArea.data!!
+
+
+        filteredMealModel = checkDataMealsWithMarkedMeals(filteredMealModel)
+        filteredMealModel = checkDataMealsWithLikedMeals(filteredMealModel)
 
         _mealsDataOrException.value = DataOrException(
             data = filteredMealModel,
@@ -217,18 +237,18 @@ class HomeViewModel @Inject constructor(
     private suspend fun <T> getSingleFilteredMeals(
         filterType: FilterType,
         filteredMealModelList: MutableList<FilteredMealModel>,
-        filterListSelectedItemTextModel: FilterListSelectedItemTextModel
+        filterListSelectedItemModel: FilterListSelectedItemModel
     ): DataOrException<MutableList<FilteredMealModel>> {
         val notCheckingPreviousFilteredList = FilterListSelectedItemHelper.notCheckingPreviousFilteredList(
             filterType = filterType,
-            filterListSelectedItemTextModel = filterListSelectedItemTextModel
+            filterListSelectedItemModel = filterListSelectedItemModel
         )
 
         when (filterType) {
             FilterType.Category -> {
-                if (filterListSelectedItemTextModel.category.isNotEmpty()) {
+                if (filterListSelectedItemModel.category.isNotEmpty()) {
                     val dataOrException =
-                        mealServiceRepository.getFilteredMealListByCategory(filterListSelectedItemTextModel.category)
+                        mealServiceRepository.getFilteredMealListByCategory(filterListSelectedItemModel.category)
 
                     if (dataOrException.status == DataOrExceptionStatus.Failure) {
                         _mealsDataOrException.value = DataOrException(
@@ -241,7 +261,7 @@ class HomeViewModel @Inject constructor(
                         )
                     }
 
-                    val jointMealList = getJointFilteredMealList(
+                    val jointMealList = jointFilteredMealsWithDataMeals(
                         filterType = filterType,
                         notCheckingPreviousFilteredList = notCheckingPreviousFilteredList,
                         mealList = dataOrException.data!!.meals,
@@ -253,10 +273,10 @@ class HomeViewModel @Inject constructor(
                 else { return DataOrException(data = filteredMealModelList) }
             }
             FilterType.Ingredient -> {
-                if (filterListSelectedItemTextModel.ingredients.isNotEmpty()) {
+                if (filterListSelectedItemModel.ingredients.isNotEmpty()) {
                     var jointMealList = filteredMealModelList
 
-                    filterListSelectedItemTextModel.ingredients.forEach {
+                    filterListSelectedItemModel.ingredients.forEach {
                         val dataOrException =
                             mealServiceRepository.getFilteredMealListByIngredient(it)
 
@@ -271,7 +291,7 @@ class HomeViewModel @Inject constructor(
                             )
                         }
 
-                        jointMealList = getJointFilteredMealList(
+                        jointMealList = jointFilteredMealsWithDataMeals(
                             filterType = filterType,
                             notCheckingPreviousFilteredList = notCheckingPreviousFilteredList,
                             mealList = dataOrException.data!!.meals,
@@ -285,9 +305,9 @@ class HomeViewModel @Inject constructor(
                 else { return DataOrException(data = filteredMealModelList) }
             }
             FilterType.Area -> {
-                if (filterListSelectedItemTextModel.area.isNotEmpty()) {
+                if (filterListSelectedItemModel.area.isNotEmpty()) {
                     val dataOrException =
-                        mealServiceRepository.getFilteredMealListByArea(filterListSelectedItemTextModel.area)
+                        mealServiceRepository.getFilteredMealListByArea(filterListSelectedItemModel.area)
 
                     if (dataOrException.status == DataOrExceptionStatus.Failure) {
                         _mealsDataOrException.value = DataOrException(
@@ -300,7 +320,7 @@ class HomeViewModel @Inject constructor(
                         )
                     }
 
-                    val jointMealList = getJointFilteredMealList(
+                    val jointMealList = jointFilteredMealsWithDataMeals(
                         filterType = filterType,
                         notCheckingPreviousFilteredList = notCheckingPreviousFilteredList,
                         mealList = dataOrException.data!!.meals,
@@ -314,7 +334,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun <T> getJointFilteredMealList(
+    private fun <T> jointFilteredMealsWithDataMeals(
         filterType: FilterType,
         notCheckingPreviousFilteredList: Boolean,
         filteredMealModelList: MutableList<FilteredMealModel>,
@@ -383,6 +403,40 @@ class HomeViewModel @Inject constructor(
                 return jointMealList
             }
         }
+    }
+
+    private fun checkDataMealsWithMarkedMeals(
+        filteredMealModelList: MutableList<FilteredMealModel>
+    ): MutableList<FilteredMealModel> {
+        _markedMealList.value.forEach { markedMeal ->
+            filteredMealModelList.forEach { filteredMeal ->
+
+                if (markedMeal.idMeal == filteredMeal.idMeal) {
+                    filteredMeal.isMarked = true
+                    filteredMeal.markColor = markedMeal.markColor
+                    filteredMeal.markName = markedMeal.markName
+                }
+
+            }
+        }
+
+        return filteredMealModelList
+    }
+
+    private fun checkDataMealsWithLikedMeals(
+        filteredMealModelList: MutableList<FilteredMealModel>
+    ): MutableList<FilteredMealModel> {
+        _likedMealList.value.forEach { markedMeal ->
+            filteredMealModelList.forEach { filteredMeal ->
+
+                if (markedMeal.idMeal == filteredMeal.idMeal) {
+                    filteredMeal.isLiked = true
+                }
+
+            }
+        }
+
+        return filteredMealModelList
     }
 
 }
