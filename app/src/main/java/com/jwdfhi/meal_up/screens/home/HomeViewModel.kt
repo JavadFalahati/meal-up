@@ -2,6 +2,7 @@ package com.jwdfhi.meal_up.screens.home
 
 import android.content.Context
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,17 +50,22 @@ class HomeViewModel @Inject constructor(
 
     var filterListSelectedItemModel = FilterListSelectedItemModel()
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            mealDatabaseRepository.getLikedMeals().distinctUntilChanged().collect {
+                _likedMealList.value = it
+            }
+
+            mealDatabaseRepository.getMarkedMeals().distinctUntilChanged().collect {
+                _markedMealList.value = it
+            }
+        }
+    }
+
     fun initState(filterListSelectedItemModel: FilterListSelectedItemModel): Unit {
         this.filterListSelectedItemModel = filterListSelectedItemModel
 
         viewModelScope.launch(Dispatchers.IO) {
-            // mealDatabaseRepository.getLikedMeals().distinctUntilChanged().collect() {
-            //     _likedMealList.value = it
-            // }
-            //
-            // mealDatabaseRepository.getMarkedMeals().distinctUntilChanged().collect() {
-            //     _markedMealList.value = it
-            // }
 
             if (FilterListSelectedItemHelper.isNotEmpty(filterListSelectedItemModel)) {
                 getAllFilteredMeals(filterListSelectedItemModel)
