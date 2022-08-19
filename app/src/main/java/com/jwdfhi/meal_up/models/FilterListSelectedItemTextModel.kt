@@ -8,4 +8,9 @@ data class FilterListSelectedItemTextModel(
     var category: String = "",
     var ingredients: MutableList<String> = mutableListOf(),
     var area: String = "",
+    val receivingSequence: List<FilterType> = listOf(
+        FilterType.Category,
+        FilterType.Ingredient,
+        FilterType.Area
+    )
 )
