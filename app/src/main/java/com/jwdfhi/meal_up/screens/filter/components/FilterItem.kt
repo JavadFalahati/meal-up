@@ -77,24 +77,26 @@ fun <T> FilterItem(
                     )
                 )
             }
-            Box(
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(6.dp))
-                    .clickable { item.clearAllItems() }
-                    .padding(
-                        horizontal = 8.dp,
-                        vertical = 4.dp,
-                    ),
-            ) {
-                Text(
-                    text = "Clear",
-                    style = TextStyle(
-                        color = if (haveSelectedItem) Red80Color else Black50Color,
-                        textAlign = TextAlign.End,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 0.015.sh
+            if (haveSelectedItem) {
+                Box(
+                    modifier = Modifier
+                        .clip(shape = RoundedCornerShape(6.dp))
+                        .clickable { item.clearAllItems() }
+                        .padding(
+                            horizontal = 8.dp,
+                            vertical = 4.dp,
+                        ),
+                ) {
+                    Text(
+                        text = "Clear",
+                        style = TextStyle(
+                            color = if (haveSelectedItem) Red80Color else Black50Color,
+                            textAlign = TextAlign.End,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 0.015.sh
+                        )
                     )
-                )
+                }
             }
         }
         Spacer(modifier = Modifier.height(0.035.dh))
