@@ -1,6 +1,6 @@
 package com.jwdfhi.meal_up.utils
 
-import com.jwdfhi.meal_up.models.FilterListSelectedItemTextModel
+import com.jwdfhi.meal_up.models.FilterListSelectedItemModel
 import com.jwdfhi.meal_up.models.FilterType
 
 class FilterListSelectedItemHelper {
@@ -9,14 +9,14 @@ class FilterListSelectedItemHelper {
 
         public fun notCheckingPreviousFilteredList(
             filterType: FilterType,
-            filterListSelectedItemTextModel: FilterListSelectedItemTextModel
+            filterListSelectedItemModel: FilterListSelectedItemModel
         ): Boolean {
             when (filterType) {
                 FilterType.Category -> return true
-                FilterType.Ingredient -> if (filterListSelectedItemTextModel.category.isEmpty()) { return true }
+                FilterType.Ingredient -> if (filterListSelectedItemModel.category.isEmpty()) { return true }
                 FilterType.Area -> {
-                    if (filterListSelectedItemTextModel.category.isEmpty()
-                        && filterListSelectedItemTextModel.ingredients.isEmpty()
+                    if (filterListSelectedItemModel.category.isEmpty()
+                        && filterListSelectedItemModel.ingredients.isEmpty()
                     ) { return true }
                 }
             }
@@ -24,10 +24,10 @@ class FilterListSelectedItemHelper {
             return false
         }
 
-        public fun isNotEmpty(filterListSelectedItemTextModel: FilterListSelectedItemTextModel): Boolean {
-            return  filterListSelectedItemTextModel.category.isNotEmpty()
-                    || filterListSelectedItemTextModel.ingredients.isNotEmpty()
-                    || filterListSelectedItemTextModel.area.isNotEmpty()
+        public fun isNotEmpty(filterListSelectedItemModel: FilterListSelectedItemModel): Boolean {
+            return  filterListSelectedItemModel.category.isNotEmpty()
+                    || filterListSelectedItemModel.ingredients.isNotEmpty()
+                    || filterListSelectedItemModel.area.isNotEmpty()
         }
 
     }
