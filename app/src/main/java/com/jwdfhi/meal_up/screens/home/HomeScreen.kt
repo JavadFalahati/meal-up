@@ -21,8 +21,6 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
@@ -40,7 +38,8 @@ import com.jwdfhi.meal_up.screens.Screens
 import com.jwdfhi.meal_up.screens.home.components.HomeScreenDrawer
 import com.jwdfhi.meal_up.screens.home.components.HomeScreenSearchAndFilter
 import com.jwdfhi.meal_up.ui.theme.GreyBackgroundScreen
-import com.jwdfhi.meal_up.utils.Constant
+import com.jwdfhi.meal_up.utils.FilterListSelectedItemHelper
+import com.slaviboy.composeunits.dh
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
@@ -108,13 +107,13 @@ fun HomeScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
-            Spacer(modifier = Modifier.weight(0.3f))
+            Spacer(modifier = Modifier.height(height = 0.03.dh))
             Icon(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "Menu",
                 modifier = Modifier
                     .align(Alignment.Start)
-                    .weight(0.45f)
+                    .height(height = 0.04.dh)
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null
@@ -124,24 +123,26 @@ fun HomeScreen(
                         }
                     }
             )
-            Spacer(modifier = Modifier.weight(0.3f))
-            Box(modifier = Modifier.weight(1.0f)) {
+            Spacer(modifier = Modifier.height(height = 0.03.dh))
+            Box(modifier = Modifier.height(height = 0.085.dh)) {
                 HomeScreenSearchAndFilter(
                     viewModel = viewModel,
+                    height = 0.085.dh,
                     keyboardController = keyboardController,
                     keyboardState = keyboardState,
                     focusManager = focusManager,
+                    filterIsEnable = FilterListSelectedItemHelper.isNotEmpty(filterListSelectedItemTextModel),
                     searchState = searchState,
                     searchOnTap = { search(viewModel = viewModel, searchState = searchState) },
                     filterOnTap = {
                         navController.navigate(Screens.FilterScreen.name + "/" + Json.encodeToString(filterListSelectedItemTextModel))
-                    }
+                    },
+                    disableFilterOnTap = {}
                 )
             }
-            Spacer(modifier = Modifier.weight(0.1f))
+            Spacer(modifier = Modifier.height(height = 0.02.dh))
             Box(
                 modifier = Modifier
-                    .weight(9f)
                     .align(CenterHorizontally)
             ) {
                 Box(modifier = Modifier.align(Center)) {
