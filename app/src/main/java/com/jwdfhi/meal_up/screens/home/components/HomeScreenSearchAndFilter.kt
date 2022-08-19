@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Icon
@@ -28,16 +29,16 @@ import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.components.CustomTextField
 import com.jwdfhi.meal_up.components.keyboardAsState
 import com.jwdfhi.meal_up.models.KeyboardStatusType
 import com.jwdfhi.meal_up.screens.home.HomeViewModel
-import com.jwdfhi.meal_up.ui.theme.Black60Color
-import com.jwdfhi.meal_up.ui.theme.LightPrimaryColor
-import com.jwdfhi.meal_up.ui.theme.PrimaryColor
-import com.jwdfhi.meal_up.ui.theme.White100Color
+import com.jwdfhi.meal_up.ui.theme.*
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
@@ -46,23 +47,28 @@ import com.slaviboy.composeunits.sh
 @Composable
 fun HomeScreenSearchAndFilter(
     viewModel: HomeViewModel,
+    height: Dp,
     keyboardState: KeyboardStatusType,
     keyboardController: SoftwareKeyboardController?,
     focusManager: FocusManager,
     searchState: MutableState<String>,
     searchOnTap: (value: String) -> Unit,
-    filterOnTap: () -> Unit
+    filterIsEnable: Boolean,
+    filterOnTap: () -> Unit,
+    disableFilterOnTap: () -> Unit
 ) {
 
     val meals = viewModel.mealsDataOrException.collectAsState().value.data
 
+    val filterWidth = 0.23.dw
+
     Row(
         modifier = Modifier
-            .fillMaxSize()
+             .fillMaxSize()
     ) {
         Box(
             modifier = Modifier
-                .weight(4.0f)
+                .width(width = 0.72.dw)
                 .background(Color.Transparent)
         ) {
             CustomTextField(
@@ -130,12 +136,19 @@ fun HomeScreenSearchAndFilter(
                                     .padding(4.dp)
                                     .clip(shape = RoundedCornerShape(50.dp))
                                     .clickable {
-                                        if (searchState.value.trim().isNotEmpty()) {
+                                        if (searchState.value
+                                                .trim()
+                                                .isNotEmpty()
+                                        ) {
                                             searchState.value = ""
-                                            if (meals == null || meals.isEmpty()) { searchOnTap("") }
+                                            if (meals == null || meals.isEmpty()) {
+                                                searchOnTap("")
+                                            }
                                             return@clickable
                                         }
-                                        if (meals == null || meals.isEmpty()) { searchOnTap("") }
+                                        if (meals == null || meals.isEmpty()) {
+                                            searchOnTap("")
+                                        }
                                         keyboardController?.hide()
                                         focusManager.clearFocus()
                                     }
@@ -146,31 +159,93 @@ fun HomeScreenSearchAndFilter(
                 },
             )
         }
-        Spacer(modifier = Modifier.weight(0.2f))
+        Spacer(modifier = Modifier.width(width = 0.02.dw))
         Box(
             modifier = Modifier
-                .weight(0.7f)
-                .clip(shape = RoundedCornerShape(8.dp))
-                .background(PrimaryColor)
-                .fillMaxHeight()
-                .clickable { filterOnTap() }
-                .padding(2.dp)
+                 .width(width = filterWidth)
+                .padding(horizontal = 8.dp)
         ) {
-            Column(
-                modifier = Modifier.align(Center),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+            ConstraintLayout(
+                modifier = Modifier
+                     .width(width = filterWidth)
             ) {
-                Spacer(modifier = Modifier.weight(0.2f))
-                Image(
-                    painter = painterResource(id = R.drawable.filter_icon_1),
-                    contentDescription = "Filter",
-                    colorFilter = ColorFilter.tint(color = White100Color),
+                val (filterIcon, closeIcon) = createRefs()
+
+                Box(
                     modifier = Modifier
-                        .weight(0.5f)
-                        .align(CenterHorizontally)
-                )
-                Spacer(modifier = Modifier.weight(0.2f))
+                        .clip(shape = RoundedCornerShape(8.dp))
+                        .background(color = if (!filterIsEnable) PrimaryColor else Primary80Color)
+                        .fillMaxHeight()
+                        .clickable { filterOnTap() }
+                        .padding(2.dp)
+                        .constrainAs(filterIcon) {
+                            top.linkTo(parent.top)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                            width = Dimension.fillToConstraints
+                        }
+                ) {
+                    Column(
+                        modifier = Modifier.align(Center),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Spacer(modifier = Modifier.weight(0.2f))
+                        Image(
+                            painter = painterResource(id = R.drawable.filter_icon_1),
+                            contentDescription = "Filter",
+                            colorFilter = ColorFilter.tint(color = White100Color),
+                            modifier = Modifier
+                                .weight(0.5f)
+                                .align(CenterHorizontally)
+                        )
+                        Spacer(modifier = Modifier.weight(0.2f))
+                    }
+                }
+                if (filterIsEnable) {
+                    Box(
+                        modifier = Modifier
+                            .constrainAs(closeIcon) {
+                                bottom.linkTo(filterIcon.top)
+                                end.linkTo(filterIcon.start)
+                                top.linkTo(filterIcon.top)
+                                start.linkTo(filterIcon.start)
+                            }
+                            .padding(
+                                top = 12.dp,
+                                start = 12.dp,
+                                end = 6.dp,
+                                bottom = 6.dp,
+                            )
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(width = 0.045.dh, height = 0.045.dh)
+                                .clip(shape = CircleShape)
+                                .background(Black50Color, shape = CircleShape)
+                                .clickable { disableFilterOnTap() }
+                                .fillMaxHeight()
+                                .padding(10.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .align(Center)
+                                    .clip(shape = CircleShape)
+                                    .background(TransparentColor, shape = CircleShape),
+                                horizontalAlignment = CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.close_icon_2),
+                                    contentDescription = "Clear",
+                                    colorFilter = ColorFilter.tint(color = White100Color),
+                                    modifier = Modifier
+                                        .align(CenterHorizontally)
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }
