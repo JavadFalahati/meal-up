@@ -1,10 +1,7 @@
 package com.jwdfhi.meal_up.screens.filter
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,7 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -28,34 +24,35 @@ class FilterViewModel @Inject constructor(
     private val mealServiceRepository: MealServiceRepository
 ) : ViewModel() {
 
-    private val _initStateDataOrException =
+    private val _filtersDataOrException =
         MutableStateFlow<DataOrException<FilterListItemModel>>(
             DataOrException(status = DataOrExceptionStatus.Loading)
         )
-    val initStateDataOrException = _initStateDataOrException.asStateFlow()
-    fun initState(filterListSelectedItemTextModel: FilterListSelectedItemTextModel): Unit {
+    val filtersDataOrException = _filtersDataOrException.asStateFlow()
+    var filterListSelectedItemModel = FilterListSelectedItemModel()
+
+    fun initState(filterListSelectedItemModel: FilterListSelectedItemModel): Unit {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("getAllFilteredMeals in filter", filterListSelectedItemTextModel.toString())
 
             getCategories()
             if (_categoriesDataOrException.value.status == DataOrExceptionStatus.Failure) {
-                _initStateDataOrException.value.status = DataOrExceptionStatus.Failure
+                _filtersDataOrException.value.status = DataOrExceptionStatus.Failure
                 return@launch
             }
-            if (filterListSelectedItemTextModel.category.isNotEmpty()) {
+            if (filterListSelectedItemModel.category.isNotEmpty()) {
                 _categoriesDataOrException.value.data?.forEach {
-                    if (filterListSelectedItemTextModel.category == it.strCategory) { it.isSelected = true }
+                    if (filterListSelectedItemModel.category == it.strCategory) { it.isSelected = true }
                 }
             }
 
             getIngredients()
             if (_ingredientsDataOrException.value.status == DataOrExceptionStatus.Failure) {
-                _initStateDataOrException.value.status = DataOrExceptionStatus.Failure
+                _filtersDataOrException.value.status = DataOrExceptionStatus.Failure
                 return@launch
             }
-            if (filterListSelectedItemTextModel.ingredients.isNotEmpty()) {
+            if (filterListSelectedItemModel.ingredients.isNotEmpty()) {
                 _ingredientsDataOrException.value.data?.forEach { ingredient ->
-                    filterListSelectedItemTextModel.ingredients.forEach { selectedIngredient ->
+                    filterListSelectedItemModel.ingredients.forEach { selectedIngredient ->
                         if (ingredient.strIngredient == selectedIngredient) {
                             ingredient.isSelected = true
                         }
@@ -65,12 +62,12 @@ class FilterViewModel @Inject constructor(
 
             getAreas()
             if (_areasDataOrException.value.status == DataOrExceptionStatus.Failure) {
-                _initStateDataOrException.value.status = DataOrExceptionStatus.Failure
+                _filtersDataOrException.value.status = DataOrExceptionStatus.Failure
                 return@launch
             }
-            if (filterListSelectedItemTextModel.area.isNotEmpty()) {
+            if (filterListSelectedItemModel.area.isNotEmpty()) {
                 _areasDataOrException.value.data?.forEach {
-                    if (filterListSelectedItemTextModel.area == it.strArea) { it.isSelected = true }
+                    if (filterListSelectedItemModel.area == it.strArea) { it.isSelected = true }
                 }
             }
 
@@ -238,7 +235,9 @@ class FilterViewModel @Inject constructor(
     }
 
     private fun setInitStateValue() {
-        _initStateDataOrException.value = DataOrException(
+        filterListSelectedItemModel = getSelectedItemsFromFilters()
+
+        _filtersDataOrException.value = DataOrException(
             status = DataOrExceptionStatus.Success,
             data = FilterListItemModel(
                 categories = _categoriesDataOrException.value.data!!.toMutableStateList(),
@@ -249,43 +248,43 @@ class FilterViewModel @Inject constructor(
     }
 
     public fun submitFilter(navController: NavController) {
-        val filterListSelectedItemTextModel: FilterListSelectedItemTextModel = getSelectedItemsFromFilters()
+        val filterListSelectedItemModel: FilterListSelectedItemModel = getSelectedItemsFromFilters()
 
         navController.previousBackStackEntry
             ?.savedStateHandle
-            ?.set(Constant.FILTERS_ARGUMENT_KEY, Json.encodeToString(filterListSelectedItemTextModel))
+            ?.set(Constant.FILTERS_ARGUMENT_KEY, Json.encodeToString(filterListSelectedItemModel))
 
         navController.currentBackStackEntry
             ?.savedStateHandle
-            ?.set(Constant.FILTERS_ARGUMENT_KEY, Json.encodeToString(filterListSelectedItemTextModel))
+            ?.set(Constant.FILTERS_ARGUMENT_KEY, Json.encodeToString(filterListSelectedItemModel))
 
         navController.popBackStack()
     }
 
-    private fun getSelectedItemsFromFilters(): FilterListSelectedItemTextModel {
-        val filterListSelectedItemTextModel: FilterListSelectedItemTextModel = FilterListSelectedItemTextModel()
+    private fun getSelectedItemsFromFilters(): FilterListSelectedItemModel {
+        val filterListSelectedItemModel: FilterListSelectedItemModel = FilterListSelectedItemModel()
 
         _categoriesDataOrException.value.data?.forEach {
             if (it.isSelected) {
-                filterListSelectedItemTextModel.category = it.strCategory
+                filterListSelectedItemModel.category = it.strCategory
                 return@forEach
             }
         }
 
         _ingredientsDataOrException.value.data?.forEach {
             if (it.isSelected) {
-                filterListSelectedItemTextModel.ingredients.add(it.strIngredient)
+                filterListSelectedItemModel.ingredients.add(it.strIngredient)
             }
         }
 
         _areasDataOrException.value.data?.forEach {
             if (it.isSelected) {
-                filterListSelectedItemTextModel.area = it.strArea
+                filterListSelectedItemModel.area = it.strArea
                 return@forEach
             }
         }
 
-        return filterListSelectedItemTextModel
+        return filterListSelectedItemModel
     }
 
 }
