@@ -1,18 +1,12 @@
 package com.jwdfhi.meal_up.screens.home.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
@@ -23,8 +17,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -35,13 +27,11 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.components.CustomTextField
-import com.jwdfhi.meal_up.components.keyboardAsState
 import com.jwdfhi.meal_up.models.KeyboardStatusType
 import com.jwdfhi.meal_up.screens.home.HomeViewModel
 import com.jwdfhi.meal_up.ui.theme.*
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
-import com.slaviboy.composeunits.sh
 
 @ExperimentalComposeUiApi
 @Composable
@@ -53,13 +43,11 @@ fun HomeScreenSearchAndFilter(
     focusManager: FocusManager,
     searchState: MutableState<String>,
     searchOnTap: (value: String) -> Unit,
+    clearSearchOnTap: () -> Unit,
     filterIsEnable: Boolean,
     filterOnTap: () -> Unit,
-    disableFilterOnTap: () -> Unit
+    clearFilterOnTap: () -> Unit
 ) {
-
-    val meals = viewModel.mealsDataOrException.collectAsState().value.data
-
     val filterWidth = 0.23.dw
 
     Row(
@@ -135,23 +123,7 @@ fun HomeScreenSearchAndFilter(
                                     .align(CenterHorizontally)
                                     .padding(4.dp)
                                     .clip(shape = RoundedCornerShape(50.dp))
-                                    .clickable {
-                                        if (searchState.value
-                                                .trim()
-                                                .isNotEmpty()
-                                        ) {
-                                            searchState.value = ""
-                                            if (meals == null || meals.isEmpty()) {
-                                                searchOnTap("")
-                                            }
-                                            return@clickable
-                                        }
-                                        if (meals == null || meals.isEmpty()) {
-                                            searchOnTap("")
-                                        }
-                                        keyboardController?.hide()
-                                        focusManager.clearFocus()
-                                    }
+                                    .clickable { clearSearchOnTap() }
                             )
                             Spacer(modifier = Modifier.weight(0.2f))
                         }
@@ -222,8 +194,8 @@ fun HomeScreenSearchAndFilter(
                             modifier = Modifier
                                 .size(width = 0.045.dh, height = 0.045.dh)
                                 .clip(shape = CircleShape)
-                                .background(Black50Color, shape = CircleShape)
-                                .clickable { disableFilterOnTap() }
+                                .background(Red80Color, shape = CircleShape)
+                                .clickable { clearFilterOnTap() }
                                 .fillMaxHeight()
                                 .padding(10.dp)
                         ) {
