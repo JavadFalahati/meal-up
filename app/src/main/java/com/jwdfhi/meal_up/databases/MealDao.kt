@@ -3,51 +3,31 @@ package com.jwdfhi.meal_up.databases
 import androidx.room.*
 import com.jwdfhi.meal_up.models.LikedMealModel
 import com.jwdfhi.meal_up.models.MarkedMealModel
+import com.jwdfhi.meal_up.models.MealModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MealDao {
 
     /**
-    * liked_meal_table
+    * meal_table
     */
-    @Query("SELECT * FROM liked_meal_table")
-    fun getLikedMeals(): Flow<List<LikedMealModel>>
+    @Query("SELECT * FROM meal_table")
+    fun getMeals(): Flow<List<MealModel>>
 
-    @Query("SELECT * FROM liked_meal_table where idMeal =:id")
-    suspend fun getLikedMealById(id: String): LikedMealModel
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLikedMeal(likedMealModel: LikedMealModel)
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateLikedMeal(likedMealModel: LikedMealModel)
-
-    @Delete()
-    suspend fun deleteLikedMeal(likedMealModel: LikedMealModel)
-
-    @Query("DELETE from liked_meal_table")
-    suspend fun deleteAllLikedMeals()
-
-    /**
-     * marked_meal_table
-     */
-    @Query("SELECT * FROM marked_meal_table")
-    fun getMarkedMeals(): Flow<List<MarkedMealModel>>
-
-    @Query("SELECT * FROM marked_meal_table where idMeal =:id")
-    suspend fun getMarkedMealById(id: String): MarkedMealModel
+    @Query("SELECT * FROM meal_table where idMeal =:id")
+    suspend fun getMealById(id: String): MealModel?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMarkedMeal(markedMealModel: MarkedMealModel)
+    suspend fun insertMeal(mealModel: MealModel)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateMarkedMeal(markedMealModel: MarkedMealModel)
+    suspend fun updateMeal(mealModel: MealModel)
 
     @Delete()
-    suspend fun deleteMarkedMeal(markedMealModel: MarkedMealModel)
+    suspend fun deleteMeal(mealModel: MealModel)
 
-    @Query("DELETE from marked_meal_table")
-    suspend fun deleteAllMarkedMeals()
+    @Query("DELETE from meal_table")
+    suspend fun deleteAllMeals()
 
 }
