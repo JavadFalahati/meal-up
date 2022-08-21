@@ -22,16 +22,9 @@ import javax.inject.Inject
 class FilterViewModel @Inject constructor(
     public val context: Context,
     private val mealServiceRepository: MealServiceRepository
-) : ViewModel() {
+) : ViewModel(), CustomViewModel<FilterListSelectedItemModel> {
 
-    private val _filtersDataOrException =
-        MutableStateFlow<DataOrException<FilterListItemModel>>(
-            DataOrException(status = DataOrExceptionStatus.Loading)
-        )
-    val filtersDataOrException = _filtersDataOrException.asStateFlow()
-    var filterListSelectedItemModel = FilterListSelectedItemModel()
-
-    fun initState(filterListSelectedItemModel: FilterListSelectedItemModel): Unit {
+    override fun initState(filterListSelectedItemModel: FilterListSelectedItemModel) {
         viewModelScope.launch(Dispatchers.IO) {
 
             getCategories()
@@ -74,6 +67,17 @@ class FilterViewModel @Inject constructor(
             setInitStateValue()
         }
     }
+
+    override fun onBackPressed(navController: NavController) {
+        TODO("Not yet implemented")
+    }
+
+    private val _filtersDataOrException =
+        MutableStateFlow<DataOrException<FilterListItemModel>>(
+            DataOrException(status = DataOrExceptionStatus.Loading)
+        )
+    val filtersDataOrException = _filtersDataOrException.asStateFlow()
+    var filterListSelectedItemModel = FilterListSelectedItemModel()
 
     private val _categoriesDataOrException =
         MutableStateFlow<DataOrException<MutableList<MealCategoryListServiceModel.Category>>>(

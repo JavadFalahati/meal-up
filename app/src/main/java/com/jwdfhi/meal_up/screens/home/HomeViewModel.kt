@@ -2,14 +2,12 @@ package com.jwdfhi.meal_up.screens.home
 
 import android.content.Context
 import android.os.CountDownTimer
-import android.util.Log
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.jwdfhi.meal_up.models.*
 import com.jwdfhi.meal_up.repositories.MealDatabaseRepository
 import com.jwdfhi.meal_up.repositories.MealServiceRepository
-import com.jwdfhi.meal_up.ui.theme.TransparentColor
 import com.jwdfhi.meal_up.utils.FilterListSelectedItemHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +22,25 @@ class HomeViewModel @Inject constructor(
     public val context: Context,
     private val mealServiceRepository: MealServiceRepository,
     private val mealDatabaseRepository: MealDatabaseRepository
-) : ViewModel() {
+) : ViewModel(), CustomViewModel<FilterListSelectedItemModel> {
+
+    override fun initState(filterListSelectedItemModel: FilterListSelectedItemModel) {
+        this.filterListSelectedItemModel = filterListSelectedItemModel
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            if (FilterListSelectedItemHelper.isNotEmpty(filterListSelectedItemModel)) {
+                getAllFilteredMeals(filterListSelectedItemModel)
+            }
+            else { getRandomMeals() }
+
+        }
+
+    }
+
+    override fun onBackPressed(navController: NavController) {
+        TODO("Not yet implemented")
+    }
 
     private val onBackPressedTimer = object: CountDownTimer(3000, 1000) {
         override fun onTick(millisUntilFinished: Long) {}
@@ -42,38 +58,17 @@ class HomeViewModel @Inject constructor(
             )
     val mealsDataOrException = _mealsDataOrException.asStateFlow()
 
-    private val _likedMealList = MutableStateFlow<List<LikedMealModel>>(emptyList())
-    val likedMealList = _likedMealList.asStateFlow()
-
-    private val _markedMealList = MutableStateFlow<List<MarkedMealModel>>(emptyList())
-    val markedMealList = _markedMealList.asStateFlow()
+    private val _storedMealList = MutableStateFlow<List<MealModel>>(emptyList())
+    val storedMealList = _storedMealList.asStateFlow()
 
     var filterListSelectedItemModel = FilterListSelectedItemModel()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            mealDatabaseRepository.getLikedMeals().distinctUntilChanged().collect {
-                _likedMealList.value = it
-            }
-
-            mealDatabaseRepository.getMarkedMeals().distinctUntilChanged().collect {
-                _markedMealList.value = it
+            mealDatabaseRepository.getMeals().distinctUntilChanged().collect {
+                _storedMealList.value = it
             }
         }
-    }
-
-    fun initState(filterListSelectedItemModel: FilterListSelectedItemModel): Unit {
-        this.filterListSelectedItemModel = filterListSelectedItemModel
-
-        viewModelScope.launch(Dispatchers.IO) {
-
-            if (FilterListSelectedItemHelper.isNotEmpty(filterListSelectedItemModel)) {
-                getAllFilteredMeals(filterListSelectedItemModel)
-            }
-            else { getRandomMeals() }
-
-        }
-
     }
 
     private suspend fun getRandomMeals(): Unit {
@@ -415,7 +410,7 @@ class HomeViewModel @Inject constructor(
     private fun checkDataMealsWithMarkedMeals(
         filteredMealModelList: MutableList<FilteredMealModel>
     ): MutableList<FilteredMealModel> {
-        _markedMealList.value.forEach { markedMeal ->
+        _storedMealList.value.forEach { markedMeal ->
             filteredMealModelList.forEach { filteredMeal ->
 
                 if (markedMeal.idMeal == filteredMeal.idMeal) {
@@ -433,7 +428,7 @@ class HomeViewModel @Inject constructor(
     private fun checkDataMealsWithLikedMeals(
         filteredMealModelList: MutableList<FilteredMealModel>
     ): MutableList<FilteredMealModel> {
-        _likedMealList.value.forEach { markedMeal ->
+        _storedMealList.value.forEach { markedMeal ->
             filteredMealModelList.forEach { filteredMeal ->
 
                 if (markedMeal.idMeal == filteredMeal.idMeal) {
