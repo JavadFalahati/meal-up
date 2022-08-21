@@ -34,7 +34,7 @@ class MealServiceRepository @Inject constructor(private val mealService: MealSer
         return DataOrException(data = response)
     }
 
-    suspend fun getMealDetail(id: String): DataOrException<MealDetailServiceModel> {
+    suspend fun getMealDetail(id: String): DataOrException<MealModel> {
         val response = try {
             mealService.getMealDetail(id = id)
         } catch(exception: Exception) {
