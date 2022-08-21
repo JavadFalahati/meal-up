@@ -3,6 +3,7 @@ package com.jwdfhi.meal_up.repositories
 import com.jwdfhi.meal_up.databases.MealDao
 import com.jwdfhi.meal_up.models.LikedMealModel
 import com.jwdfhi.meal_up.models.MarkedMealModel
+import com.jwdfhi.meal_up.models.MealModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -11,30 +12,15 @@ class MealDatabaseRepository @Inject constructor(private val mealDao: MealDao) {
     /**
     * liked_meal_repository
     */
-    fun getLikedMeals(): Flow<List<LikedMealModel>> = mealDao.getLikedMeals()
+    fun getMeals(): Flow<List<MealModel>> = mealDao.getMeals()
 
-    suspend fun getLikedMealById(id: String): LikedMealModel = mealDao.getLikedMealById(id = id)
+    suspend fun getMealById(id: String): MealModel? = mealDao.getMealById(id = id)
 
-    suspend fun insertLikedMeal(likedMealModel: LikedMealModel) = mealDao.insertLikedMeal(likedMealModel = likedMealModel)
+    suspend fun insertMeal(mealModel: MealModel) = mealDao.insertMeal(mealModel = mealModel)
 
-    suspend fun updateLikedMeal(likedMealModel: LikedMealModel) = mealDao.updateLikedMeal(likedMealModel = likedMealModel)
+    suspend fun updateMeal(mealModel: MealModel) = mealDao.updateMeal(mealModel = mealModel)
 
-    suspend fun deleteLikedMeal(likedMealModel: LikedMealModel) = mealDao.deleteLikedMeal(likedMealModel = likedMealModel)
+    suspend fun deleteMeal(mealModel: MealModel) = mealDao.deleteMeal(mealModel = mealModel)
 
-    suspend fun deleteAllLikedMeals() = mealDao.deleteAllLikedMeals()
-
-    /**
-     * marked_meal_repository
-     */
-    fun getMarkedMeals(): Flow<List<MarkedMealModel>> = mealDao.getMarkedMeals()
-
-    suspend fun getMarkedMealById(id: String): MarkedMealModel = mealDao.getMarkedMealById(id = id)
-
-    suspend fun insertMarkedMeal(markedMealModel: MarkedMealModel) = mealDao.insertMarkedMeal(markedMealModel = markedMealModel)
-
-    suspend fun updateMarkedMeal(markedMealModel: MarkedMealModel) = mealDao.updateMarkedMeal(markedMealModel = markedMealModel)
-
-    suspend fun deleteMarkedMeal(markedMealModel: MarkedMealModel) = mealDao.deleteMarkedMeal(markedMealModel = markedMealModel)
-
-    suspend fun deleteAllMarkedMeals() = mealDao.deleteAllMarkedMeals()
+    suspend fun deleteAllMeals() = mealDao.deleteAllMeals()
 }
