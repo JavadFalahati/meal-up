@@ -1,5 +1,6 @@
 package com.jwdfhi.meal_up.repositories
 
+import android.util.Log
 import com.jwdfhi.meal_up.models.*
 import com.jwdfhi.meal_up.services.MealService
 import javax.inject.Inject
@@ -44,7 +45,7 @@ class MealServiceRepository @Inject constructor(private val mealService: MealSer
             )
         }
 
-        return DataOrException(data = response)
+        return DataOrException(data = response.meals.first())
     }
 
     suspend fun getMealCategoryList(): DataOrException<MealCategoryListServiceModel> {
