@@ -27,7 +27,18 @@ val Black20Color = Color(0xD3BEBEBE)
 val White100Color = Color(0xD3FFFFFF)
 val White80Color = Color(0xD3E0E0E0)
 val White60Color = Color(0xD3A7A7A7)
+val White50Color = Color(0xD3858585)
 
 val Red100Color = Color(0xD3FF371D)
 val Red80Color = Color(0xD3FF4747)
 val Red60Color = Color(0xD3FF5A5A)
+
+val Blue60Color = Color(0xD35E88F0)
+
+val Cyan60Color = Color(0xD35EC2F0)
+
+val Green60Color = Color(0xD35EF076)
+
+val Yellow60Color = Color(0xD3EBF05E)
+
+val Orange60Color = Color(0xD3F0985E)
