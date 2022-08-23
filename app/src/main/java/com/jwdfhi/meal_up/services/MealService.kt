@@ -22,7 +22,7 @@ interface MealService {
     @GET("lookup.php")
     suspend fun getMealDetail(
         @Query("i") id: String
-    ): MealModel
+    ): MealDetailServiceModel
 
     //  www.themealdb.com/api/json/v1/1/categories.php
     @GET("categories.php")
