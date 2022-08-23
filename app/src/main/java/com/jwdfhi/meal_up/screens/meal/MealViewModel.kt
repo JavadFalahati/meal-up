@@ -40,10 +40,11 @@ class MealViewModel @Inject constructor(
         val storedMeal = getMealFromDatabase(id)
 
         _mealDataOrException.value =
-            if (networkMealDataOrException.status == DataOrExceptionStatus.Success && storedMeal != null)
+            if (networkMealDataOrException.status != DataOrExceptionStatus.Failure && storedMeal != null)
                 DataOrException(data = storedMeal, status = DataOrExceptionStatus.Success)
             else
-                networkMealDataOrException
+                DataOrException(data = networkMealDataOrException.data, status = DataOrExceptionStatus.Success)
+
     }
 
     fun likeMeal(mealModel: MealModel) = checkMealIsExitThenUpsert(mealModel)
