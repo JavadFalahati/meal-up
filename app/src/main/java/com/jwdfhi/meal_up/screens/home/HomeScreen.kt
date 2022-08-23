@@ -219,7 +219,7 @@ fun HomeScreen(
                                                 MealItem(
                                                     onTap = {
                                                         navController.navigate(
-                                                            route = Screens.FilterScreen.name
+                                                            route = Screens.MealScreen.name
                                                                     + "/" +
                                                                     item.idMeal
                                                         )
