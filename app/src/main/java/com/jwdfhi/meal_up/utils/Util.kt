@@ -16,3 +16,12 @@ fun deviceHaveConnection(context: Context): Boolean {
 
     return false
 }
+
+public fun String?.isNullOrEmptyOfServer(): Boolean {
+    if (this == null) { return true }
+    if (this.isEmpty()) { return true }
+    if (this == "null") { return true }
+    if (this == "Null") { return true }
+
+    return false
+}
