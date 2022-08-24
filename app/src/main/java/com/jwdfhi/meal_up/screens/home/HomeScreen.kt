@@ -193,7 +193,7 @@ fun HomeScreen(
                     when (viewModel.mealsDataOrException.collectAsState().value.status) {
                         DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.Linear, title = "")
                         DataOrExceptionStatus.Failure -> CustomError(
-                            title = viewModel.mealsDataOrException.collectAsState().value.exception!!.message!!,
+                            title = "Error accrued while connecting to server",
                             tryAgainOnTap = { search(viewModel, searchState) }
                         )
                         DataOrExceptionStatus.Success -> {
