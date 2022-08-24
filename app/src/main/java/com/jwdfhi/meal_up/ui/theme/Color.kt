@@ -16,29 +16,29 @@ val GreyBackgroundScreen = Color(0xFFECECEC)
 
 val TransparentColor = Color.Transparent
 
-val Black90Color = Color(0xD31D1D1D)
-val Black80Color = Color(0xD3303030)
-val Black60Color = Color(0xD3666666)
-val Black50Color = Color(0xD3868686)
-val Black40Color = Color(0xD3999999)
-val Black30Color = Color(0xD3ADADAD)
-val Black20Color = Color(0xD3BEBEBE)
+val Black90Color = Color(0xFF1D1D1D)
+val Black80Color = Color(0xFF303030)
+val Black60Color = Color(0xFF666666)
+val Black50Color = Color(0xFF868686)
+val Black40Color = Color(0xFF999999)
+val Black30Color = Color(0xFFADADAD)
+val Black20Color = Color(0xFFBEBEBE)
 
-val White100Color = Color(0xD3FFFFFF)
-val White80Color = Color(0xD3E0E0E0)
-val White60Color = Color(0xD3A7A7A7)
-val White50Color = Color(0xD3858585)
+val White100Color = Color(0xFFFFFFFF)
+val White80Color = Color(0xFFE0E0E0)
+val White60Color = Color(0xFFA7A7A7)
+val White50Color = Color(0xFF858585)
 
-val Red100Color = Color(0xD3FF371D)
-val Red80Color = Color(0xD3FF4747)
-val Red60Color = Color(0xD3FF5A5A)
+val Red100Color = Color(0xFFFF371D)
+val Red80Color = Color(0xFFFF4747)
+val Red60Color = Color(0xFFFF5A5A)
 
-val Blue60Color = Color(0xD35E88F0)
+val Blue60Color = Color(0xFF5E88F0)
 
-val Cyan60Color = Color(0xD35EC2F0)
+val Cyan60Color = Color(0xFF5EC2F0)
 
-val Green60Color = Color(0xD35EF076)
+val Green60Color = Color(0xFF5EF076)
 
-val Yellow60Color = Color(0xD3EBF05E)
+val Yellow60Color = Color(0xFFEBF05E)
 
-val Orange60Color = Color(0xD3F0985E)
+val Orange60Color = Color(0xFFF0985E)
