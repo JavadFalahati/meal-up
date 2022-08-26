@@ -31,7 +31,7 @@ import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
 
 @Composable
-fun FilterAppbar(
+fun FilterScreenAppbar(
     navController: NavController,
     margin: Dp = 0.dp,
     onClear: () -> Unit,
