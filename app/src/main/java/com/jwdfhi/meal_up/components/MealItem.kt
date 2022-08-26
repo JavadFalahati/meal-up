@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -22,6 +23,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import coil.compose.rememberAsyncImagePainter
 import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.models.FilteredMealModel
@@ -34,8 +37,9 @@ import com.slaviboy.composeunits.sh
 fun MealItem(
     expanded: Boolean = false,
     onTap: () -> Unit,
+    likeOnTap: () -> Unit,
     item: FilteredMealModel,
-    height: Dp = 0.165.dh,
+    height: Dp = 0.17.dh,
     margin: Dp = 8.dp,
     padding: Dp = 8.dp,
     backgroundColor: androidx.compose.ui.graphics.Color = Color.White,
@@ -58,15 +62,57 @@ fun MealItem(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = rememberAsyncImagePainter(item.strMealThumb),
-                contentDescription = "Meal",
-                contentScale = ContentScale.Crop,
+            ConstraintLayout(
                 modifier = Modifier
+                    .fillMaxHeight()
                     .width(0.35.dw)
-                    .clip(shape = RoundedCornerShape(borderRadius))
-                    .align(CenterVertically)
-            )
+
+            ) {
+                val (backgroundImage, likeIcon) = createRefs()
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .constrainAs(backgroundImage) {
+                            top.linkTo(parent.top)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                            width = Dimension.fillToConstraints
+                        }
+                ) {
+                    Image(
+                        painter = rememberAsyncImagePainter(item.strMealThumb),
+                        contentDescription = "Meal",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .width(0.35.dw)
+                            .clip(shape = RoundedCornerShape(borderRadius))
+                            // .align(CenterVertically)
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .constrainAs(likeIcon) {
+                            // bottom.linkTo(backgroundImage.top)
+                            // end.linkTo(backgroundImage.start)
+                            top.linkTo(backgroundImage.top)
+                            start.linkTo(backgroundImage.start)
+                        }
+                        .padding(
+                            top = 6.dp,
+                            start = 6.dp,
+                            end = 6.dp,
+                            bottom = 6.dp,
+                        )
+                ) {
+                    CustomLikeIcon(
+                        isLiked = item.isLiked,
+                        onTap = { likeOnTap() },
+                        height = 0.04.dh,
+                        iconPadding = 6.dp,
+                    )
+                }
+            }
             Spacer(modifier = Modifier.width(0.05.dw))
             Column(
                 modifier = Modifier
@@ -88,7 +134,7 @@ fun MealItem(
                         modifier = Modifier
                             .align(Alignment.End)
                             .clip(shape = RoundedCornerShape(6.dp))
-                            .background(Black20Color)
+                            .background(Black20Color.copy(0.5f))
                             .padding(vertical = 4.dp, horizontal = 7.dp)
                     ) {
                         Row() {
@@ -96,7 +142,7 @@ fun MealItem(
                                 painter = painterResource(id = R.drawable.fill_mark_icon_2),
                                 contentDescription = "Mark",
                                 colorFilter = ColorFilter.tint(
-                                    color = if (item.markColor.isNotEmpty()) Color(item.markColor.toInt()) else Black80Color
+                                    color = if (Color(item.markColor.toInt()) == White100Color) Color(item.markColor.toInt()) else Black80Color
                                 ),
                                 modifier = Modifier
                                     .height(0.023.dh)
