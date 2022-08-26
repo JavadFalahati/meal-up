@@ -22,7 +22,7 @@ class MealViewModel @Inject constructor(
     public val context: Context,
     private val mealDatabaseRepository: MealDatabaseRepository,
     private val mealServiceRepository: MealServiceRepository
-) : ViewModel(), CustomViewModel<String, Nothing> {
+) : ViewModel(), CustomViewModel<String, Nothing, Nothing> {
 
     override fun initState(id: String) {
         viewModelScope.launch(Dispatchers.IO) { getMeal(id) }
