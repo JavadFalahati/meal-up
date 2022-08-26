@@ -17,6 +17,7 @@ import com.jwdfhi.meal_up.screens.home.HomeScreen
 import com.jwdfhi.meal_up.screens.home.HomeViewModel
 import com.jwdfhi.meal_up.screens.introduction.IntroductionScreen
 import com.jwdfhi.meal_up.screens.like.LikeScreen
+import com.jwdfhi.meal_up.screens.like.LikeViewModel
 import com.jwdfhi.meal_up.screens.management.ManagementScreen
 import com.jwdfhi.meal_up.screens.mark.MarkScreen
 import com.jwdfhi.meal_up.screens.meal.MealScreen
@@ -140,8 +141,11 @@ fun MealUpNavigation() {
             composable(
                 route = Screens.LikeScreen.name
             ) {
+                val likeViewModel = hiltViewModel<LikeViewModel>()
+
                 LikeScreen(
                     navController = navController,
+                    viewModel = likeViewModel
                 )
             }
 
