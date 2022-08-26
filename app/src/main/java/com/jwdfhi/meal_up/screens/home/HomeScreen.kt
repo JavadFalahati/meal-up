@@ -35,7 +35,7 @@ import com.jwdfhi.meal_up.models.FilterListSelectedItemModel
 import com.jwdfhi.meal_up.models.KeyboardStatusType
 import com.jwdfhi.meal_up.models.LoadingType
 import com.jwdfhi.meal_up.screens.Screens
-import com.jwdfhi.meal_up.screens.home.components.HomeScreenDrawer
+import com.jwdfhi.meal_up.screens.home.components.CustomDrawer
 import com.jwdfhi.meal_up.screens.home.components.HomeScreenSearchAndFilter
 import com.jwdfhi.meal_up.ui.theme.GreyBackgroundScreen
 import com.jwdfhi.meal_up.utils.Constant
@@ -59,15 +59,6 @@ fun HomeScreen(
         mutableStateOf(viewModel.filterListSelectedItemModel.isNotEmpty())
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.initState(
-            filterListSelectedItemModel = filterListSelectedItemModelShouldNotUse,
-            refresh = true
-        )
-
-        filterIsNotEmptyState.value = viewModel.filterListSelectedItemModel.isNotEmpty()
-    }
-
     val scope = rememberCoroutineScope()
 
     val scaffoldState = rememberScaffoldState()
@@ -76,6 +67,16 @@ fun HomeScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val keyboardState by keyboardAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.initState(
+            filterListSelectedItemModel = filterListSelectedItemModelShouldNotUse,
+            refresh = true,
+            searchValue = searchState.value
+        )
+
+        filterIsNotEmptyState.value = viewModel.filterListSelectedItemModel.isNotEmpty()
+    }
 
     CustomBackPressHandler(onBackPressed = {
         onBackPressed(
@@ -92,8 +93,9 @@ fun HomeScreen(
             .background(GreyBackgroundScreen),
         scaffoldState = scaffoldState,
         drawerContent = {
-            HomeScreenDrawer(
+            CustomDrawer(
                 navController = navController,
+                screenName = Screens.HomeScreen.name,
                 onCloseDrawer = {
                     scope.launch(Dispatchers.Main) {
                         scaffoldState.drawerState.close()
@@ -138,7 +140,6 @@ fun HomeScreen(
                 val mealsLoading: Boolean = (viewModel.mealsDataOrException.collectAsState().value.status == DataOrExceptionStatus.Loading)
 
                 HomeScreenSearchAndFilter(
-                    viewModel = viewModel,
                     height = 0.085.dh,
                     keyboardController = keyboardController,
                     keyboardState = keyboardState,
@@ -250,7 +251,7 @@ private fun search(
     searchState: MutableState<String>,
 ) {
     viewModel.viewModelScope.launch(Dispatchers.IO) {
-        viewModel.getMealByName(
+        viewModel.searchMealByName(
             filterListSelectedItemModel = viewModel.filterListSelectedItemModel,
             name = searchState.value
         )
