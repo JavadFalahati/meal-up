@@ -33,6 +33,7 @@ val Red100Color = Color(0xFFFF371D)
 val Red80Color = Color(0xFFFF4747)
 val Red60Color = Color(0xFFFF5A5A)
 
+val Blue90Color = Color(0xFF2853F0)
 val Blue60Color = Color(0xFF5E88F0)
 
 val Cyan60Color = Color(0xFF5EC2F0)
