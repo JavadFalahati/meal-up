@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jwdfhi.meal_up.components.*
 import com.jwdfhi.meal_up.models.*
-import com.jwdfhi.meal_up.screens.filter.components.FilterAppbar
+import com.jwdfhi.meal_up.screens.filter.components.FilterScreenAppbar
 import com.jwdfhi.meal_up.screens.filter.components.FilterItem
 import com.jwdfhi.meal_up.ui.theme.GreyBackgroundScreen
 import com.jwdfhi.meal_up.ui.theme.White100Color
@@ -72,7 +72,7 @@ fun FilterScreen(
                                     .fillMaxWidth()
                                     // .height(height = 0.12.dh)
                             ) {
-                                FilterAppbar(
+                                FilterScreenAppbar(
                                     navController = navController,
                                     onClear = { viewModel.clearScreenState() }
                                 )
