@@ -20,7 +20,7 @@ class MealDatabaseRepository @Inject constructor(private val mealDao: MealDao) {
 
     suspend fun updateMeal(mealModel: MealModel) = mealDao.updateMeal(mealModel = mealModel)
 
-    suspend fun deleteMeal(mealModel: MealModel) = mealDao.deleteMeal(mealModel = mealModel)
+    suspend fun deleteMeal(id: String) = mealDao.deleteMeal(id = id)
 
     suspend fun deleteAllMeals() = mealDao.deleteAllMeals()
 }

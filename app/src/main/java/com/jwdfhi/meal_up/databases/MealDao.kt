@@ -24,8 +24,8 @@ interface MealDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateMeal(mealModel: MealModel)
 
-    @Delete()
-    suspend fun deleteMeal(mealModel: MealModel)
+    @Query("DELETE FROM MEAL_TABLE where idMeal =:id")
+    suspend fun deleteMeal(id: String)
 
     @Query("DELETE from meal_table")
     suspend fun deleteAllMeals()
