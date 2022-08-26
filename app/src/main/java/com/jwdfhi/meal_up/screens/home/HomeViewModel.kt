@@ -2,9 +2,7 @@ package com.jwdfhi.meal_up.screens.home
 
 import android.content.Context
 import android.os.CountDownTimer
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -25,9 +23,13 @@ class HomeViewModel @Inject constructor(
     public val context: Context,
     private val mealServiceRepository: MealServiceRepository,
     private val mealDatabaseRepository: MealDatabaseRepository
-) : ViewModel(), CustomViewModel<FilterListSelectedItemModel, Boolean> {
+) : ViewModel(), CustomViewModel<FilterListSelectedItemModel, Boolean, String> {
 
-    override fun initState(filterListSelectedItemModel: FilterListSelectedItemModel, refresh: Boolean) {
+    override fun initState(
+        filterListSelectedItemModel: FilterListSelectedItemModel,
+        refresh: Boolean,
+        searchValue: String
+    ) {
         this.filterListSelectedItemModel = filterListSelectedItemModel
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -43,6 +45,13 @@ class HomeViewModel @Inject constructor(
                         getAllFilteredMeals(filterListSelectedItemModel)
                     }
                     else { getRandomMeals() }
+
+                    if (searchValue.isNotEmpty()) {
+                        searchMealByName(
+                            filterListSelectedItemModel,
+                            searchValue
+                        )
+                    }
                 }
             }
 
@@ -166,7 +175,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    suspend fun getMealByName(
+    suspend fun searchMealByName(
         filterListSelectedItemModel: FilterListSelectedItemModel,
         name: String
     ): Unit {
