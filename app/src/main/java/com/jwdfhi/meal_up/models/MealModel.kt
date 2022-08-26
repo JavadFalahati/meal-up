@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.jwdfhi.meal_up.ui.theme.White100Color
 
 @Entity(tableName = "meal_table")
 data class MealModel(
@@ -20,10 +21,10 @@ data class MealModel(
     var isMarked: Boolean = false,
 
     @ColumnInfo
-    var markName: String = "",
+    var markName: String? = "",
 
     @ColumnInfo
-    var markColor: String = "",
+    var markColor: Int = White100Color.value.toInt(),
 
     @ColumnInfo
     val strArea: String,
@@ -41,64 +42,64 @@ data class MealModel(
     val strImageSource: String?,
 
     @ColumnInfo
-    val strIngredient1: String,
+    val strIngredient1: String?,
 
     @ColumnInfo
-    val strIngredient10: String,
+    val strIngredient10: String?,
 
     @ColumnInfo
-    val strIngredient11: String,
+    val strIngredient11: String?,
 
     @ColumnInfo
-    val strIngredient12: String,
+    val strIngredient12: String?,
 
     @ColumnInfo
-    val strIngredient13: String,
+    val strIngredient13: String?,
 
     @ColumnInfo
-    val strIngredient14: String,
+    val strIngredient14: String?,
 
     @ColumnInfo
-    val strIngredient15: String,
+    val strIngredient15: String?,
 
     @ColumnInfo
-    val strIngredient16: String,
+    val strIngredient16: String?,
 
     @ColumnInfo
-    val strIngredient17: String,
+    val strIngredient17: String?,
 
     @ColumnInfo
-    val strIngredient18: String,
+    val strIngredient18: String?,
 
     @ColumnInfo
-    val strIngredient19: String,
+    val strIngredient19: String?,
 
     @ColumnInfo
-    val strIngredient2: String,
+    val strIngredient2: String?,
 
     @ColumnInfo
-    val strIngredient20: String,
+    val strIngredient20: String?,
 
     @ColumnInfo
-    val strIngredient3: String,
+    val strIngredient3: String?,
 
     @ColumnInfo
-    val strIngredient4: String,
+    val strIngredient4: String?,
 
     @ColumnInfo
-    val strIngredient5: String,
+    val strIngredient5: String?,
 
     @ColumnInfo
-    val strIngredient6: String,
+    val strIngredient6: String?,
 
     @ColumnInfo
-    val strIngredient7: String,
+    val strIngredient7: String?,
 
     @ColumnInfo
-    val strIngredient8: String,
+    val strIngredient8: String?,
 
     @ColumnInfo
-    val strIngredient9: String,
+    val strIngredient9: String?,
 
     @ColumnInfo
     val strInstructions: String,
@@ -110,70 +111,70 @@ data class MealModel(
     val strMealThumb: String,
 
     @ColumnInfo
-    val strMeasure1: String,
+    val strMeasure1: String?,
 
     @ColumnInfo
-    val strMeasure10: String,
+    val strMeasure10: String?,
 
     @ColumnInfo
-    val strMeasure11: String,
+    val strMeasure11: String?,
 
     @ColumnInfo
-    val strMeasure12: String,
+    val strMeasure12: String?,
 
     @ColumnInfo
-    val strMeasure13: String,
+    val strMeasure13: String?,
 
     @ColumnInfo
-    val strMeasure14: String,
+    val strMeasure14: String?,
 
     @ColumnInfo
-    val strMeasure15: String,
+    val strMeasure15: String?,
 
     @ColumnInfo
-    val strMeasure16: String,
+    val strMeasure16: String?,
 
     @ColumnInfo
-    val strMeasure17: String,
+    val strMeasure17: String?,
 
     @ColumnInfo
-    val strMeasure18: String,
+    val strMeasure18: String?,
 
     @ColumnInfo
-    val strMeasure19: String,
+    val strMeasure19: String?,
 
     @ColumnInfo
-    val strMeasure2: String,
+    val strMeasure2: String?,
 
     @ColumnInfo
-    val strMeasure20: String,
+    val strMeasure20: String?,
 
     @ColumnInfo
-    val strMeasure3: String,
+    val strMeasure3: String?,
 
     @ColumnInfo
-    val strMeasure4: String,
+    val strMeasure4: String?,
 
     @ColumnInfo
-    val strMeasure5: String,
+    val strMeasure5: String?,
 
     @ColumnInfo
-    val strMeasure6: String,
+    val strMeasure6: String?,
 
     @ColumnInfo
-    val strMeasure7: String,
+    val strMeasure7: String?,
 
     @ColumnInfo
-    val strMeasure8: String,
+    val strMeasure8: String?,
 
     @ColumnInfo
-    val strMeasure9: String,
+    val strMeasure9: String?,
 
     @ColumnInfo
     val strSource: String,
 
     @ColumnInfo
-    val strTags: String,
+    val strTags: String?,
 
     @ColumnInfo
     val dateModified: String?,
