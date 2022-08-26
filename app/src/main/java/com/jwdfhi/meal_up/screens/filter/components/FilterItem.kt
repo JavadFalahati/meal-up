@@ -130,7 +130,7 @@ fun <T> FilterItem(
                         .height(height = 0.04.dh)
                         .clip(shape = RoundedCornerShape(4.dp))
                         .background(
-                            color = if (filterIsSelected) PrimaryColor else Black50Color
+                            color = if (filterIsSelected) PrimaryColor else Black50Color.copy(0.6f)
                         )
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
