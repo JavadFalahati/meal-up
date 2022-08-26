@@ -39,7 +39,7 @@ import com.jwdfhi.meal_up.screens.home.components.HomeScreenDrawer
 import com.jwdfhi.meal_up.screens.home.components.HomeScreenSearchAndFilter
 import com.jwdfhi.meal_up.ui.theme.GreyBackgroundScreen
 import com.jwdfhi.meal_up.utils.Constant
-import com.jwdfhi.meal_up.utils.FilterListSelectedItemHelper
+import com.jwdfhi.meal_up.utils.isNotEmpty
 import com.slaviboy.composeunits.dh
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,17 +52,20 @@ import kotlinx.serialization.json.Json
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel,
-    filterListSelectedItemModelShouldNotUse: FilterListSelectedItemModel
+    filterListSelectedItemModelShouldNotUse: FilterListSelectedItemModel,
 ) {
 
     val filterIsNotEmptyState = remember {
-        mutableStateOf(FilterListSelectedItemHelper.isNotEmpty(viewModel.filterListSelectedItemModel))
+        mutableStateOf(viewModel.filterListSelectedItemModel.isNotEmpty())
     }
 
     LaunchedEffect(Unit) {
-        viewModel.initState(filterListSelectedItemModel = filterListSelectedItemModelShouldNotUse)
+        viewModel.initState(
+            filterListSelectedItemModel = filterListSelectedItemModelShouldNotUse,
+            refresh = true
+        )
 
-        filterIsNotEmptyState.value = FilterListSelectedItemHelper.isNotEmpty(viewModel.filterListSelectedItemModel)
+        filterIsNotEmptyState.value = viewModel.filterListSelectedItemModel.isNotEmpty()
     }
 
     val scope = rememberCoroutineScope()
@@ -224,6 +227,7 @@ fun HomeScreen(
                                                                     item.idMeal
                                                         )
                                                     },
+                                                    likeOnTap = { viewModel.likeOrUnLikeMeal(item) },
                                                     item = item,
                                                     margin = 8.dp,
                                                     padding = 8.dp

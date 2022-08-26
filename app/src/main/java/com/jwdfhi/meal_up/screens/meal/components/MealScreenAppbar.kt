@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.R
+import com.jwdfhi.meal_up.components.CustomLikeIcon
 import com.jwdfhi.meal_up.models.IngredientWithColorModel
 import com.jwdfhi.meal_up.models.MealModel
 import com.jwdfhi.meal_up.ui.theme.*
@@ -58,25 +59,10 @@ fun MealScreenAppbar(
                         .padding(8.dp)
                 )
             }
-            Box(
-                modifier = Modifier
-                    .clip(shape = CircleShape)
-                    .background(color = White100Color)
-                    .clickable { likeOnTap() }
-            ) {
-                Image(
-                    painter = painterResource(
-                        id = if (mealItem.isLiked) R.drawable.fill_like_icon_1 else R.drawable.un_fill_like_icon_1
-                    ),
-                    contentDescription = "Like",
-                    colorFilter = ColorFilter.tint(
-                        color = if (mealItem.isLiked) Red80Color else Black90Color
-                    ),
-                    modifier = Modifier
-                        .height(height = 0.055.dh)
-                        .padding(8.dp)
-                )
-            }
+            CustomLikeIcon(
+                isLiked = mealItem.isLiked,
+                onTap = { likeOnTap() }
+            )
         }
     }
 }
