@@ -4,6 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -16,6 +17,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.models.IngredientWithColorModel
 import com.jwdfhi.meal_up.models.MealModel
@@ -47,33 +50,71 @@ fun MealScreenContent(
                 horizontalAlignment = Alignment.Start
             ) {
 
-                if (!mealItem.strTags.isNullOrEmptyOfServer()) {
-                    val tagList = mealItem.strTags.split(",")
-
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Top
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Top
                     ) {
-                        items(tagList) { tag ->
-                            if (tag.trim().isNotEmpty()) {
-                                Text(
-                                    text = "#$tag",
-                                    color = PrimaryColor,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 0.019.sh
-                                )
-                            }
+                        if (!mealItem.strTags.isNullOrEmptyOfServer()) {
+                            val tagList = mealItem.strTags?.split(",")
 
+                            LazyRow(
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                items(tagList!!) { tag ->
+                                    if (tag.trim().isNotEmpty()) {
+                                        Text(
+                                            text = "#$tag",
+                                            color = PrimaryColor,
+                                            fontWeight = FontWeight.Normal,
+                                            fontSize = 0.019.sh
+                                        )
+                                    }
+
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(0.015.dh))
+                        }
+                        Text(
+                            text = mealItem.strMeal,
+                            color = Black80Color,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 0.034.sh
+                        )
+                    }
+                    Box(
+                        modifier = Modifier
+                            .size(width = 0.04.dh, height = 0.04.dh)
+                            .clip(shape = CircleShape)
+                            .background(color = Black20Color.copy(0.2f), shape = CircleShape)
+                            .clickable { expandOnTap() }
+                            .fillMaxHeight()
+                            .padding(6.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .clip(shape = CircleShape)
+                                .background(TransparentColor, shape = CircleShape),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.expand_icon_1),
+                                contentDescription = "Expand",
+                                colorFilter = ColorFilter.tint(color = Black60Color.copy(0.6f)),
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                            )
                         }
                     }
-                    Spacer(modifier = Modifier.height(0.015.dh))
                 }
 
-                Text(
-                    text = mealItem.strMeal,
-                    color = Black80Color,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 0.034.sh
-                )
                 Spacer(modifier = Modifier.height(0.028.dh))
                 Text(
                     text = "Instructions",
@@ -84,7 +125,7 @@ fun MealScreenContent(
                 Spacer(modifier = Modifier.height(0.009.dh))
                 Text(
                     modifier = Modifier
-                        .heightIn(0.0.dp, 0.18.dh)
+                        .heightIn(0.0.dp, 0.15.dh)
                         .verticalScroll(rememberScrollState(0)),
                     text =
                     if (mealItem.strInstructions.length > 250)
@@ -114,8 +155,7 @@ fun MealScreenContent(
                         IngredientWithColorModel(value = mealItem.strIngredient3, color = Yellow60Color),
                         IngredientWithColorModel(value = mealItem.strIngredient4, color = Orange60Color),
                         IngredientWithColorModel(value = mealItem.strIngredient5, color = Cyan60Color),
-                        IngredientWithColorModel(value = mealItem.strIngredient6, color = Green60Color),
-                    ).filter { it.value.isNotEmpty() }.shuffled()
+                    ).filter { !(it.value.isNullOrEmpty()) }
 
                     items(
                         items = firstXIngredientShuffledList
