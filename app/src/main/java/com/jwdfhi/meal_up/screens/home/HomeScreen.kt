@@ -36,7 +36,7 @@ import com.jwdfhi.meal_up.models.KeyboardStatusType
 import com.jwdfhi.meal_up.models.LoadingType
 import com.jwdfhi.meal_up.screens.Screens
 import com.jwdfhi.meal_up.screens.home.components.CustomDrawer
-import com.jwdfhi.meal_up.screens.home.components.HomeScreenSearchAndFilter
+import com.jwdfhi.meal_up.screens.home.components.CustomSearchAndFilter
 import com.jwdfhi.meal_up.ui.theme.GreyBackgroundScreen
 import com.jwdfhi.meal_up.utils.Constant
 import com.jwdfhi.meal_up.utils.isNotEmpty
@@ -139,7 +139,7 @@ fun HomeScreen(
                 val meals = viewModel.mealsDataOrException.collectAsState().value.data
                 val mealsLoading: Boolean = (viewModel.mealsDataOrException.collectAsState().value.status == DataOrExceptionStatus.Loading)
 
-                HomeScreenSearchAndFilter(
+                CustomSearchAndFilter(
                     height = 0.085.dh,
                     keyboardController = keyboardController,
                     keyboardState = keyboardState,
@@ -159,7 +159,7 @@ fun HomeScreen(
                             if ((meals == null || meals.isEmpty()) || (filterIsNotEmptyState.value)) {
                                 search(viewModel, searchState)
                             }
-                            return@HomeScreenSearchAndFilter
+                            return@CustomSearchAndFilter
                         }
 
                         if (meals == null || meals.isEmpty()) {
@@ -170,14 +170,14 @@ fun HomeScreen(
                         focusManager.clearFocus()
                     },
                     filterOnTap = {
-                        if (mealsLoading) { return@HomeScreenSearchAndFilter }
+                        if (mealsLoading) { return@CustomSearchAndFilter }
 
                         navController.navigate(
                             route = Screens.FilterScreen.name + "/" + Json.encodeToString(viewModel.filterListSelectedItemModel)
                         )
                     },
                     clearFilterOnTap = {
-                        if (mealsLoading) { return@HomeScreenSearchAndFilter }
+                        if (mealsLoading) { return@CustomSearchAndFilter }
 
                         filterIsNotEmptyState.value = false
                         viewModel.filterListSelectedItemModel = FilterListSelectedItemModel()

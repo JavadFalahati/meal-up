@@ -6,14 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -84,7 +78,7 @@ fun CustomDrawer(
                             ),
                         )
                     ) {
-                        HomeScreenDrawerItem(
+                        CustomDrawerItem(
                             item = it,
                             backgroundColor =
                             if (screenName == it.screenName)
@@ -120,7 +114,7 @@ fun CustomDrawer(
                             ),
                         )
                     ) {
-                        HomeScreenDrawerItem(
+                        CustomDrawerItem(
                             item = it,
                             margin = 0.dp
                         )

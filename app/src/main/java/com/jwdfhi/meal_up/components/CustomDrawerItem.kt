@@ -25,7 +25,7 @@ import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
 
 @Composable
-fun HomeScreenDrawerItem(
+fun CustomDrawerItem(
     width: Dp = 1.dw,
     height: Dp = 0.07.dh,
     margin: Dp = 6.dp,
