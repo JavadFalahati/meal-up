@@ -12,16 +12,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.models.MealModel
-import com.jwdfhi.meal_up.ui.theme.Black50Color
-import com.jwdfhi.meal_up.ui.theme.PrimaryColor
-import com.jwdfhi.meal_up.ui.theme.Red80Color
-import com.jwdfhi.meal_up.ui.theme.White100Color
+import com.jwdfhi.meal_up.ui.theme.*
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
 
 @Composable
-fun MealScreenActions(mealItem: MealModel) {
+fun MealScreenActions(
+    mealItem: MealModel,
+    markOnTap: () -> Unit,
+    goToMarksOnTap: () -> Unit,
+    removeMarkOnTap: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -40,7 +42,7 @@ fun MealScreenActions(mealItem: MealModel) {
                     .align(Alignment.BottomCenter)
                     .clip(shape = RoundedCornerShape(10.dp))
             ) {
-                when (!mealItem.isMarked) {
+                when (mealItem.isMarked) {
                     false -> Row(
                         modifier = Modifier.fillMaxSize(),
                         verticalAlignment = Alignment.Bottom
@@ -53,12 +55,11 @@ fun MealScreenActions(mealItem: MealModel) {
                                     shape = RoundedCornerShape(
                                         10.dp
                                     )
-                                )
-                                .padding(vertical = 4.dp),
+                                ),
                             colors = ButtonDefaults.buttonColors(
                                 backgroundColor = PrimaryColor
                             ),
-                            onClick = {  },
+                            onClick = { markOnTap() },
                         ) {
                             Text(
                                 text = "Mark now",
@@ -84,12 +85,11 @@ fun MealScreenActions(mealItem: MealModel) {
                                     shape = RoundedCornerShape(
                                         10.dp
                                     )
-                                )
-                                .padding(vertical = 4.dp),
+                                ),
                             colors = ButtonDefaults.buttonColors(
                                 backgroundColor = Red80Color
                             ),
-                            onClick = {  },
+                            onClick = { removeMarkOnTap() },
                         ) {
                             Text(
                                 text = "Remove",
@@ -110,12 +110,11 @@ fun MealScreenActions(mealItem: MealModel) {
                                     shape = RoundedCornerShape(
                                         10.dp
                                     )
-                                )
-                                .padding(vertical = 4.dp),
+                                ),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Black50Color
+                                backgroundColor = Primary60Color.copy(0.8f)
                             ),
-                            onClick = {  },
+                            onClick = { goToMarksOnTap() },
                         ) {
                             Text(
                                 text = "Go to marks",
@@ -124,7 +123,7 @@ fun MealScreenActions(mealItem: MealModel) {
                                     fontSize = 0.02.sh
                                 ),
                                 modifier = Modifier
-                                    .padding(6.dp)
+                                    .padding(3.dp)
                             )
                         }
                     }
