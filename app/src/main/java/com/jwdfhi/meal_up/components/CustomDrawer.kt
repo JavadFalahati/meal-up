@@ -30,8 +30,9 @@ import com.jwdfhi.meal_up.ui.theme.*
 import com.slaviboy.composeunits.sh
 
 @Composable
-fun HomeScreenDrawer(
+fun CustomDrawer(
     navController: NavController,
+    screenName: String,
     onCloseDrawer: () -> Unit
 ) {
 
@@ -57,14 +58,39 @@ fun HomeScreenDrawer(
                 LazyColumn() {
                     items(
                         listOf<DrawerItemModel>(
-                            DrawerItemModel(title = "Home", icon = R.drawable.home_icon_1, onTap = { onCloseDrawer() }),
-                            DrawerItemModel(title = "Likes", icon = R.drawable.fill_like_icon_1, onTap = { navController.navigate(Screens.LikeScreen.name) }),
-                            DrawerItemModel(title = "Marks", icon = R.drawable.fill_mark_icon_1, onTap = { navController.navigate(Screens.MarkScreen.name) }),
-                            DrawerItemModel(title = "Management", icon = R.drawable.management_icon_1, onTap = { navController.navigate(Screens.ManagementScreen.name) }),
+                            DrawerItemModel(
+                                title = "Home",
+                                screenName = Screens.HomeScreen.name,
+                                icon = R.drawable.home_icon_1,
+                                onTap = { onCloseDrawer() }
+                            ),
+                            DrawerItemModel(
+                                title = "Likes",
+                                screenName = Screens.LikeScreen.name,
+                                icon = R.drawable.fill_like_icon_1,
+                                onTap = { navController.navigate(Screens.LikeScreen.name) }
+                            ),
+                            DrawerItemModel(
+                                title = "Marks",
+                                screenName = Screens.MarkScreen.name,
+                                icon = R.drawable.fill_mark_icon_1,
+                                onTap = { navController.navigate(Screens.MarkScreen.name) }
+                            ),
+                            DrawerItemModel(
+                                title = "Management",
+                                screenName = Screens.ManagementScreen.name,
+                                icon = R.drawable.management_icon_1,
+                                onTap = { navController.navigate(Screens.ManagementScreen.name) }
+                            ),
                         )
                     ) {
                         HomeScreenDrawerItem(
                             item = it,
+                            backgroundColor =
+                            if (screenName == it.screenName)
+                                Primary60Color.copy(0.6f)
+                            else
+                                TransparentColor,
                             margin = 0.dp
                         )
                     }
@@ -86,7 +112,12 @@ fun HomeScreenDrawer(
                 LazyColumn() {
                     items(
                         listOf<DrawerItemModel>(
-                            DrawerItemModel(title = "Privacy and policy", icon = R.drawable.fill_privacy_policy_icon_1, onTap = { /*TODO: Open a link of privacy and polycy*/ }),
+                            DrawerItemModel(
+                                title = "Privacy and policy",
+                                screenName = "",
+                                icon = R.drawable.fill_privacy_policy_icon_1,
+                                onTap = { /*TODO: Open a link of privacy and polycy*/ }
+                            ),
                         )
                     ) {
                         HomeScreenDrawerItem(
