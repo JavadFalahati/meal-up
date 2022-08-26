@@ -32,7 +32,7 @@ fun MealScreenBackground(mealItem: MealModel) {
             modifier = Modifier
                 // .fillMaxWidth()
                 .width(1.dw)
-                .height(0.43.dh)
+                .height(0.42.dh)
                 .clip(
                     shape = RoundedCornerShape(
                         bottomStart = 18.dp,
