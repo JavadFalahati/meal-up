@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,7 +31,7 @@ import com.slaviboy.composeunits.sh
 fun MealScreenAppbar(
     mealItem: MealModel,
     likeOnTap: () -> Unit,
-    backOnTap: () -> Unit
+    backOnTap: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -64,9 +65,13 @@ fun MealScreenAppbar(
                     .clickable { likeOnTap() }
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.un_fill_like_icon_1),
+                    painter = painterResource(
+                        id = if (mealItem.isLiked) R.drawable.fill_like_icon_1 else R.drawable.un_fill_like_icon_1
+                    ),
                     contentDescription = "Like",
-                    colorFilter = ColorFilter.tint(color = Black90Color),
+                    colorFilter = ColorFilter.tint(
+                        color = if (mealItem.isLiked) Red80Color else Black90Color
+                    ),
                     modifier = Modifier
                         .height(height = 0.055.dh)
                         .padding(8.dp)
