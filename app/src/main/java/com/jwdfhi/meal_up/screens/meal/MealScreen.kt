@@ -127,7 +127,7 @@ fun MealScreen(
                                                 )
                                             }
                                         )
-                                        Spacer(modifier = Modifier.height(0.05.dh))
+                                        Spacer(modifier = Modifier.height(0.01.dh))
                                         MealScreenActions(
                                             mealItem = mealItem.value,
                                             markOnTap = { viewModel.markMeal(MarkModel(name = "test", color = Red80Color.value.toInt())) },
