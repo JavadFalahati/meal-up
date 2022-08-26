@@ -22,7 +22,7 @@ import javax.inject.Inject
 class FilterViewModel @Inject constructor(
     public val context: Context,
     private val mealServiceRepository: MealServiceRepository
-) : ViewModel(), CustomViewModel<FilterListSelectedItemModel, Nothing> {
+) : ViewModel(), CustomViewModel<FilterListSelectedItemModel, Nothing, Nothing> {
 
     override fun initState(filterListSelectedItemModel: FilterListSelectedItemModel) {
         viewModelScope.launch(Dispatchers.IO) {
