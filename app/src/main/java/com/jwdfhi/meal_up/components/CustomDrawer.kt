@@ -56,25 +56,21 @@ fun CustomDrawer(
                                 title = "Home",
                                 screenName = Screens.HomeScreen.name,
                                 icon = R.drawable.home_icon_1,
-                                onTap = { onCloseDrawer() }
                             ),
                             DrawerItemModel(
                                 title = "Likes",
                                 screenName = Screens.LikeScreen.name,
                                 icon = R.drawable.fill_like_icon_1,
-                                onTap = { navController.navigate(Screens.LikeScreen.name) }
                             ),
                             DrawerItemModel(
                                 title = "Marks",
                                 screenName = Screens.MarkScreen.name,
                                 icon = R.drawable.fill_mark_icon_1,
-                                onTap = { navController.navigate(Screens.MarkScreen.name) }
                             ),
                             DrawerItemModel(
                                 title = "Management",
                                 screenName = Screens.ManagementScreen.name,
                                 icon = R.drawable.management_icon_1,
-                                onTap = { navController.navigate(Screens.ManagementScreen.name) }
                             ),
                         )
                     ) {
@@ -82,10 +78,14 @@ fun CustomDrawer(
                             item = it,
                             backgroundColor =
                             if (screenName == it.screenName)
-                                Primary60Color.copy(0.6f)
+                                Primary60Color.copy(0.2f)
                             else
                                 TransparentColor,
-                            margin = 0.dp
+                            margin = 0.dp,
+                            onTap = {
+                                if (it.screenName == screenName) onCloseDrawer()
+                                else navController.navigate(it.screenName)
+                            }
                         )
                     }
                 }
@@ -97,7 +97,7 @@ fun CustomDrawer(
                 Divider(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    color = Black60Color    ,
+                    color = Black60Color,
                     thickness = 1.5.dp
                 )
                 Spacer(modifier = Modifier.height(10.dp))
@@ -116,7 +116,8 @@ fun CustomDrawer(
                     ) {
                         CustomDrawerItem(
                             item = it,
-                            margin = 0.dp
+                            margin = 0.dp,
+                            onTap = null
                         )
                     }
                 }
