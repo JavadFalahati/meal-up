@@ -32,7 +32,8 @@ fun CustomDrawerItem(
     padding: Dp = 6.dp,
     borderRadius: Dp = 0.dp,
     backgroundColor: Color = TransparentColor,
-    item: DrawerItemModel
+    item: DrawerItemModel,
+    onTap: (() -> Unit)?
 ) {
     Box(
         modifier = Modifier
@@ -41,7 +42,10 @@ fun CustomDrawerItem(
             .background(backgroundColor)
             .width(width = width)
             .height(height = height)
-            .clickable { item.onTap() }
+            .clickable {
+                if (onTap != null) onTap()
+                else item.onTap()
+            }
     ) {
         Row(
             modifier = Modifier
