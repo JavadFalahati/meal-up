@@ -39,6 +39,7 @@ import com.jwdfhi.meal_up.screens.home.components.CustomSearchAndFilter
 import com.jwdfhi.meal_up.ui.theme.Black90Color
 import com.jwdfhi.meal_up.ui.theme.GreyBackgroundScreen
 import com.slaviboy.composeunits.dh
+import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -116,7 +117,7 @@ fun LikeScreen(
                             }
                         }
                 )
-                Spacer(modifier = Modifier.width(width = 7.dp))
+                Spacer(modifier = Modifier.width(width = 0.05.dw))
                 Text(
                     text = "Liked Meals",
                     style = TextStyle(
