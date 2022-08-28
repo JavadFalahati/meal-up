@@ -8,5 +8,5 @@ data class DrawerItemModel(
     val title: String,
     val screenName: String,
     val icon: Int,
-    val onTap: () -> Unit
+    val onTap: () -> Unit = {}
 )
