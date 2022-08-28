@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -39,7 +40,7 @@ fun <T> MealItem(
     onTap: () -> Unit,
     likeOnTap: () -> Unit,
     item: T,
-    height: Dp = 0.17.dh,
+    height: Dp = if (item is FilteredMealModel) 0.17.dh else 0.4.dh,
     margin: Dp = 8.dp,
     padding: Dp = 8.dp,
     backgroundColor: androidx.compose.ui.graphics.Color = Color.White,
@@ -56,7 +57,84 @@ fun <T> MealItem(
     ) {
         when (item) {
             is MealModel -> {
-                // TODO: implement the rest of design.
+
+                ConstraintLayout(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    val (backgroundImage, likeIcon) = createRefs()
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .constrainAs(backgroundImage) {
+                                top.linkTo(parent.top)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                                width = Dimension.fillToConstraints
+                            }
+                    ) {
+                        Image(
+                            painter = rememberAsyncImagePainter(item.strMealThumb),
+                            contentDescription = "Meal",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(shape = RoundedCornerShape(borderRadius))
+                            // .align(CenterVertically)
+                        )
+                    }
+                    Box(
+                        modifier = Modifier
+                            .constrainAs(likeIcon) {
+                                // bottom.linkTo(backgroundImage.top)
+                                // end.linkTo(backgroundImage.start)
+                                // top.linkTo(backgroundImage.top)
+                                // start.linkTo(backgroundImage.start)
+                            }
+                            .fillMaxSize()
+                    ) {
+                        // CustomLikeIcon(
+                        //     isLiked = item.isLiked,
+                        //     onTap = { likeOnTap() },
+                        //     height = 0.04.dh,
+                        //     iconPadding = 6.dp,
+                        // )
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .clip(shape = RoundedCornerShape(borderRadius))
+                                .background(color = Black80Color.copy(0.7f))
+                                .blur(radius = 12.dp)
+                                .padding(6.dp),
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.Bottom,
+                        ) {
+                            Text(
+                                text = item.strMeal,
+                                style = TextStyle(
+                                    color = White100Color,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = if (item.strMeal.length < 35) 0.027.sh else 0.020.sh
+                                ),
+                            )
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = (
+                                        if (item.strInstructions.length > 250)
+                                            item.strInstructions.substring(0, 250) + "..."
+                                        else
+                                            item.strInstructions
+                                        ).replace("\\r\\n\\r\\n", "\\r\\n"),
+                                style = TextStyle(
+                                    color = White80Color,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 0.016.sh
+                                ),
+                            )
+                        }
+                    }
+                }
             }
             is FilteredMealModel -> {
                 Row(
