@@ -20,6 +20,7 @@ import com.jwdfhi.meal_up.screens.like.LikeScreen
 import com.jwdfhi.meal_up.screens.like.LikeViewModel
 import com.jwdfhi.meal_up.screens.management.ManagementScreen
 import com.jwdfhi.meal_up.screens.mark.MarkScreen
+import com.jwdfhi.meal_up.screens.mark.MarkViewModel
 import com.jwdfhi.meal_up.screens.meal.MealScreen
 import com.jwdfhi.meal_up.screens.meal.MealViewModel
 import com.jwdfhi.meal_up.screens.splash.SplashScreen
@@ -160,8 +161,11 @@ fun MealUpNavigation() {
             composable(
                 route = Screens.MarkScreen.name
             ) {
+                val markViewModel = hiltViewModel<MarkViewModel>()
+
                 MarkScreen(
                     navController = navController,
+                    viewModel = markViewModel
                 )
             }
 
