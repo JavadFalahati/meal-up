@@ -28,17 +28,8 @@ class LikeViewModel @Inject constructor(
     private val mealDatabaseRepository: MealDatabaseRepository
 ) : ViewModel(), CustomViewModel<Nothing, Nothing, Nothing> {
 
-     init {
-         getLikedMeals()
-     }
-
     override fun initState() {
-        _mealsDataOrException.value = DataOrException(status = DataOrExceptionStatus.Loading)
-
-        _mealsDataOrException.value = DataOrException(
-            data = _storedMealList.value.toMutableList(),
-            status = DataOrExceptionStatus.Success
-        )
+        getLikedMeals()
     }
 
     override fun onBackPressed(navController: NavController) {
@@ -50,13 +41,17 @@ class LikeViewModel @Inject constructor(
     )
     val mealsDataOrException = _mealsDataOrException.asStateFlow()
 
-    private val _storedMealList = MutableStateFlow<List<MealModel>>(emptyList())
+    private var _storedMealList = listOf<MealModel>()
     private fun getLikedMeals() {
         viewModelScope.launch(Dispatchers.IO) {
-            mealDatabaseRepository.getMeals().collect {
-                _storedMealList.value = it.filter { storedMeal -> storedMeal.isLiked }
-                return@collect
-            }
+            _mealsDataOrException.value = DataOrException(status = DataOrExceptionStatus.Loading)
+
+            _storedMealList = mealDatabaseRepository.getMeals().filter { storedMeal -> storedMeal.isLiked }
+
+            _mealsDataOrException.value = DataOrException(
+                data = _storedMealList.toMutableList(),
+                status = DataOrExceptionStatus.Success
+            )
         }
     }
 
@@ -67,7 +62,7 @@ class LikeViewModel @Inject constructor(
 
         if (value.trim().isEmpty()) {
             _mealsDataOrException.value = DataOrException(
-                data = _storedMealList.value.toMutableList(),
+                data = _storedMealList.toMutableList(),
                 status = DataOrExceptionStatus.Success
             )
             return
