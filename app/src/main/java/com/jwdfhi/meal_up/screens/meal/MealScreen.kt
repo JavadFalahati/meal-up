@@ -16,10 +16,7 @@ import com.jwdfhi.meal_up.components.*
 import com.jwdfhi.meal_up.models.DataOrExceptionStatus
 import com.jwdfhi.meal_up.models.LoadingType
 import com.jwdfhi.meal_up.models.MarkModel
-import com.jwdfhi.meal_up.screens.meal.components.MealScreenActions
-import com.jwdfhi.meal_up.screens.meal.components.MealScreenAppbar
-import com.jwdfhi.meal_up.screens.meal.components.MealScreenBackground
-import com.jwdfhi.meal_up.screens.meal.components.MealScreenContent
+import com.jwdfhi.meal_up.screens.meal.components.*
 import com.jwdfhi.meal_up.ui.theme.*
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
@@ -36,6 +33,8 @@ fun MealScreen(
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
+    val mealCategoryDialogIsOpen = remember { mutableStateOf(false) }
+
     CustomBackPressHandler(onBackPressed = { viewModel.onBackPressed(navController) })
 
     Scaffold(
@@ -44,6 +43,15 @@ fun MealScreen(
             .background(GreyBackgroundScreen),
         scaffoldState = scaffoldState,
     ) { padding ->
+
+        if (mealCategoryDialogIsOpen.value) {
+            MealScreenMealCategoryDialog(
+                onDismissDialog = { mealCategoryDialogIsOpen.value = false },
+                onCategoryTap = { mealCategory ->
+                    mealCategoryDialogIsOpen.value = false
+                }
+            )
+        }
 
         Column(
             modifier = Modifier
@@ -130,7 +138,11 @@ fun MealScreen(
                                         Spacer(modifier = Modifier.height(0.01.dh))
                                         MealScreenActions(
                                             mealItem = mealItem.value,
-                                            markOnTap = { viewModel.markMeal(MarkModel(name = "test", color = Red80Color.value.toInt())) },
+                                            markOnTap = {
+                                                mealCategoryDialogIsOpen.value = true
+
+                                                // viewModel.markMeal(MarkModel(name = "test", color = Red80Color.value.toInt()))
+                                            },
                                             removeMarkOnTap = { viewModel.unMarkMeal() },
                                             goToMarksOnTap = {}
                                         )
