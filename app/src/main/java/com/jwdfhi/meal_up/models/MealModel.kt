@@ -21,6 +21,9 @@ data class MealModel(
     var isMarked: Boolean = false,
 
     @ColumnInfo
+    var markCategory: MealCategory? = null,
+
+    @ColumnInfo
     var markName: String? = "",
 
     @ColumnInfo
