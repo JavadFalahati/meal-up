@@ -13,7 +13,7 @@ interface MealDao {
     * meal_table
     */
     @Query("SELECT * FROM meal_table")
-    fun getMeals(): Flow<List<MealModel>>
+    fun getMeals(): List<MealModel>
 
     @Query("SELECT * FROM meal_table where idMeal =:id")
     suspend fun getMealById(id: String): MealModel?
