@@ -12,4 +12,5 @@ data class FilteredMealModel(
     var isMarked: Boolean = false,
     var markColor: Int = White100Color.value.toInt(),
     var markName: String = "",
+    var mealCategory: MealCategory? = null,
 )
