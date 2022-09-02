@@ -84,7 +84,9 @@ fun CustomDrawer(
                             margin = 0.dp,
                             onTap = {
                                 if (it.screenName == screenName) onCloseDrawer()
-                                else navController.navigate(it.screenName)
+                                else navController.navigate(it.screenName) {
+                                    popUpTo(0)
+                                }
                             }
                         )
                     }
