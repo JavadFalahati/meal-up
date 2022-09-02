@@ -124,7 +124,7 @@ fun LikeScreen(
                         color = Black90Color,
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.W600,
-                        fontSize = 0.034.sh
+                        fontSize = 0.032.sh
                     )
                 )
             }
@@ -202,6 +202,8 @@ fun LikeScreen(
                                                                     + "/" +
                                                                     item.idMeal
                                                         )
+
+                                                        // viewModel.initState()
                                                     },
                                                     likeOnTap = {},
                                                     item = item,
