@@ -3,6 +3,7 @@ package com.jwdfhi.meal_up.screens.home
 import android.content.Context
 import android.os.CountDownTimer
 import android.widget.Toast
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -79,18 +80,15 @@ class HomeViewModel @Inject constructor(
             )
     val mealsDataOrException = _mealsDataOrException.asStateFlow()
 
-    private val _storedMealList = MutableStateFlow<List<MealModel>>(emptyList())
-    val storedMealList = _storedMealList.asStateFlow()
+    private var _storedMealList = listOf<MealModel>()
 
     var filterListSelectedItemModel = FilterListSelectedItemModel()
 
     private fun getStoredMeals() {
         viewModelScope.launch(Dispatchers.IO) {
-            mealDatabaseRepository.getMeals().collect {
-                _storedMealList.value = it
+            _storedMealList = mealDatabaseRepository.getMeals()
 
-                removeRedundantMealFromDatabaseIfIsNotLikedOrMarked(it)
-            }
+            removeRedundantMealFromDatabaseIfIsNotLikedOrMarked(storedMeals = _storedMealList)
         }
     }
 
@@ -165,7 +163,7 @@ class HomeViewModel @Inject constructor(
             filteredMealModel.add(FilteredMealModel(
                 idMeal = it.idMeal,
                 strMeal = it.strMeal,
-                strMealThumb = it.strMealThumb
+                strMealThumb = it.strMealThumb,
             ))
         }
 
@@ -435,7 +433,7 @@ class HomeViewModel @Inject constructor(
     private fun checkDataMealsWithStoreMeals(
         filteredMealModelList: MutableList<FilteredMealModel>
     ): MutableList<FilteredMealModel> {
-        _storedMealList.value.forEach { storedMeal ->
+        _storedMealList.forEach { storedMeal ->
             filteredMealModelList.forEach { filteredMeal ->
 
                 if (storedMeal.idMeal == filteredMeal.idMeal) {
@@ -444,6 +442,7 @@ class HomeViewModel @Inject constructor(
                     filteredMeal.isMarked = storedMeal.isMarked
                     filteredMeal.markColor = storedMeal.markColor
                     filteredMeal.markName = storedMeal.markName ?: ""
+                    filteredMeal.mealCategory = storedMeal.markCategory
                 }
 
             }
