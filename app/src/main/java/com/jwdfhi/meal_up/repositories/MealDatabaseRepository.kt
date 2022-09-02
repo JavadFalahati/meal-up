@@ -12,7 +12,7 @@ class MealDatabaseRepository @Inject constructor(private val mealDao: MealDao) {
     /**
     * liked_meal_repository
     */
-    fun getMeals(): Flow<List<MealModel>> = mealDao.getMeals()
+    fun getMeals(): List<MealModel> = mealDao.getMeals()
 
     suspend fun getMealById(id: String): MealModel? = mealDao.getMealById(id = id)
 
