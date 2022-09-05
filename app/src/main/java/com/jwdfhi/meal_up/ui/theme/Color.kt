@@ -38,8 +38,11 @@ val Blue60Color = Color(0xFF5E88F0)
 
 val Cyan60Color = Color(0xFF5EC2F0)
 
+val Green80Color = Color(0xFF119928)
 val Green60Color = Color(0xFF5EF076)
 
+val Yellow80Color = Color(0xFFD5B100)
 val Yellow60Color = Color(0xFFEBF05E)
 
+val Orange80Color = Color(0xFFF0985E)
 val Orange60Color = Color(0xFFF0985E)
