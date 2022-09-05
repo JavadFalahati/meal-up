@@ -48,6 +48,8 @@ fun MealScreen(
             MealScreenMealCategoryDialog(
                 onDismissDialog = { mealCategoryDialogIsOpen.value = false },
                 onCategoryTap = { mealCategory ->
+                    viewModel.markMeal(mealCategory)
+
                     mealCategoryDialogIsOpen.value = false
                 }
             )
