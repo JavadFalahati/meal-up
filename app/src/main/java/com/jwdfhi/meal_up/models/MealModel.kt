@@ -1,6 +1,7 @@
 package com.jwdfhi.meal_up.models
 
 import androidx.annotation.NonNull
+import androidx.compose.ui.graphics.Color
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -23,11 +24,11 @@ data class MealModel(
     @ColumnInfo
     var markCategory: MealCategory? = null,
 
-    @ColumnInfo
+    /*@ColumnInfo
     var markName: String? = "",
 
     @ColumnInfo
-    var markColor: Int = White100Color.value.toInt(),
+    var markColor: Color? = null,*/
 
     @ColumnInfo
     val strArea: String,
