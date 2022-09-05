@@ -1,17 +1,24 @@
 package com.jwdfhi.meal_up.screens.meal.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.models.MealModel
+import com.jwdfhi.meal_up.models.getName
 import com.jwdfhi.meal_up.ui.theme.*
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
@@ -79,7 +86,7 @@ fun MealScreenActions(
                     ) {
                         Button(
                             modifier = Modifier
-                                .weight(0.5f)
+                                .width(0.18.dw)
                                 .align(Alignment.Bottom)
                                 .clip(
                                     shape = RoundedCornerShape(
@@ -91,20 +98,16 @@ fun MealScreenActions(
                             ),
                             onClick = { removeMarkOnTap() },
                         ) {
-                            Text(
-                                text = "Remove",
-                                style = TextStyle(
-                                    color = White100Color,
-                                    fontSize = 0.02.sh
-                                ),
-                                modifier = Modifier
-                                    .padding(6.dp)
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Remove",
+                                tint = White100Color,
                             )
                         }
                         Spacer(modifier = Modifier.width(6.dp))
                         Button(
                             modifier = Modifier
-                                .weight(0.5f)
+                                .fillMaxWidth()
                                 .align(Alignment.Bottom)
                                 .clip(
                                     shape = RoundedCornerShape(
@@ -112,19 +115,31 @@ fun MealScreenActions(
                                     )
                                 ),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Primary60Color.copy(0.8f)
+                                backgroundColor = Primary80Color
                             ),
-                            onClick = { goToMarksOnTap() },
+                            onClick = {
+                                goToMarksOnTap()
+                            },
                         ) {
-                            Text(
-                                text = "Go to marks",
-                                style = TextStyle(
-                                    color = White100Color,
-                                    fontSize = 0.02.sh
-                                ),
-                                modifier = Modifier
-                                    .padding(3.dp)
-                            )
+                            Row(
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Done,
+                                    contentDescription = "Done",
+                                    tint = White100Color,
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text(
+                                    text = "Marked as ${mealItem.markCategory?.getName()}",
+                                    style = TextStyle(
+                                        color = White100Color,
+                                        fontSize = 0.02.sh
+                                    ),
+                                    modifier = Modifier
+                                        .padding(3.dp)
+                                )
+                            }
                         }
                     }
                 }
