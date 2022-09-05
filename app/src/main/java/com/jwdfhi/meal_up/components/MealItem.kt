@@ -30,6 +30,8 @@ import coil.compose.rememberAsyncImagePainter
 import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.models.FilteredMealModel
 import com.jwdfhi.meal_up.models.MealModel
+import com.jwdfhi.meal_up.models.getColor
+import com.jwdfhi.meal_up.models.getName
 import com.jwdfhi.meal_up.ui.theme.*
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
@@ -86,52 +88,59 @@ fun <T> MealItem(
                     }
                     Box(
                         modifier = Modifier
-                            .constrainAs(likeIcon) {
-                                // bottom.linkTo(backgroundImage.top)
-                                // end.linkTo(backgroundImage.start)
-                                // top.linkTo(backgroundImage.top)
-                                // start.linkTo(backgroundImage.start)
-                            }
+                            .constrainAs(likeIcon) {}
                             .fillMaxSize()
                     ) {
-                        // CustomLikeIcon(
-                        //     isLiked = item.isLiked,
-                        //     onTap = { likeOnTap() },
-                        //     height = 0.04.dh,
-                        //     iconPadding = 6.dp,
-                        // )
                         Column(
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .clip(shape = RoundedCornerShape(borderRadius))
-                                .background(color = Black80Color.copy(0.7f))
-                                .blur(radius = 12.dp)
-                                .padding(6.dp),
                             horizontalAlignment = Alignment.Start,
-                            verticalArrangement = Arrangement.Bottom,
+                            verticalArrangement = Arrangement.SpaceBetween,
                         ) {
-                            Text(
-                                text = item.strMeal,
-                                style = TextStyle(
-                                    color = White100Color,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = if (item.strMeal.length < 35) 0.027.sh else 0.020.sh
-                                ),
-                            )
-                            Spacer(modifier = Modifier.height(6.dp))
-                            Text(
-                                text = (
-                                        if (item.strInstructions.length > 250)
-                                            item.strInstructions.substring(0, 250) + "..."
-                                        else
-                                            item.strInstructions
-                                        ).replace("\\r\\n\\r\\n", "\\r\\n"),
-                                style = TextStyle(
-                                    color = White80Color,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 0.016.sh
-                                ),
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .padding(8.dp)
+                            ) {
+                                if (item.isMarked) {
+                                    MarkItem(item = item)
+                                }
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .align(Alignment.BottomCenter)
+                                        .clip(shape = RoundedCornerShape(borderRadius))
+                                        .background(color = Black80Color.copy(0.7f))
+                                        .blur(radius = 12.dp)
+                                        .padding(6.dp),
+                                    horizontalAlignment = Alignment.Start,
+                                    verticalArrangement = Arrangement.Bottom,
+                                ) {
+                                    Text(
+                                        text = item.strMeal,
+                                        style = TextStyle(
+                                            color = White100Color,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = if (item.strMeal.length < 35) 0.027.sh else 0.020.sh
+                                        ),
+                                    )
+                                    Spacer(modifier = Modifier.height(6.dp))
+                                    Text(
+                                        text = (
+                                                if (item.strInstructions.length > 250)
+                                                    item.strInstructions.substring(0, 250) + "..."
+                                                else
+                                                    item.strInstructions
+                                                ).replace("\\r\\n\\r\\n", "\\r\\n"),
+                                        style = TextStyle(
+                                            color = White80Color,
+                                            fontWeight = FontWeight.Normal,
+                                            fontSize = 0.016.sh
+                                        ),
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -215,31 +224,11 @@ fun <T> MealItem(
                             Box(
                                 modifier = Modifier
                                     .align(Alignment.End)
-                                    .clip(shape = RoundedCornerShape(6.dp))
-                                    .background(Black20Color.copy(0.5f))
-                                    .padding(vertical = 4.dp, horizontal = 7.dp)
                             ) {
-                                Row() {
-                                    Image(
-                                        painter = painterResource(id = R.drawable.fill_mark_icon_2),
-                                        contentDescription = "Mark",
-                                        colorFilter = ColorFilter.tint(
-                                            color = if (Color(item.markColor.toInt()) == White100Color) Color(item.markColor.toInt()) else Black80Color
-                                        ),
-                                        modifier = Modifier
-                                            .height(0.023.dh)
-                                            .align(CenterVertically)
-                                    )
-                                    Spacer(modifier = Modifier.width(width = 3.dp))
-                                    Text(
-                                        text = item.markName,
-                                        style = TextStyle(
-                                            color = Black90Color,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 0.016.sh
-                                        ),
-                                    )
-                                }
+                                MarkItem(
+                                    item = item,
+                                    backgroundColor = TransparentColor
+                                )
                             }
                         }
                     }
