@@ -61,13 +61,12 @@ class MealViewModel @Inject constructor(
         }
     }
 
-    fun markMeal(markModel: MarkModel): Unit {
+    fun markMeal(mealCategory: MealCategory): Unit {
         if (_mealDataOrException.value.data == null) { return }
 
         val updatedMealModel = _mealDataOrException.value.data!!.value
         updatedMealModel.isMarked = true
-        updatedMealModel.markName = markModel.name
-        updatedMealModel.markColor = markModel.color
+        updatedMealModel.markCategory = mealCategory
 
         checkMealIsExistThenUpsert(_mealDataOrException.value.data!!.value, updatedMealModel).let {
             _mealDataOrException.value = DataOrException(data = mutableStateOf(updatedMealModel), status = DataOrExceptionStatus.Success)
@@ -79,8 +78,7 @@ class MealViewModel @Inject constructor(
 
         val updatedMealModel = _mealDataOrException.value.data!!.value
         updatedMealModel.isMarked = false
-        updatedMealModel.markName = ""
-        updatedMealModel.markColor = White100Color.value.toInt()
+        updatedMealModel.markCategory = null
 
         checkMealIsExistThenUpsert(_mealDataOrException.value.data!!.value, updatedMealModel).let {
             _mealDataOrException.value = DataOrException(data = mutableStateOf(updatedMealModel), status = DataOrExceptionStatus.Success)
