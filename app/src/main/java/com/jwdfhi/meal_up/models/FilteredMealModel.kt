@@ -10,7 +10,5 @@ data class FilteredMealModel(
     var isLiked: Boolean = false,
 
     var isMarked: Boolean = false,
-    var markColor: Int = White100Color.value.toInt(),
-    var markName: String = "",
-    var mealCategory: MealCategory? = null,
+    var markCategory: MealCategory? = null,
 )
