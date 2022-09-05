@@ -20,8 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.models.MealCategoryItemModel
+import com.jwdfhi.meal_up.models.getName
 import com.jwdfhi.meal_up.ui.theme.White100Color
-import com.jwdfhi.meal_up.utils.getName
 
 @Composable
 fun MealScreenMealCategoryItem(
