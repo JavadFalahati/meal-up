@@ -3,7 +3,6 @@ package com.jwdfhi.meal_up.screens.home
 import android.content.Context
 import android.os.CountDownTimer
 import android.widget.Toast
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -440,9 +439,7 @@ class HomeViewModel @Inject constructor(
                     filteredMeal.isLiked = storedMeal.isLiked
 
                     filteredMeal.isMarked = storedMeal.isMarked
-                    filteredMeal.markColor = storedMeal.markColor
-                    filteredMeal.markName = storedMeal.markName ?: ""
-                    filteredMeal.mealCategory = storedMeal.markCategory
+                    filteredMeal.markCategory = storedMeal.markCategory
                 }
 
             }
