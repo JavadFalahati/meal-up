@@ -46,3 +46,7 @@ val Yellow60Color = Color(0xFFEBF05E)
 
 val Orange80Color = Color(0xFFF0985E)
 val Orange60Color = Color(0xFFF0985E)
+
+val Pink70Color = Color(0xFFDF3973)
+
+val DarkBlue70Color = Color(0xFF0E437C)
