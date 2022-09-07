@@ -1,6 +1,7 @@
 package com.jwdfhi.meal_up.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,6 +20,7 @@ import com.jwdfhi.meal_up.screens.introduction.IntroductionScreen
 import com.jwdfhi.meal_up.screens.like.LikeScreen
 import com.jwdfhi.meal_up.screens.like.LikeViewModel
 import com.jwdfhi.meal_up.screens.management.ManagementScreen
+import com.jwdfhi.meal_up.screens.management.ManagementViewModel
 import com.jwdfhi.meal_up.screens.mark.MarkScreen
 import com.jwdfhi.meal_up.screens.mark.MarkViewModel
 import com.jwdfhi.meal_up.screens.meal.MealScreen
@@ -30,6 +32,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
@@ -153,8 +156,11 @@ fun MealUpNavigation() {
             composable(
                 route = Screens.ManagementScreen.name
             ) {
+                val managementViewModel = hiltViewModel<ManagementViewModel>()
+
                 ManagementScreen(
                     navController = navController,
+                    viewModel = managementViewModel
                 )
             }
 
