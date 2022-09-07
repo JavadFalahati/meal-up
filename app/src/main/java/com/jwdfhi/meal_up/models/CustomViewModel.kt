@@ -9,6 +9,8 @@ interface CustomViewModel<InitStateFirstEntryType, InitStateSecondEntryType, Ini
     fun initState(entryOne: InitStateFirstEntryType, entryTwo: InitStateSecondEntryType): Unit {}
     fun initState(entryOne: InitStateFirstEntryType, entryTwo: InitStateSecondEntryType, entryThree: InitStateThirdEntryType): Unit {}
 
-    fun onBackPressed(navController: NavController): Unit
+    fun onBackPressed(navController: NavController): Unit {
+        navController.popBackStack()
+    }
 
 }
