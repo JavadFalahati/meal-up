@@ -30,3 +30,10 @@ public fun String?.isNullOrEmptyOfServer(): Boolean {
 
     return false
 }
+
+public fun Color.setAllManagementPrimaryColor() {
+    ManagementSettings.PrimaryColor = this
+    ManagementSettings.Primary80Color = this.copy(0.8f)
+    ManagementSettings.Primary60Color = this.copy(0.6f)
+    ManagementSettings.LightPrimaryColor = this.copy(0.3f)
+}
