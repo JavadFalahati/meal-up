@@ -7,4 +7,7 @@ object Constant {
     const val FILTERS_ARGUMENT_KEY: String = "FiltersArgumentKey"
     const val MEAL_ID_ARGUMENT_KEY: String = "MealIdArgumentKey"
 
+    const val MANAGEMENT_SETTING_KEY: String = "ManagementSettingKey"
+    const val PRIMARY_COLOR_KEY: String = "PrimaryColorKey"
+
 }
