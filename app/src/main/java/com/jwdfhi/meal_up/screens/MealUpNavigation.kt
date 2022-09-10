@@ -26,6 +26,7 @@ import com.jwdfhi.meal_up.screens.mark.MarkViewModel
 import com.jwdfhi.meal_up.screens.meal.MealScreen
 import com.jwdfhi.meal_up.screens.meal.MealViewModel
 import com.jwdfhi.meal_up.screens.splash.SplashScreen
+import com.jwdfhi.meal_up.screens.splash.SplashViewModel
 import com.jwdfhi.meal_up.ui.theme.*
 import com.jwdfhi.meal_up.utils.Constant
 import kotlinx.serialization.decodeFromString
@@ -42,12 +43,16 @@ fun MealUpNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = Screens.HomeScreen.name,
+        startDestination = Screens.SplashScreen.name,
         builder = {
 
             composable(
                 route = Screens.HomeScreen.name
             ) {
+                systemUiController.isStatusBarVisible = true
+                systemUiController.isNavigationBarVisible = true
+                systemUiController.isSystemBarsVisible = true
+
                 systemUiController.setStatusBarColor(
                     color = GreyBackgroundScreen
                 )
@@ -178,7 +183,17 @@ fun MealUpNavigation() {
             composable(
                 route = Screens.SplashScreen.name
             ) {
+                systemUiController.setStatusBarColor(
+                    color = White80Color
+                )
+                systemUiController.isStatusBarVisible = false
+                systemUiController.isNavigationBarVisible = false
+                systemUiController.isSystemBarsVisible = false
+
+                val splashViewModel = hiltViewModel<SplashViewModel>()
+
                 SplashScreen(
+                    viewModel = splashViewModel,
                     navController = navController,
                 )
             }
