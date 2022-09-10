@@ -18,9 +18,9 @@ import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.models.ManagementScreenBottomSheetType
 import com.jwdfhi.meal_up.screens.management.ManagementViewModel
-import com.jwdfhi.meal_up.ui.theme.PrimaryColor
 import com.jwdfhi.meal_up.ui.theme.White100Color
 import com.jwdfhi.meal_up.utils.ManagementSettings
+import com.jwdfhi.meal_up.utils.setAllManagementPrimaryColor
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
@@ -39,23 +39,6 @@ fun ManagementScreenBottomSheet(
 
     val controller = rememberColorPickerController()
     var pickedColor: Color? = null
-
-    /*val colorPickerBottomSheetVisibilityState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-
-    ModalBottomSheetLayout(
-        sheetState = colorPickerBottomSheetVisibilityState,
-        modifier = Modifier
-            .clip(shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)),
-        sheetShape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
-        sheetContent = {
-            ManagementScreenBottomSheetPickColor(
-                viewModel = viewModel,
-                colorPickerBottomSheetVisibilityState
-            )
-        }
-    ) {
-
-    }*/
 
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -124,8 +107,7 @@ fun ManagementScreenBottomSheet(
                 scope.launch {
                     if (managementScreenBottomSheetType == ManagementScreenBottomSheetType.ColorPicker) {
                         if (pickedColor != null) {
-                            ManagementSettings.PrimaryColor = pickedColor!!
-                            // TODO: Save color to sharedPreference
+                            viewModel.setColorToSharedPreferencesAndManagementSettings(ManagementSettings.PrimaryColor)
                         }
 
                         bottomSheetVisibilityState.hide()
@@ -138,7 +120,11 @@ fun ManagementScreenBottomSheet(
             },
         ) {
             Text(
-                text = "Done",
+                text = when (managementScreenBottomSheetType) {
+                    ManagementScreenBottomSheetType.Theme -> "Done"
+                    ManagementScreenBottomSheetType.About -> "Done"
+                    ManagementScreenBottomSheetType.ColorPicker -> "Save"
+                },
                 style = TextStyle(
                     color = White100Color,
                     fontSize = 0.022.sh
