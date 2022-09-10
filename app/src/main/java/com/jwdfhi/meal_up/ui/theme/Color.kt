@@ -7,11 +7,6 @@ val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
-val PrimaryColor = Color(0xD3FF7C1C)
-val Primary80Color = Color(0xD3FA8F41)
-val Primary60Color = Color(0xD3FFA463)
-val LightPrimaryColor = Color(0xD3FFCCA7)
-
 val GreyBackgroundScreen = Color(0xFFECECEC)
 
 val TransparentColor = Color.Transparent
