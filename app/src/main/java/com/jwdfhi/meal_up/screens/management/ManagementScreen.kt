@@ -59,9 +59,7 @@ fun ManagementScreen(
 
     ModalBottomSheetLayout(
         sheetState = bottomSheetVisibilityState,
-        modifier = Modifier
-            .clip(shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)),
-        sheetShape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
+        sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
         sheetContent = {
             ManagementScreenBottomSheet(
                 viewModel = viewModel,
