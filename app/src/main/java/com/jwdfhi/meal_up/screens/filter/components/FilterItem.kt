@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.models.*
 import com.jwdfhi.meal_up.ui.theme.*
+import com.jwdfhi.meal_up.utils.ManagementSettings
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
@@ -70,7 +71,7 @@ fun <T> FilterItem(
                 Text(
                     text = item.title,
                     style = TextStyle(
-                        color = PrimaryColor,
+                        color = ManagementSettings.PrimaryColor,
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Bold,
                         fontSize = 0.02.sh
@@ -130,7 +131,7 @@ fun <T> FilterItem(
                         .height(height = 0.04.dh)
                         .clip(shape = RoundedCornerShape(4.dp))
                         .background(
-                            color = if (filterIsSelected) PrimaryColor else Black50Color.copy(0.6f)
+                            color = if (filterIsSelected) ManagementSettings.PrimaryColor else Black50Color.copy(0.6f)
                         )
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },

@@ -21,6 +21,7 @@ import com.jwdfhi.meal_up.components.CustomBackPressHandler
 import com.jwdfhi.meal_up.models.DrawerItemModel
 import com.jwdfhi.meal_up.screens.Screens
 import com.jwdfhi.meal_up.ui.theme.*
+import com.jwdfhi.meal_up.utils.ManagementSettings
 import com.slaviboy.composeunits.sh
 
 @Composable
@@ -78,7 +79,7 @@ fun CustomDrawer(
                             item = it,
                             backgroundColor =
                             if (screenName == it.screenName)
-                                Primary60Color.copy(0.2f)
+                                ManagementSettings.Primary60Color.copy(0.2f)
                             else
                                 TransparentColor,
                             margin = 0.dp,
@@ -134,13 +135,13 @@ private fun HomeScreenDrawerTitleStyle(title: String) {
     Text(
         text = title,
         style = TextStyle(
-            color = PrimaryColor,
+            color = ManagementSettings.PrimaryColor,
             fontWeight = FontWeight.W500,
             fontSize = 0.022.sh
         ),
         modifier = Modifier
             .clip(shape = RoundedCornerShape(4.dp))
-            .background(LightPrimaryColor)
+            .background(ManagementSettings.LightPrimaryColor)
             .fillMaxWidth()
             .padding(
                 horizontal = 8.dp,

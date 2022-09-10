@@ -19,7 +19,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.jwdfhi.meal_up.ui.theme.PrimaryColor
+import com.jwdfhi.meal_up.utils.ManagementSettings
 
 @Composable
 fun CustomTextField(
@@ -61,12 +61,12 @@ fun CustomTextField(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
-                cursorColor = PrimaryColor
+                cursorColor = ManagementSettings.PrimaryColor
             ),
             placeholder = {
                 Text(
                     text = hint,
-                    color = PrimaryColor
+                    color = ManagementSettings.PrimaryColor
                 )
             },
             keyboardOptions = KeyboardOptions(

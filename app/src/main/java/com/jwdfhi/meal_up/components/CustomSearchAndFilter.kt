@@ -30,6 +30,7 @@ import com.jwdfhi.meal_up.components.CustomTextField
 import com.jwdfhi.meal_up.models.KeyboardStatusType
 import com.jwdfhi.meal_up.screens.home.HomeViewModel
 import com.jwdfhi.meal_up.ui.theme.*
+import com.jwdfhi.meal_up.utils.ManagementSettings
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
 
@@ -62,7 +63,7 @@ fun CustomSearchAndFilter(
             CustomTextField(
                 valueState = searchState,
                 hint = "Searching for a plate?",
-                backgroundColor = LightPrimaryColor,
+                backgroundColor = ManagementSettings.LightPrimaryColor,
                 borderRadius = 8.dp,
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Search,
@@ -91,7 +92,7 @@ fun CustomSearchAndFilter(
                         Image(
                             painter = painterResource(id = R.drawable.search_icon_1),
                             contentDescription = "Search",
-                            colorFilter = ColorFilter.tint(color = PrimaryColor),
+                            colorFilter = ColorFilter.tint(color = ManagementSettings.PrimaryColor),
                             modifier = Modifier
                                 .weight(0.5f)
                                 .align(CenterHorizontally)
@@ -147,7 +148,7 @@ fun CustomSearchAndFilter(
                     Box(
                         modifier = Modifier
                             .clip(shape = RoundedCornerShape(8.dp))
-                            .background(color = if (!filterIsEnable) PrimaryColor else Primary80Color)
+                            .background(color = if (!filterIsEnable) ManagementSettings.PrimaryColor else ManagementSettings.Primary80Color)
                             .fillMaxHeight()
                             .clickable { filterOnTap() }
                             .padding(2.dp)

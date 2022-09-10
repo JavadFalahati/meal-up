@@ -19,15 +19,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.R
-import com.jwdfhi.meal_up.ui.theme.PrimaryColor
 import com.jwdfhi.meal_up.ui.theme.White100Color
+import com.jwdfhi.meal_up.utils.ManagementSettings
 import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
 
 @Composable
 fun CustomError(
     title: String?,
-    color: Color = PrimaryColor,
+    color: Color = ManagementSettings.PrimaryColor,
     tryAgain: Boolean = true,
     tryAgainOnTap: () -> Unit = {}
 ) {

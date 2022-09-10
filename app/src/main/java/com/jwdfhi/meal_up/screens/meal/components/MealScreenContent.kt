@@ -23,6 +23,7 @@ import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.models.IngredientWithColorModel
 import com.jwdfhi.meal_up.models.MealModel
 import com.jwdfhi.meal_up.ui.theme.*
+import com.jwdfhi.meal_up.utils.ManagementSettings
 import com.jwdfhi.meal_up.utils.isNullOrEmptyOfServer
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
@@ -70,7 +71,7 @@ fun MealScreenContent(
                                     if (tag.trim().isNotEmpty()) {
                                         Text(
                                             text = "#$tag",
-                                            color = PrimaryColor,
+                                            color = ManagementSettings.PrimaryColor,
                                             fontWeight = FontWeight.Normal,
                                             fontSize = 0.019.sh
                                         )

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.models.MealModel
 import com.jwdfhi.meal_up.models.getName
 import com.jwdfhi.meal_up.ui.theme.*
+import com.jwdfhi.meal_up.utils.ManagementSettings
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
@@ -64,7 +65,7 @@ fun MealScreenActions(
                                     )
                                 ),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = PrimaryColor
+                                backgroundColor = ManagementSettings.PrimaryColor
                             ),
                             onClick = { markOnTap() },
                         ) {
@@ -115,7 +116,7 @@ fun MealScreenActions(
                                     )
                                 ),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Primary80Color
+                                backgroundColor = ManagementSettings.Primary80Color
                             ),
                             onClick = {
                                 goToMarksOnTap()
