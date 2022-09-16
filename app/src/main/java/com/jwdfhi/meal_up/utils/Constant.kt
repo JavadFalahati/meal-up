@@ -9,5 +9,6 @@ object Constant {
 
     const val MANAGEMENT_SETTING_KEY: String = "ManagementSettingKey"
     const val PRIMARY_COLOR_KEY: String = "PrimaryColorKey"
+    const val INTRODUCTION_IS_VIEWED_KEY: String = "IntroductionIsViewedKey"
 
 }
