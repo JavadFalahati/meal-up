@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
@@ -18,6 +19,7 @@ import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.models.ManagementScreenBottomSheetType
 import com.jwdfhi.meal_up.screens.management.ManagementViewModel
+import com.jwdfhi.meal_up.ui.theme.Black80Color
 import com.jwdfhi.meal_up.ui.theme.White100Color
 import com.jwdfhi.meal_up.utils.ManagementSettings
 import com.jwdfhi.meal_up.utils.setAllManagementPrimaryColor
@@ -65,7 +67,15 @@ fun ManagementScreenBottomSheet(
                         }
                     )
                 }
-                ManagementScreenBottomSheetType.About -> {}
+                ManagementScreenBottomSheetType.About -> {
+                    Text(
+                        text = stringResource(id = R.string.about_description),
+                        style = TextStyle(
+                            color = Black80Color,
+                            fontSize = 0.023.sh
+                        )
+                    )
+                }
                 ManagementScreenBottomSheetType.ColorPicker -> {
                     Column(
                         modifier = Modifier
@@ -107,7 +117,7 @@ fun ManagementScreenBottomSheet(
                 scope.launch {
                     if (managementScreenBottomSheetType == ManagementScreenBottomSheetType.ColorPicker) {
                         if (pickedColor != null) {
-                            viewModel.setColorToSharedPreferencesAndManagementSettings(ManagementSettings.PrimaryColor)
+                            viewModel.setColorToSharedPreferencesAndManagementSettings(pickedColor!!)
                         }
 
                         bottomSheetVisibilityState.hide()
