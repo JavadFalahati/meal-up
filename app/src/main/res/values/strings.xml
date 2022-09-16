@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">meal_up</string>
+    <string name="about_description">Meal up application help you to be a more confident cook all at your fingertips.\nYou can find any sort of meals by filtering by Category, Area and Ingredient. and get info about the Recipe, main Ingredient and the tutorial how making them.\nYou can save this meals by like or marking them. And can Access them any time.\nMeal up is free open source application with NO adds.</string>
 </resources>
