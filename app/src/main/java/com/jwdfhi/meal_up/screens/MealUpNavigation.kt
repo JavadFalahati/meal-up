@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jwdfhi.meal_up.models.FilterListSelectedItemModel
 import com.jwdfhi.meal_up.screens.filter.FilterScreen
@@ -17,6 +18,7 @@ import com.jwdfhi.meal_up.screens.filter.FilterViewModel
 import com.jwdfhi.meal_up.screens.home.HomeScreen
 import com.jwdfhi.meal_up.screens.home.HomeViewModel
 import com.jwdfhi.meal_up.screens.introduction.IntroductionScreen
+import com.jwdfhi.meal_up.screens.introduction.IntroductionViewModel
 import com.jwdfhi.meal_up.screens.like.LikeScreen
 import com.jwdfhi.meal_up.screens.like.LikeViewModel
 import com.jwdfhi.meal_up.screens.management.ManagementScreen
@@ -33,6 +35,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 
+@ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
@@ -142,8 +145,11 @@ fun MealUpNavigation() {
             composable(
                 route = Screens.IntroductionScreen.name
             ) {
+                val introductionViewModel = hiltViewModel<IntroductionViewModel>()
+
                 IntroductionScreen(
                     navController = navController,
+                    viewModel = introductionViewModel
                 )
             }
 
