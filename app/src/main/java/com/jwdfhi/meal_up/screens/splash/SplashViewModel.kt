@@ -22,7 +22,10 @@ class SplashViewModel @Inject constructor(
 
         Handler().postDelayed(
             {
-                navigateToHomeScreen(navController)
+                when (introductionIsViewed()) {
+                    false -> navController.navigate(Screens.IntroductionScreen.name) { popUpTo(0) }
+                    true -> navController.navigate(Screens.HomeScreen.name) { popUpTo(0) }
+                }
             },
             3000
         )
@@ -40,5 +43,7 @@ class SplashViewModel @Inject constructor(
         }
     }
 
-    private fun navigateToHomeScreen(navController: NavController) = navController.navigate(Screens.HomeScreen.name) { popUpTo(0) }
+    private fun introductionIsViewed(): Boolean = context.getSharedPreferences(
+        Constant.MANAGEMENT_SETTING_KEY, Context.MODE_PRIVATE
+    ).getBoolean(Constant.INTRODUCTION_IS_VIEWED_KEY, false)
 }
