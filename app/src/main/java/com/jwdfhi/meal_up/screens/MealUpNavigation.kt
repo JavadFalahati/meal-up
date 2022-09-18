@@ -145,6 +145,10 @@ fun MealUpNavigation() {
             composable(
                 route = Screens.IntroductionScreen.name
             ) {
+                systemUiController.isStatusBarVisible = true
+                systemUiController.isNavigationBarVisible = true
+                systemUiController.isSystemBarsVisible = true
+
                 val introductionViewModel = hiltViewModel<IntroductionViewModel>()
 
                 IntroductionScreen(
