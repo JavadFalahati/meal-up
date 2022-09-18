@@ -132,4 +132,7 @@ dependencies {
     // Pager
     implementation "com.google.accompanist:accompanist-pager:0.23.1"
 
+    // PagerIndicators
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.23.1"
+
 }
