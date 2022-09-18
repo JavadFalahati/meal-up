@@ -219,7 +219,7 @@ fun HomeScreen(
                                             modifier = Modifier
                                                 .fillMaxSize(),
                                         ) {
-                                            items(viewModel.mealsDataOrException.value.data!!) { item ->
+                                            items(viewModel.mealsDataOrException.value.data ?: emptyList()) { item ->
                                                 MealItem(
                                                     onTap = {
                                                         navController.navigate(
