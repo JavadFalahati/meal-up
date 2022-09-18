@@ -58,6 +58,7 @@ fun MealScreenContent(
                     verticalAlignment = Alignment.Top
                 ) {
                     Column(
+                        modifier = Modifier,
                         horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.Top
                     ) {
