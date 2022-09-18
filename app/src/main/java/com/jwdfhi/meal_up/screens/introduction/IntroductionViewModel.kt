@@ -25,7 +25,7 @@ class IntroductionViewModel @Inject constructor(
         navController.popBackStack()
     }
 
-    fun introductionItems(): List<IntroductionItemModel> = listOf<IntroductionItemModel>(
+    val introductionItems: List<IntroductionItemModel> = listOf<IntroductionItemModel>(
         IntroductionItemModel(
             title = "Healthy food",
             description = "A variety of healty foods made by the best chefs. Ingredients are easy to find, all delicious flavors can only be found at Meal up",
@@ -52,7 +52,7 @@ class IntroductionViewModel @Inject constructor(
         scope: CoroutineScope,
         horizontalPageViewState: PagerState
     ): Unit {
-        val isLastItem: Boolean = horizontalPageViewState.currentPage + 1 == introductionItems().size
+        val isLastItem: Boolean = horizontalPageViewState.currentPage + 1 == introductionItems.size
 
         when (isLastItem) {
             false -> scope.launch {
@@ -64,7 +64,7 @@ class IntroductionViewModel @Inject constructor(
     }
 
     fun saveStatusInSharedPreferencesAndNavigateToHomeScreen(navController: NavController) {
-        // saveStatusInSharedPreferences()
+        saveStatusInSharedPreferences()
         navController.navigate(Screens.HomeScreen.name)
     }
 
