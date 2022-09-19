@@ -41,6 +41,7 @@ import com.slaviboy.composeunits.sh
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun MealScreen(
@@ -62,6 +63,7 @@ fun MealScreen(
     ModalBottomSheetLayout(
         sheetState = bottomSheetVisibilityState,
         sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
+        modifier = Modifier.height(92.dh),
         sheetContent = {
             MealScreenBottomSheet(
                 bottomSheetVisibilityState = bottomSheetVisibilityState,
