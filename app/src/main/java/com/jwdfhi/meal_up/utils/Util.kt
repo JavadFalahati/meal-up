@@ -37,3 +37,10 @@ public fun Color.setAllManagementPrimaryColor() {
     ManagementSettings.Primary60Color = this.copy(0.6f)
     ManagementSettings.LightPrimaryColor = this.copy(0.3f)
 }
+
+public fun String.ifIsEmptyReplaceItWith(value: String): String {
+    return when (this) {
+        "" -> value
+        else -> this
+    }
+}
