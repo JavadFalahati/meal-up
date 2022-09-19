@@ -56,7 +56,7 @@ fun ManagementScreenBottomSheet(
             when (managementScreenBottomSheetType) {
                 ManagementScreenBottomSheetType.Theme -> {
                     ManagementScreenManagementItem(
-                        title = "Primary color",
+                        title = stringResource(id = R.string.Primary_color),
                         image = R.drawable.color_dropper_icon_1,
                         color = ManagementSettings.PrimaryColor,
                         onTap = {
@@ -131,9 +131,9 @@ fun ManagementScreenBottomSheet(
         ) {
             Text(
                 text = when (managementScreenBottomSheetType) {
-                    ManagementScreenBottomSheetType.Theme -> "Done"
-                    ManagementScreenBottomSheetType.About -> "Done"
-                    ManagementScreenBottomSheetType.ColorPicker -> "Save"
+                    ManagementScreenBottomSheetType.Theme -> stringResource(id = R.string.Done)
+                    ManagementScreenBottomSheetType.About -> stringResource(id = R.string.Done)
+                    ManagementScreenBottomSheetType.ColorPicker -> stringResource(id = R.string.Save)
                 },
                 style = TextStyle(
                     color = White100Color,

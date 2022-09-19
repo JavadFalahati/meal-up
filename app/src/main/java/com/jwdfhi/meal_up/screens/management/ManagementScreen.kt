@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -114,7 +115,7 @@ fun ManagementScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Menu,
-                        contentDescription = "Menu",
+                        contentDescription = stringResource(id = R.string.Menu),
                         modifier = Modifier
                             .height(height = 0.04.dh)
                             .clickable(
@@ -128,7 +129,7 @@ fun ManagementScreen(
                     )
                     Spacer(modifier = Modifier.width(width = 0.05.dw))
                     Text(
-                        text = "Management",
+                        text = stringResource(id = R.string.Management),
                         style = TextStyle(
                             color = Black90Color,
                             textAlign = TextAlign.Start,
@@ -145,23 +146,23 @@ fun ManagementScreen(
                         count = 1
                     ) {
                         ManagementScreenManagementSection(
-                            title = "Account",
+                            title = stringResource(id = R.string.Account),
                         ) {
                             ManagementScreenManagementItem(
-                                title = "Profile",
+                                title = stringResource(id = R.string.Profile),
                                 image = R.drawable.person_icon_1,
                                 color = Black60Color,
                                 onTap = {
-                                    Toast.makeText(viewModel.context, "Account section not implement yet.", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(viewModel.context, R.string.Account_section_not_implement_yet, Toast.LENGTH_LONG).show()
                                 }
                             )
                         }
                         Spacer(modifier = Modifier.height(height = 0.02.dh))
                         ManagementScreenManagementSection(
-                            title = "Settings"
+                            title = stringResource(id = R.string.Settings)
                         ) {
                             ManagementScreenManagementItem(
-                                title = "Theme",
+                                title = stringResource(id = R.string.Theme),
                                 image = R.drawable.theme_icon_1,
                                 color = Pink70Color,
                                 onTap = {
@@ -173,7 +174,7 @@ fun ManagementScreen(
                                 }
                             )
                             ManagementScreenManagementItem(
-                                title = "About",
+                                title = stringResource(id = R.string.About),
                                 image = R.drawable.info_icon_1,
                                 color = DarkBlue70Color,
                                 onTap = {

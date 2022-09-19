@@ -1,7 +1,9 @@
 package com.jwdfhi.meal_up.screens.introduction
 
 import android.content.Context
+import android.content.res.Resources
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -27,20 +29,20 @@ class IntroductionViewModel @Inject constructor(
 
     val introductionItems: List<IntroductionItemModel> = listOf<IntroductionItemModel>(
         IntroductionItemModel(
-            title = "Healthy food",
-            description = "A variety of healty foods made by the best chefs. Ingredients are easy to find, all delicious flavors can only be found at Meal up",
+            title = Resources.getSystem().getString(R.string.Healthy_food),
+            description = Resources.getSystem().getString(R.string.Healthy_food_description),
             backgroundImage = R.drawable.introduction_background_resized_1,
             color = Color(0xFFE43535)
         ),
         IntroductionItemModel(
-            title = "Stay fresh",
-            description = "Not only food, we clear healthy drink options for you. Fresh taste always accompanies you",
+            title = Resources.getSystem().getString(R.string.Stay_fresh),
+            description = Resources.getSystem().getString(R.string.Stay_fresh_description),
             backgroundImage = R.drawable.introduction_background_resized_4,
             color = Color(0xFFD59923)
         ),
         IntroductionItemModel(
-            title = "Let's Cooking",
-            description = "Are you ready to make a dish for your friends or family? get start and cook",
+            title = Resources.getSystem().getString(R.string.Lets_Cooking),
+            description = Resources.getSystem().getString(R.string.Lets_Cooking_description),
             backgroundImage = R.drawable.introduction_background_resized_5,
             color = Color(0xFF26D53D)
         )

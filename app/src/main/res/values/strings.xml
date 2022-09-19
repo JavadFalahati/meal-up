@@ -1,4 +1,34 @@
 <resources>
     <string name="app_name">meal_up</string>
     <string name="about_description">Meal up application help you to be a more confident cook all at your fingertips.\nYou can find any sort of meals by filtering by Category, Area and Ingredient. and get info about the Recipe, main Ingredient and the tutorial how making them.\nYou can save this meals by like or marking them. And can Access them any time.\nMeal up is free open source application with NO adds.</string>
+    <string name="Categories">Categories</string>
+    <string name="Areas">Areas</string>
+    <string name="Ingredients">Ingredients</string>
+    <string name="Save">Save</string>
+    <string name="Clear">Clear</string>
+    <string name="Back">Back</string>
+    <string name="Filters">Filters</string>
+    <string name="An_unexpected_error_accrued">An unexpected error accrued!</string>
+    <string name="Menu">Menu</string>
+    <string name="Error_accrued_while_connecting_to_server">Error accrued while connecting to server</string>
+    <string name="Healthy_food">Healthy food</string>
+    <string name="Healthy_food_description">A variety of healty foods made by the best chefs. Ingredients are easy to find, all delicious flavors can only be found at Meal up</string>
+    <string name="Stay_fresh">Stay fresh</string>
+    <string name="Stay_fresh_description">Not only food, we clear healthy drink options for you. Fresh taste always accompanies you</string>
+    <string name="Lets_Cooking">Lets Cooking</string>
+    <string name="Lets_Cooking_description">Are you ready to make a dish for your friends or family? get start and cook</string>
+    <string name="Skip_now">Skip now</string>
+    <string name="Next">Next</string>
+    <string name="Get_started">Get started</string>
+    <string name="Liked_Meals">Liked Meals</string>
+    <string name="Management">Management</string>
+    <string name="Account">Account</string>
+    <string name="Account_section_not_implement_yet">Account section not implement yet.</string>
+    <string name="Profile">Profile</string>
+    <string name="Settings">Settings</string>
+    <string name="Theme">Theme</string>
+    <string name="About">About</string>
+    <string name="Primary_color">Primary color</string>
+    <string name="Done">Done</string>
+
 </resources>

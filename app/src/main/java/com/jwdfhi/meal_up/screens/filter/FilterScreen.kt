@@ -10,9 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.components.*
 import com.jwdfhi.meal_up.models.*
 import com.jwdfhi.meal_up.screens.filter.components.FilterScreenAppbar
@@ -86,7 +88,7 @@ fun FilterScreen(
                                     item {
                                         FilterItem<MealCategoryListServiceModel.Category>(
                                             item = FilterItemModel<MealCategoryListServiceModel.Category>(
-                                                title = "Categories",
+                                                title = stringResource(id = R.string.Categories),
                                                 selectItem = { viewModel.selectSingleStateOfFilter<MealCategoryListServiceModel.Category>(it) },
                                                 clearItem = { viewModel.clearSingleStateOfFilter<MealCategoryListServiceModel.Category>(it) },
                                                 clearAllItems = { viewModel.clearAllStateOfFilter(FilterType.Category) },
@@ -100,7 +102,7 @@ fun FilterScreen(
                                         Spacer(modifier = Modifier.height(0.025.dh))
                                         FilterItem(
                                             item = FilterItemModel<MealIngredientListServiceModel.Meal>(
-                                                title = "Ingredients",
+                                                title = stringResource(id = R.string.Ingredients),
                                                 selectItem = { viewModel.selectSingleStateOfFilter<MealIngredientListServiceModel.Meal>(it) },
                                                 clearItem = { viewModel.clearSingleStateOfFilter<MealIngredientListServiceModel.Meal>(it) },
                                                 clearAllItems = { viewModel.clearAllStateOfFilter(FilterType.Ingredient) },
@@ -114,7 +116,7 @@ fun FilterScreen(
                                         Spacer(modifier = Modifier.height(0.025.dh))
                                         FilterItem(
                                             item = FilterItemModel<MealAreaListServiceModel.Meal>(
-                                                title = "Areas",
+                                                title = stringResource(id = R.string.Areas),
                                                 selectItem = { viewModel.selectSingleStateOfFilter<MealAreaListServiceModel.Meal>(it) },
                                                 clearItem = { viewModel.clearSingleStateOfFilter<MealAreaListServiceModel.Meal>(it) },
                                                 clearAllItems = { viewModel.clearAllStateOfFilter(FilterType.Area) },
@@ -149,7 +151,7 @@ fun FilterScreen(
                                 onClick = { viewModel.submitFilter(navController = navController) },
                             ) {
                                 Text(
-                                    text = "Save",
+                                    text = stringResource(id = R.string.Save),
                                     style = TextStyle(
                                         color = White100Color,
                                         fontSize = 0.02.sh

@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -160,12 +161,16 @@ fun IntroductionScreen(
                                                 )
                                             )
                                             .background(TransparentColor)
-                                            .clickable { viewModel.saveStatusInSharedPreferencesAndNavigateToHomeScreen(navController) }
+                                            .clickable {
+                                                viewModel.saveStatusInSharedPreferencesAndNavigateToHomeScreen(
+                                                    navController
+                                                )
+                                            }
                                     ) {
                                         Text(
                                             modifier = Modifier
                                                 .padding(horizontal = 8.dp, vertical = 4.dp),
-                                            text = "Skip now",
+                                            text = stringResource(id = R.string.Skip_now),
                                             style = TextStyle(
                                                 color = Black60Color,
                                                 fontSize = 0.018.sh
@@ -194,7 +199,7 @@ fun IntroductionScreen(
                                                 painter = painterResource(
                                                     id = R.drawable.back_right_icon_1
                                                 ),
-                                                contentDescription = "Next",
+                                                contentDescription = stringResource(id = R.string.Next),
                                                 colorFilter = ColorFilter.tint(
                                                     color = item.color
                                                 ),
@@ -227,7 +232,7 @@ fun IntroductionScreen(
                                         },
                                     ) {
                                         Text(
-                                            text = "Get started",
+                                            text = stringResource(id = R.string.Get_started),
                                             style = TextStyle(
                                                 color = White100Color,
                                                 fontSize = 0.02.sh

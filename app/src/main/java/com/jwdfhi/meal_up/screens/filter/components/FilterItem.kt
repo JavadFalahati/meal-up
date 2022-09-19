@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -89,7 +90,7 @@ fun <T> FilterItem(
                         ),
                 ) {
                     Text(
-                        text = "Clear",
+                        text = stringResource(id = R.string.Clear),
                         style = TextStyle(
                             color = if (haveSelectedItem) Red80Color else Black50Color,
                             textAlign = TextAlign.End,
@@ -131,7 +132,9 @@ fun <T> FilterItem(
                         .height(height = 0.04.dh)
                         .clip(shape = RoundedCornerShape(4.dp))
                         .background(
-                            color = if (filterIsSelected) ManagementSettings.PrimaryColor else Black50Color.copy(0.6f)
+                            color = if (filterIsSelected) ManagementSettings.PrimaryColor else Black50Color.copy(
+                                0.6f
+                            )
                         )
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
@@ -149,7 +152,7 @@ fun <T> FilterItem(
                     if (filterIsSelected) {
                         Image(
                             painter = painterResource(id = R.drawable.close_icon_2),
-                            contentDescription = "Clear",
+                            contentDescription = stringResource(id = R.string.Clear),
                             colorFilter = ColorFilter.tint(color = Black80Color),
                             modifier = Modifier
                                 .padding(4.dp)

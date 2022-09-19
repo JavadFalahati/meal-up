@@ -24,11 +24,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.components.*
 import com.jwdfhi.meal_up.models.DataOrExceptionStatus
 import com.jwdfhi.meal_up.models.FilterListSelectedItemModel
@@ -121,7 +123,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(height = 0.03.dh))
             Icon(
                 imageVector = Icons.Default.Menu,
-                contentDescription = "Menu",
+                contentDescription = stringResource(id = R.string.Menu),
                 modifier = Modifier
                     .align(Alignment.Start)
                     .height(height = 0.04.dh)
@@ -197,7 +199,7 @@ fun HomeScreen(
                     when (viewModel.mealsDataOrException.collectAsState().value.status) {
                         DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.SpoonAndFork, title = "")
                         DataOrExceptionStatus.Failure -> CustomError(
-                            title = "Error accrued while connecting to server",
+                            title = stringResource(id = R.string.Error_accrued_while_connecting_to_server),
                             tryAgainOnTap = { search(viewModel, searchState) }
                         )
                         DataOrExceptionStatus.Success -> {

@@ -3,9 +3,11 @@ package com.jwdfhi.meal_up.screens.home
 import android.content.Context
 import android.os.CountDownTimer
 import android.widget.Toast
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.models.*
 import com.jwdfhi.meal_up.repositories.MealDatabaseRepository
 import com.jwdfhi.meal_up.repositories.MealServiceRepository
@@ -480,7 +482,7 @@ class HomeViewModel @Inject constructor(
     private suspend fun insertMealOnDatabase(filteredMealModel: FilteredMealModel) {
         val networkMealDataOrException = getMealFromNetwork(filteredMealModel.idMeal)
         if (networkMealDataOrException.status == DataOrExceptionStatus.Failure) {
-            Toast.makeText(context, "An unexpected error accrued!", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, R.string.An_unexpected_error_accrued, Toast.LENGTH_LONG).show()
             return
         }
 

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -59,7 +60,7 @@ fun FilterScreenAppbar(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.back_left_icon_2),
-                    contentDescription = "Back",
+                    contentDescription = stringResource(id = R.string.Back),
                     colorFilter = ColorFilter.tint(color = Black90Color),
                     modifier = Modifier
                         .height(height = 0.055.dh)
@@ -68,7 +69,7 @@ fun FilterScreenAppbar(
             }
             Spacer(modifier = Modifier.width(0.05.dw))
             Text(
-                text = "Filters",
+                text = stringResource(id = R.string.Filters),
                 style = TextStyle(
                     color = Black90Color,
                     textAlign = TextAlign.Start,

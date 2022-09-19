@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.components.*
 import com.jwdfhi.meal_up.models.DataOrExceptionStatus
 import com.jwdfhi.meal_up.models.LoadingType
@@ -105,7 +107,7 @@ fun LikeScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Menu,
-                    contentDescription = "Menu",
+                    contentDescription = stringResource(id = R.string.Menu),
                     modifier = Modifier
                         .height(height = 0.04.dh)
                         .clickable(
@@ -119,7 +121,7 @@ fun LikeScreen(
                 )
                 Spacer(modifier = Modifier.width(width = 0.05.dw))
                 Text(
-                    text = "Liked Meals",
+                    text = stringResource(id = R.string.Liked_Meals),
                     style = TextStyle(
                         color = Black90Color,
                         textAlign = TextAlign.Start,
@@ -174,7 +176,7 @@ fun LikeScreen(
                     when (viewModel.mealsDataOrException.collectAsState().value.status) {
                         DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.Linear, title = "")
                         DataOrExceptionStatus.Failure -> CustomError(
-                            title = "Error accrued while connecting to server",
+                            title = stringResource(id = R.string.Error_accrued_while_connecting_to_server),
                             tryAgainOnTap = { viewModel.searchMealByName(searchState.value) }
                         )
                         DataOrExceptionStatus.Success -> {
