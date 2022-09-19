@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -108,7 +109,7 @@ fun MealScreenContent(
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.expand_icon_1),
-                                contentDescription = "Expand",
+                                contentDescription = stringResource(id = R.string.Expand),
                                 colorFilter = ColorFilter.tint(color = Black60Color.copy(0.6f)),
                                 modifier = Modifier
                                     .align(Alignment.CenterHorizontally)
@@ -119,7 +120,7 @@ fun MealScreenContent(
 
                 Spacer(modifier = Modifier.height(0.028.dh))
                 Text(
-                    text = "Instructions",
+                    text = stringResource(id = R.string.Instructions),
                     color = Black80Color,
                     fontWeight = FontWeight.W600,
                     fontSize = 0.022.sh
@@ -140,7 +141,7 @@ fun MealScreenContent(
                 )
                 Spacer(modifier = Modifier.height(0.02.dh))
                 Text(
-                    text = "Ingredients",
+                    text = stringResource(id = R.string.Ingredients),
                     color = Black80Color,
                     fontWeight = FontWeight.W600,
                     fontSize = 0.022.sh
@@ -186,14 +187,14 @@ fun MealScreenContent(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     MealScreenContentAction(
-                        title = "Source",
+                        title = stringResource(id = R.string.Source),
                         backgroundColor = Blue90Color,
                         image = painterResource(id = R.drawable.link_icon_3),
                         onTap = { sourceOnTap() }
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                     MealScreenContentAction(
-                        title = "Youtube",
+                        title = stringResource(id = R.string.Youtube),
                         backgroundColor = Red80Color,
                         image = painterResource(id = R.drawable.fill_youtube_icon_1),
                         onTap = { youtubeOnTap() }

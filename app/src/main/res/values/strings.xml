@@ -30,5 +30,21 @@
     <string name="About">About</string>
     <string name="Primary_color">Primary color</string>
     <string name="Done">Done</string>
+    <string name="Marked_Meals">Marked Meals</string>
+    <string name="Mark_now">Mark now</string>
+    <string name="Remove">Remove</string>
+    <string name="Marked_as">Marked as </string>
+    <string name="BackgroundImage">BackgroundImage</string>
+    <string name="Instructions">Instructions</string>
+    <string name="Category_and_Area">Category and Area</string>
+    <string name="Category">Category</string>
+    <string name="Unknown">Unknown</string>
+    <string name="OK">OK</string>
+    <string name="Area">Area</string>
+    <string name="Expand">Expand</string>
+    <string name="Source">Source</string>
+    <string name="Youtube">Youtube</string>
+    <string name="Select_a_category">Select a category</string>
+    <string name="Can_not_select_more_than_3_ingredient">Can not select more than 3 ingredient!</string>
 
 </resources>

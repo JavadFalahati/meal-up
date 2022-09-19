@@ -8,8 +8,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.models.MealModel
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
@@ -27,7 +29,7 @@ fun MealScreenBackground(mealItem: MealModel) {
                 mealItem.strMealThumb,
                 contentScale = ContentScale.Crop,
             ),
-            contentDescription = "BackgroundImage",
+            contentDescription = stringResource(id = R.string.BackgroundImage),
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 // .fillMaxWidth()

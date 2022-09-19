@@ -15,8 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.models.MealModel
 import com.jwdfhi.meal_up.models.getName
 import com.jwdfhi.meal_up.ui.theme.*
@@ -70,7 +72,7 @@ fun MealScreenActions(
                             onClick = { markOnTap() },
                         ) {
                             Text(
-                                text = "Mark now",
+                                text = stringResource(id = R.string.Mark_now),
                                 style = TextStyle(
                                     color = White100Color,
                                     fontSize = 0.02.sh
@@ -101,7 +103,7 @@ fun MealScreenActions(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Close,
-                                contentDescription = "Remove",
+                                contentDescription = stringResource(id = R.string.Remove),
                                 tint = White100Color,
                             )
                         }
@@ -127,12 +129,12 @@ fun MealScreenActions(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Done,
-                                    contentDescription = "Done",
+                                    contentDescription = stringResource(id = R.string.Done),
                                     tint = White100Color,
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
-                                    text = "Marked as ${mealItem.markCategory?.getName()}",
+                                    text = stringResource(id = R.string.Marked_as) + mealItem.markCategory?.getName(),
                                     style = TextStyle(
                                         color = White100Color,
                                         fontSize = 0.02.sh

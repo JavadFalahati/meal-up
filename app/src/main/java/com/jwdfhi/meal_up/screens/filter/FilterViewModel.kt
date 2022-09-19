@@ -6,6 +6,7 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.jwdfhi.meal_up.R
 import com.jwdfhi.meal_up.models.*
 import com.jwdfhi.meal_up.repositories.MealServiceRepository
 import com.jwdfhi.meal_up.utils.Constant
@@ -217,7 +218,7 @@ class FilterViewModel @Inject constructor(
                 }
 
                 if (ingredientCount > 2) {
-                    Toast.makeText(this.context, "Can't select more than 3 ingredient!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this.context, R.string.Can_not_select_more_than_3_ingredient, Toast.LENGTH_LONG).show()
                     return
                 }
                 _ingredientsDataOrException.value.data?.find { it == state }?.let { it.isSelected = true }

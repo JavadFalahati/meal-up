@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,7 +36,7 @@ fun MealScreenMealCategoryDialog(
             Text(
                 modifier = Modifier
                     .fillMaxWidth(),
-                text = "Select a category",
+                text = stringResource(id = R.string.Select_a_category),
                 textAlign = TextAlign.Center,
                 style = TextStyle(
                     color = Black80Color,

@@ -1,5 +1,6 @@
 package com.jwdfhi.meal_up.screens.meal.components
 
+import android.content.res.Resources
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.background
@@ -14,6 +15,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -77,7 +79,7 @@ fun MealScreenBottomSheet(
                         items(
                             listOf<MealScreenBottomSheetItemSectionModel>(
                                 MealScreenBottomSheetItemSectionModel(
-                                    title = "Ingredients",
+                                    title = Resources.getSystem().getString(R.string.Ingredients),
                                     icon = R.drawable.ingredient_icon_1,
                                     content = {
                                         LazyRow(
@@ -131,7 +133,7 @@ fun MealScreenBottomSheet(
                                     }
                                 ),
                                 MealScreenBottomSheetItemSectionModel(
-                                    title = "Instructions",
+                                    title = Resources.getSystem().getString(R.string.Instructions),
                                     icon = R.drawable.food_recipe_icon_1,
                                     content = {
                                         Text(
@@ -146,15 +148,15 @@ fun MealScreenBottomSheet(
                                     }
                                 ),
                                 MealScreenBottomSheetItemSectionModel(
-                                    title = "Category and Area",
+                                    title = Resources.getSystem().getString(R.string.Category_and_Area),
                                     icon = R.drawable.food_recipe_icon_1,
                                     content = {},
                                     splitted = true,
-                                    firstSplittedTitle = "Category",
+                                    firstSplittedTitle = Resources.getSystem().getString(R.string.Category),
                                     firstSplittedIcon = R.drawable.category_icon_1,
                                     firstSplittedContent = {
                                         Text(
-                                            text = mealItem.strCategory.ifIsEmptyReplaceItWith("Unknown"),
+                                            text = mealItem.strCategory.ifIsEmptyReplaceItWith(Resources.getSystem().getString(R.string.Unknown)),
                                             style = TextStyle(
                                                 textAlign = TextAlign.Start,
                                                 color = Black60Color,
@@ -163,11 +165,11 @@ fun MealScreenBottomSheet(
                                             )
                                         )
                                     },
-                                    secondSplittedTitle = "Area",
+                                    secondSplittedTitle = Resources.getSystem().getString(R.string.Area),
                                     secondSplittedIcon = R.drawable.globe_icon_1,
                                     secondSplittedContent = {
                                         Text(
-                                            text = mealItem.strArea.ifIsEmptyReplaceItWith("Unknown"),
+                                            text = mealItem.strArea.ifIsEmptyReplaceItWith(Resources.getSystem().getString(R.string.Unknown)),
                                             style = TextStyle(
                                                 textAlign = TextAlign.Start,
                                                 color = Black60Color,
@@ -194,7 +196,7 @@ fun MealScreenBottomSheet(
                 onClick = { scope.launch { bottomSheetVisibilityState.hide() } },
             ) {
                 Text(
-                    text = "OK",
+                    text = Resources.getSystem().getString(R.string.OK),
                     style = TextStyle(
                         color = White100Color,
                         fontSize = 0.022.sh
