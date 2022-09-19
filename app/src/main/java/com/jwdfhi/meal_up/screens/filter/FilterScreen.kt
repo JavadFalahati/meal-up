@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,7 +55,7 @@ fun FilterScreen(
             when (viewModel.filtersDataOrException.collectAsState().value.status) {
                 DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.Linear, title = "")
                 DataOrExceptionStatus.Failure -> CustomError(
-                    title = viewModel.filtersDataOrException.collectAsState().value.exception!!.message!!,
+                    title = viewModel.filtersDataOrException.collectAsState().value.exception?.message ?: "",
                     tryAgainOnTap = { viewModel.initState(filterListSelectedItemModel = filterListSelectedItemModel) }
                 )
                 DataOrExceptionStatus.Success -> {
@@ -92,7 +93,7 @@ fun FilterScreen(
                                                 selectItem = { viewModel.selectSingleStateOfFilter<MealCategoryListServiceModel.Category>(it) },
                                                 clearItem = { viewModel.clearSingleStateOfFilter<MealCategoryListServiceModel.Category>(it) },
                                                 clearAllItems = { viewModel.clearAllStateOfFilter(FilterType.Category) },
-                                                items = viewModel.filtersDataOrException.collectAsState().value.data!!.categories
+                                                items = viewModel.filtersDataOrException.collectAsState().value.data?.categories ?: SnapshotStateList()
                                             ),
                                             haveSelectedItem = viewModel.filterListSelectedItemModel.category.isNotEmpty(),
                                             height = 0.2.dh,
@@ -106,7 +107,7 @@ fun FilterScreen(
                                                 selectItem = { viewModel.selectSingleStateOfFilter<MealIngredientListServiceModel.Meal>(it) },
                                                 clearItem = { viewModel.clearSingleStateOfFilter<MealIngredientListServiceModel.Meal>(it) },
                                                 clearAllItems = { viewModel.clearAllStateOfFilter(FilterType.Ingredient) },
-                                                items = viewModel.filtersDataOrException.collectAsState().value.data!!.ingredients
+                                                items = viewModel.filtersDataOrException.collectAsState().value.data?.ingredients ?: SnapshotStateList()
                                             ),
                                             haveSelectedItem = viewModel.filterListSelectedItemModel.ingredients.isNotEmpty(),
                                             height = 0.2.dh,
@@ -120,7 +121,7 @@ fun FilterScreen(
                                                 selectItem = { viewModel.selectSingleStateOfFilter<MealAreaListServiceModel.Meal>(it) },
                                                 clearItem = { viewModel.clearSingleStateOfFilter<MealAreaListServiceModel.Meal>(it) },
                                                 clearAllItems = { viewModel.clearAllStateOfFilter(FilterType.Area) },
-                                                items = viewModel.filtersDataOrException.collectAsState().value.data!!.areas
+                                                items = viewModel.filtersDataOrException.collectAsState().value.data?.areas ?: SnapshotStateList()
                                             ),
                                             haveSelectedItem = viewModel.filterListSelectedItemModel.area.isNotEmpty(),
                                             height = 0.2.dh,

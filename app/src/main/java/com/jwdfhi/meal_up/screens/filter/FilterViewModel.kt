@@ -2,6 +2,7 @@ package com.jwdfhi.meal_up.screens.filter
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -245,9 +246,9 @@ class FilterViewModel @Inject constructor(
         _filtersDataOrException.value = DataOrException(
             status = DataOrExceptionStatus.Success,
             data = FilterListItemModel(
-                categories = _categoriesDataOrException.value.data!!.toMutableStateList(),
-                ingredients = _ingredientsDataOrException.value.data!!.toMutableStateList(),
-                areas = _areasDataOrException.value.data!!.toMutableStateList()
+                categories = _categoriesDataOrException.value.data?.toMutableStateList() ?: SnapshotStateList(),
+                ingredients = _ingredientsDataOrException.value.data?.toMutableStateList() ?: SnapshotStateList(),
+                areas = _areasDataOrException.value.data?.toMutableStateList() ?: SnapshotStateList()
             ),
         )
     }

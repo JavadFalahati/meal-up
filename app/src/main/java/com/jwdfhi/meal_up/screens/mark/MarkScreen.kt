@@ -190,28 +190,34 @@ fun MarkScreen(
                                 CompositionLocalProvider(
                                     LocalOverscrollConfiguration provides null
                                 ) {
-                                    when (viewModel.mealsDataOrException.collectAsState().value.data?.isEmpty()!!) {
-                                        true -> CustomEmpty()
-                                        false -> LazyColumn(
-                                            modifier = Modifier
-                                                .fillMaxSize(),
-                                        ) {
-                                            items(viewModel.mealsDataOrException.value.data!!) { item ->
-                                                MealItem(
-                                                    onTap = {
-                                                        navController.navigate(
-                                                            route = Screens.MealScreen.name
-                                                                    + "/" +
-                                                                    item.idMeal
-                                                        )
+                                    when (viewModel.mealsDataOrException.collectAsState().value.data) {
+                                        null -> CustomError(
+                                            title = stringResource(id = R.string.Error_accrued_while_connecting_to_server),
+                                            tryAgainOnTap = { viewModel.searchMealByName(searchState.value) }
+                                        )
+                                        else -> when (viewModel.mealsDataOrException.collectAsState().value.data?.isEmpty()) {
+                                            true -> CustomEmpty()
+                                            false -> LazyColumn(
+                                                modifier = Modifier
+                                                    .fillMaxSize(),
+                                            ) {
+                                                items(viewModel.mealsDataOrException.value.data!!) { item ->
+                                                    MealItem(
+                                                        onTap = {
+                                                            navController.navigate(
+                                                                route = Screens.MealScreen.name
+                                                                        + "/" +
+                                                                        item.idMeal
+                                                            )
 
-                                                        // viewModel.initState()
-                                                    },
-                                                    likeOnTap = {},
-                                                    item = item,
-                                                    margin = 8.dp,
-                                                    padding = 8.dp
-                                                )
+                                                            // viewModel.initState()
+                                                        },
+                                                        likeOnTap = {},
+                                                        item = item,
+                                                        margin = 8.dp,
+                                                        padding = 8.dp
+                                                    )
+                                                }
                                             }
                                         }
                                     }

@@ -66,22 +66,27 @@ fun MealScreenContent(
                         if (!mealItem.strTags.isNullOrEmptyOfServer()) {
                             val tagList = mealItem.strTags?.split(",")
 
-                            LazyRow(
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
-                            ) {
-                                items(tagList!!) { tag ->
-                                    if (tag.trim().isNotEmpty()) {
-                                        Text(
-                                            text = "#$tag",
-                                            color = ManagementSettings.PrimaryColor,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 0.019.sh
-                                        )
-                                    }
+                            when (tagList) {
+                                null -> Box {}
+                                else -> {
+                                    LazyRow(
+                                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                    ) {
+                                        items(tagList) { tag ->
+                                            if (tag.trim().isNotEmpty()) {
+                                                Text(
+                                                    text = "#$tag",
+                                                    color = ManagementSettings.PrimaryColor,
+                                                    fontWeight = FontWeight.Normal,
+                                                    fontSize = 0.019.sh
+                                                )
+                                            }
 
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.height(0.015.dh))
                                 }
                             }
-                            Spacer(modifier = Modifier.height(0.015.dh))
                         }
                         Text(
                             text = mealItem.strMeal,

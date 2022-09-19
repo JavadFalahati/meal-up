@@ -38,7 +38,7 @@ class HomeViewModel @Inject constructor(
 
             when (refresh) {
                 false -> {
-                    _mealsDataOrException.value.data = checkDataMealsWithStoreMeals(_mealsDataOrException.value.data!!)
+                    _mealsDataOrException.value.data = checkDataMealsWithStoreMeals(_mealsDataOrException.value.data ?: mutableListOf())
                 }
                 true -> {
                     getStoredMeals()
@@ -123,7 +123,7 @@ class HomeViewModel @Inject constructor(
             val dataOrException = getSingleRandomMeal()
             if (dataOrException.status != DataOrExceptionStatus.Success) { return }
 
-            val id: String = dataOrException.data!![0].idMeal
+            val id: String = dataOrException.data?.get(0)?.idMeal ?: ""
             mealList.forEach {
                 if (id == it.idMeal) {
                     isRepetitive = true
