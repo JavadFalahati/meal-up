@@ -174,7 +174,7 @@ fun LikeScreen(
             ) {
                 Box(modifier = Modifier.align(Alignment.Center)) {
                     when (viewModel.mealsDataOrException.collectAsState().value.status) {
-                        DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.Linear, title = "")
+                        DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.SpoonAndFork, title = "")
                         DataOrExceptionStatus.Failure -> CustomError(
                             title = stringResource(id = R.string.Error_accrued_while_connecting_to_server),
                             tryAgainOnTap = { viewModel.searchMealByName(searchState.value) }

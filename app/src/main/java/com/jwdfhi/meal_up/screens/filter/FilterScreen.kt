@@ -53,7 +53,7 @@ fun FilterScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             when (viewModel.filtersDataOrException.collectAsState().value.status) {
-                DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.Linear, title = "")
+                DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.SpoonAndFork, title = "")
                 DataOrExceptionStatus.Failure -> CustomError(
                     title = viewModel.filtersDataOrException.collectAsState().value.exception?.message ?: "",
                     tryAgainOnTap = { viewModel.initState(filterListSelectedItemModel = filterListSelectedItemModel) }

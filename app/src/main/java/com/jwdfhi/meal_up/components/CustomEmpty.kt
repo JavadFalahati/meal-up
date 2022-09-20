@@ -6,12 +6,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.R
+import com.jwdfhi.meal_up.ui.theme.Black60Color
 import com.slaviboy.composeunits.dh
 import com.slaviboy.composeunits.dw
 import com.slaviboy.composeunits.sh
@@ -30,7 +32,7 @@ fun CustomEmpty(
                 .width(0.6.dw)
                 .align(Alignment.CenterHorizontally)
         ) {
-            val painter = painterResource(id = R.drawable.empty_icon_1)
+            val painter = painterResource(id = R.drawable.empty_icon_2)
             Image(
                 modifier = Modifier
                     .aspectRatio(ratio = painter.intrinsicSize.height / painter.intrinsicSize.width)
@@ -38,6 +40,7 @@ fun CustomEmpty(
                     .fillMaxHeight(),
                 painter = painter,
                 contentDescription = "Empty",
+                colorFilter = ColorFilter.tint(color = Black60Color),
                 contentScale = ContentScale.Fit
             )
         }

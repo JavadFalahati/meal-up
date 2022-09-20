@@ -102,7 +102,7 @@ fun MealScreen(
                 ) {
                     Box(modifier = Modifier.align(Alignment.Center)) {
                         when (viewModel.mealDataOrException.collectAsState().value.status) {
-                            DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.Linear, title = "")
+                            DataOrExceptionStatus.Loading -> CustomLoading(loadingType = LoadingType.SpoonAndFork, title = "")
                             DataOrExceptionStatus.Failure -> CustomError(
                                 title = viewModel.mealDataOrException.collectAsState().value.exception?.message,
                                 tryAgainOnTap = { viewModel.initState(id) }
