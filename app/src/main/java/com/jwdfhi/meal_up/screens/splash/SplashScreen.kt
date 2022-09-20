@@ -76,7 +76,7 @@ fun SplashScreen(
                             .align(Alignment.Center)
                             .height(0.2.dh)
                             .clip(shape = RoundedCornerShape(12.dp)),
-                        painter = painterResource(id = R.drawable.meal_up_logo_png_1),
+                        painter = painterResource(id = R.drawable.main_logo_icon),
                         contentDescription = null,
                     )
                 }
