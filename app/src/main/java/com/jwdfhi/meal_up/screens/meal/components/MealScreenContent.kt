@@ -59,7 +59,8 @@ fun MealScreenContent(
                     verticalAlignment = Alignment.Top
                 ) {
                     Column(
-                        modifier = Modifier,
+                        modifier = Modifier
+                            .width(0.66.dw),
                         horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.Top
                     ) {
@@ -92,7 +93,7 @@ fun MealScreenContent(
                             text = mealItem.strMeal,
                             color = Black80Color,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 0.034.sh
+                            fontSize = if (mealItem.strMeal.length < 35) 0.034.sh else 0.026.sh
                         )
                     }
                     Box(
