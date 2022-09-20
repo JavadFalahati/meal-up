@@ -29,20 +29,20 @@ class IntroductionViewModel @Inject constructor(
 
     val introductionItems: List<IntroductionItemModel> = listOf<IntroductionItemModel>(
         IntroductionItemModel(
-            title = Resources.getSystem().getString(R.string.Healthy_food),
-            description = Resources.getSystem().getString(R.string.Healthy_food_description),
+            title = R.string.Healthy_food,
+            description = R.string.Healthy_food_description,
             backgroundImage = R.drawable.introduction_background_resized_1,
             color = Color(0xFFE43535)
         ),
         IntroductionItemModel(
-            title = Resources.getSystem().getString(R.string.Stay_fresh),
-            description = Resources.getSystem().getString(R.string.Stay_fresh_description),
+            title = R.string.Stay_fresh,
+            description = R.string.Stay_fresh_description,
             backgroundImage = R.drawable.introduction_background_resized_4,
             color = Color(0xFFD59923)
         ),
         IntroductionItemModel(
-            title = Resources.getSystem().getString(R.string.Lets_Cooking),
-            description = Resources.getSystem().getString(R.string.Lets_Cooking_description),
+            title = R.string.Lets_Cooking,
+            description = R.string.Lets_Cooking_description,
             backgroundImage = R.drawable.introduction_background_resized_5,
             color = Color(0xFF26D53D)
         )

@@ -122,7 +122,7 @@ fun IntroductionScreen(
                             Spacer(modifier = Modifier.height(0.031.dh))
                             Text(
                                 modifier = Modifier.width(0.7.dw),
-                                text = item.title,
+                                text = stringResource(id = item.title),
                                 style = TextStyle(
                                     textAlign = TextAlign.Center,
                                     color = Black90Color,
@@ -133,7 +133,7 @@ fun IntroductionScreen(
                             Spacer(modifier = Modifier.height(0.031.dh))
                             Text(
                                 modifier = Modifier.width(0.7.dw),
-                                text = item.description,
+                                text = stringResource(id = item.description),
                                 style = TextStyle(
                                     textAlign = TextAlign.Center,
                                     color = Black60Color,

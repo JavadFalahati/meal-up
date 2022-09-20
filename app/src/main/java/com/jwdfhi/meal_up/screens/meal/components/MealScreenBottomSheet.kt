@@ -79,7 +79,7 @@ fun MealScreenBottomSheet(
                         items(
                             listOf<MealScreenBottomSheetItemSectionModel>(
                                 MealScreenBottomSheetItemSectionModel(
-                                    title = Resources.getSystem().getString(R.string.Ingredients),
+                                    title = R.string.Ingredients,
                                     icon = R.drawable.ingredient_icon_1,
                                     content = {
                                         LazyRow(
@@ -133,7 +133,7 @@ fun MealScreenBottomSheet(
                                     }
                                 ),
                                 MealScreenBottomSheetItemSectionModel(
-                                    title = Resources.getSystem().getString(R.string.Instructions),
+                                    title = R.string.Instructions,
                                     icon = R.drawable.food_recipe_icon_1,
                                     content = {
                                         Text(
@@ -148,15 +148,15 @@ fun MealScreenBottomSheet(
                                     }
                                 ),
                                 MealScreenBottomSheetItemSectionModel(
-                                    title = Resources.getSystem().getString(R.string.Category_and_Area),
+                                    title = R.string.Category_and_Area,
                                     icon = R.drawable.food_recipe_icon_1,
                                     content = {},
                                     splitted = true,
-                                    firstSplittedTitle = Resources.getSystem().getString(R.string.Category),
+                                    firstSplittedTitle = R.string.Category,
                                     firstSplittedIcon = R.drawable.category_icon_1,
                                     firstSplittedContent = {
                                         Text(
-                                            text = mealItem.strCategory.ifIsEmptyReplaceItWith(Resources.getSystem().getString(R.string.Unknown)),
+                                            text = mealItem.strCategory.ifIsEmptyReplaceItWith(stringResource(id = R.string.Unknown)),
                                             style = TextStyle(
                                                 textAlign = TextAlign.Start,
                                                 color = Black60Color,
@@ -165,11 +165,11 @@ fun MealScreenBottomSheet(
                                             )
                                         )
                                     },
-                                    secondSplittedTitle = Resources.getSystem().getString(R.string.Area),
+                                    secondSplittedTitle = R.string.Area,
                                     secondSplittedIcon = R.drawable.globe_icon_1,
                                     secondSplittedContent = {
                                         Text(
-                                            text = mealItem.strArea.ifIsEmptyReplaceItWith(Resources.getSystem().getString(R.string.Unknown)),
+                                            text = mealItem.strArea.ifIsEmptyReplaceItWith(stringResource(id = R.string.Unknown)),
                                             style = TextStyle(
                                                 textAlign = TextAlign.Start,
                                                 color = Black60Color,
@@ -196,7 +196,7 @@ fun MealScreenBottomSheet(
                 onClick = { scope.launch { bottomSheetVisibilityState.hide() } },
             ) {
                 Text(
-                    text = Resources.getSystem().getString(R.string.OK),
+                    text = stringResource(id = R.string.OK),
                     style = TextStyle(
                         color = White100Color,
                         fontSize = 0.022.sh

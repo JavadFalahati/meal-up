@@ -46,5 +46,6 @@
     <string name="Youtube">Youtube</string>
     <string name="Select_a_category">Select a category</string>
     <string name="Can_not_select_more_than_3_ingredient">Can not select more than 3 ingredient!</string>
+    <string name="Empty_String"></string>
 
 </resources>

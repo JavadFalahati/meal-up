@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.jwdfhi.meal_up.R
@@ -43,7 +44,7 @@ fun MealScreenBottomSheetItemSection(
                 MealScreenBottomSheetItemSectionIcon(icon = item.icon)
                 Spacer(modifier = Modifier.width(0.03.dw))
                 Text(
-                    text = item.title,
+                    text = stringResource(id = item.title),
                     style = item.titleStyle
                 )
             }
@@ -57,14 +58,14 @@ fun MealScreenBottomSheetItemSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             MealScreenBottomSheetItemSectionSplittedContent(
-                title = item.firstSplittedTitle,
+                title = stringResource(id = item.firstSplittedTitle),
                 icon = item.firstSplittedIcon,
                 titleStyle = item.titleStyle
             ) {
                 item.firstSplittedContent()
             }
             MealScreenBottomSheetItemSectionSplittedContent(
-                title = item.secondSplittedTitle,
+                title = stringResource(id = item.secondSplittedTitle),
                 icon = item.secondSplittedIcon,
                 titleStyle = item.titleStyle
             ) {
