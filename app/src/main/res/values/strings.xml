@@ -47,5 +47,9 @@
     <string name="Select_a_category">Select a category</string>
     <string name="Can_not_select_more_than_3_ingredient">Can not select more than 3 ingredient!</string>
     <string name="Empty_String"></string>
+    <string name="contact_email_value">m.javadfalahati@gmail.com</string>
+    <string name="contact_us">Contact us</string>
+    <string name="meal_up_issue_or_request">Meal up issue or request</string>
+    <string name="Hello_Meal_up">Hello Meal up</string>
 
 </resources>

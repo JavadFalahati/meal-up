@@ -11,4 +11,6 @@ object Constant {
     const val PRIMARY_COLOR_KEY: String = "PrimaryColorKey"
     const val INTRODUCTION_IS_VIEWED_KEY: String = "IntroductionIsViewedKey"
 
+    const val CONTACT_EMAIL_ADDRESS: String = "m.javadfalahati@gmail.com"
+
 }
