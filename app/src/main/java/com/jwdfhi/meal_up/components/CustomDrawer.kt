@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -22,6 +23,7 @@ import com.jwdfhi.meal_up.models.DrawerItemModel
 import com.jwdfhi.meal_up.screens.Screens
 import com.jwdfhi.meal_up.ui.theme.*
 import com.jwdfhi.meal_up.utils.ManagementSettings
+import com.jwdfhi.meal_up.utils.openPrivacyAndPolicyWebsite
 import com.slaviboy.composeunits.sh
 
 @Composable
@@ -30,6 +32,7 @@ fun CustomDrawer(
     screenName: String,
     onCloseDrawer: () -> Unit
 ) {
+    val context = LocalContext.current
 
     CustomBackPressHandler(onBackPressed = { onCloseDrawer() })
 
@@ -113,7 +116,7 @@ fun CustomDrawer(
                                 title = "Privacy and policy",
                                 screenName = "",
                                 icon = R.drawable.fill_privacy_policy_icon_1,
-                                onTap = { /*TODO: Open a link of privacy and polycy*/ }
+                                onTap = { openPrivacyAndPolicyWebsite(context) }
                             ),
                         )
                     ) {

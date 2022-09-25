@@ -12,5 +12,6 @@ object Constant {
     const val INTRODUCTION_IS_VIEWED_KEY: String = "IntroductionIsViewedKey"
 
     const val CONTACT_EMAIL_ADDRESS: String = "m.javadfalahati@gmail.com"
+    const val PRIVACY_AND_POLICY: String = "https://pages.flycricket.io/meal-up/privacy.html"
 
 }

@@ -1,13 +1,17 @@
 package com.jwdfhi.meal_up.utils
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
+import android.os.Bundle
+import android.widget.Toast
 import androidx.compose.ui.graphics.Color
-import com.jwdfhi.meal_up.models.MealCategory
-import com.jwdfhi.meal_up.ui.theme.Green60Color
-import com.jwdfhi.meal_up.ui.theme.Red60Color
-import com.jwdfhi.meal_up.ui.theme.Yellow60Color
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
+import com.jwdfhi.meal_up.R
+
 
 fun deviceHaveConnection(context: Context): Boolean {
     val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -42,5 +46,16 @@ public fun String.ifIsEmptyReplaceItWith(value: String): String {
     return when (this) {
         "" -> value
         else -> this
+    }
+}
+
+public fun openPrivacyAndPolicyWebsite(context: Context) {
+    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://pages.flycricket.io/meal-up/privacy.html"))
+
+    try {
+        startActivity(context, browserIntent, Bundle.EMPTY)
+    }
+    catch (e: Exception) {
+        Toast.makeText(context, R.string.An_unexpected_error_accrued, Toast.LENGTH_LONG).show()
     }
 }
