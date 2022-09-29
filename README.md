@@ -1,14 +1,9 @@
 # Meal up
+[1.Description](#description)
 
-<div align="left">
-    <img src="https://github.com/jwdfhi/meal-up/tree/master#description" width="400" height="400" alt="1.Description">
-</div>
-<div align="left">
-    <img src="https://github.com/jwdfhi/meal-up/tree/master#screenshots" width="400" height="400" alt="2.Screenshots">
-</div>
-<div align="left">
-    <img src="https://github.com/jwdfhi/meal-up/tree/master#technology used" width="400" height="400" alt="3.Technology used">
-</div>
+[2.Screenshots](#screenshots)
+
+[3.Technology used](#technology-used)
 
 
 
@@ -40,7 +35,7 @@ Meal up is free open source application with NO adds.
     <img src="https://github.com/jwdfhi/meal-up/blob/master/app/src/main/res/drawable/screen_6.jpg" width="200" height="360" alt="">
 </div>
 
-## Technology used
+## Technology-used
 
 <ul>
   <li>MVVM as architecture design pattern</li>
