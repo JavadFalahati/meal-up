@@ -1,13 +1,13 @@
 # Meal up
 
 <div align="left">
-    <img src="https://github.com/jwdfhi/meal-up#Description" width="400" height="400" alt="1.Description">
+    <img src="https://github.com/jwdfhi/meal-up#description" width="400" height="400" alt="1.Description">
 </div>
 <div align="left">
-    <img src="https://github.com/jwdfhi/meal-up#Screenshots" width="400" height="400" alt="2.Screenshots">
+    <img src="https://github.com/jwdfhi/meal-up#screenshots" width="400" height="400" alt="2.Screenshots">
 </div>
 <div align="left">
-    <img src="https://github.com/jwdfhi/meal-up#Technology used" width="400" height="400" alt="3.Technology used">
+    <img src="https://github.com/jwdfhi/meal-up#technology used" width="400" height="400" alt="3.Technology used">
 </div>
 
 
