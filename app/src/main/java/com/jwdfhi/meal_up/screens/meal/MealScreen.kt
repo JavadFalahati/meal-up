@@ -92,7 +92,7 @@ fun MealScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFFECECEC)),
+                    .background(GreyBackgroundScreen),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start
             ) {

@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 
+    id 'com.google.gms.google-services'
+
     // hilt
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
@@ -16,8 +18,8 @@ android {
         applicationId "com.jwdfhi.meal_up"
         minSdk 23
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -134,5 +136,10 @@ dependencies {
 
     // PagerIndicators
     implementation "com.google.accompanist:accompanist-pager-indicators:0.23.1"
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:30.4.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.8'
 
 }

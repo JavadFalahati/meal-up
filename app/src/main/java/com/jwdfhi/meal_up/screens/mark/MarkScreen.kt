@@ -93,7 +93,7 @@ fun MarkScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFECECEC))
+                .background(GreyBackgroundScreen)
                 .padding(
                     horizontal = 12.dp
                 ),

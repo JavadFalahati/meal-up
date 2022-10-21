@@ -113,7 +113,7 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFECECEC))
+                .background(GreyBackgroundScreen)
                 .padding(
                     horizontal = 12.dp
                 ),
@@ -268,16 +268,16 @@ private fun onBackPressed(
     keyboardController: SoftwareKeyboardController?
 ) {
     // TODO: Debug this.
-    Log.d("onBackPressed", "onBackPressed: 0")
+    // Log.d("onBackPressed", "onBackPressed: 0")
     when (keyboardStatusType) {
         KeyboardStatusType.Opened -> keyboardController?.hide()
         KeyboardStatusType.Closed -> {
             if (viewModel.onBackPressedTimerIsFinished) {
-                Log.d("onBackPressed", "onBackPressed: 1")
+                // Log.d("onBackPressed", "onBackPressed: 1")
                 viewModel.startOnBackPressedTimer()
-                Log.d("onBackPressed", "onBackPressed: 2")
+                // Log.d("onBackPressed", "onBackPressed: 2")
                 Toast.makeText(context, "Press again to exit.", Toast.LENGTH_LONG).show()
-                Log.d("onBackPressed", "onBackPressed: 3")
+                // Log.d("onBackPressed", "onBackPressed: 3")
             }
             else { (context as? Activity)?.finish() }
         }

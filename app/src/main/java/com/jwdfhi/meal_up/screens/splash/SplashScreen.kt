@@ -49,7 +49,7 @@ fun SplashScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFECECEC))
+                .background(GreyBackgroundScreen)
                 .padding(padding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
